@@ -1,11 +1,11 @@
-package aww.toidiu.com.redditgallery.model;
+package com.toidiu.ffffound.model;
 
-public class GalleryItem {
+public class FFGalleryItem {
     private String mCaption;
     private String mId;
     private String mUrl;
 
-    public GalleryItem(String url){
+    public FFGalleryItem(String url){
         mUrl = url;
         mId = null;
         mCaption = null;

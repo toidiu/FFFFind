@@ -1,4 +1,4 @@
-package aww.toidiu.com.redditgallery.utils;
+package com.toidiu.ffffound.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HttpRequest {
+public class FFHttpRequest {
 
     byte[] getUrlBytes(String urlSpec) throws IOException{
         URL url = new URL(urlSpec);

@@ -1,4 +1,4 @@
-package aww.toidiu.com.redditgallery.utils;
+package com.toidiu.ffffound.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,7 +61,7 @@ public class ThumbDownloader<Token> extends HandlerThread{
             if (url == null)
                 return;
 
-            byte[] bitmapBytes = new HttpRequest().getUrlBytes(url);
+            byte[] bitmapBytes = new FFHttpRequest().getUrlBytes(url);
             final Bitmap bitmap = BitmapFactory
                     .decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
 
