@@ -16,23 +16,24 @@ import java.util.ArrayList;
 
 public class FFFeedParser {
     String mXmlFeed;
-    FFData mFFData;
     FFFFItem mffffItem;
+    ArrayList<FFFFItem> retVal;
 
-    int ItemMode = 0;
+
     enum modeEnum {
-        START(1),
-        END(2);
-        private int intValue;
-        private modeEnum(int toInt) {
-            intValue = toInt;
-        }
-        public int value() { return intValue; }
+        TITLE,
+        DESCRIP,
+        SMALL,
+        MEDIUM,
+        BIG,
+        AUTHOR;
     }
+    modeEnum ItemMode;
+    Boolean itemCreated = false;
 
     public FFFeedParser(String xmlFeed) {
         mXmlFeed = xmlFeed;
-        mFFData = FFData.getInstance();
+        retVal = new ArrayList<FFFFItem>();
     }
 
     public ArrayList<FFFFItem> parse() {
@@ -48,14 +49,11 @@ public class FFFeedParser {
             while (eventType != XmlPullParser.END_DOCUMENT) {
 
                 if(eventType == XmlPullParser.START_TAG) {
-                    //item start
-                    if (xpp.getName() == "item"){ CreateItem();}
-                    //get the link for the next page
-                    if (xpp.getName() == "link") { getNextUrl(xpp); }
-                } else if(eventType == XmlPullParser.END_TAG) {
-                    if (xpp.getName() == "item"){ CloseItem(); }
-                    Log.d("TAG","End tag:--- "+xpp.getName());
-                } else if(eventType == XmlPullParser.TEXT) {
+                    tagModeSelector(xpp);
+                }else if(eventType == XmlPullParser.END_TAG) {
+                    ItemMode = null;
+                    if (xpp.getName().equals("item")){ CloseItem(); }
+                }else if(eventType == XmlPullParser.TEXT) {
                     buildItem(xpp.getText());
                 }
                 eventType = xpp.next();
@@ -67,7 +65,32 @@ public class FFFeedParser {
             e.printStackTrace();
         }
 
-        return null;
+        return retVal;
+    }
+
+    private void tagModeSelector(XmlPullParser xpp) {
+        String name = xpp.getName();
+
+        if(name.equals("item")){ CreateItem(); }
+        else if(name.equals("title")){ ItemMode = modeEnum.TITLE; }
+        else if(name.equals("description")){ ItemMode = modeEnum.DESCRIP; }
+        else if(name.equals("author")){ ItemMode = modeEnum.AUTHOR; }
+        else if(name.equals("thumbnail")){
+            ItemMode = modeEnum.SMALL;
+            String url = xpp.getAttributeValue(null, "url");
+            mffffItem.setSmallUrl(url);
+        } else if(name.equals("content")){
+            ItemMode = modeEnum.MEDIUM;
+            String url = xpp.getAttributeValue(null, "url");
+            mffffItem.setSmallUrl(url);
+        } else if(name.equals("source")){
+            ItemMode = modeEnum.BIG;
+            String url = xpp.getAttributeValue(null, "url");
+            mffffItem.setSmallUrl(url);
+        }
+
+        //get the link for the next page
+//        if (name == "link") { getNextUrl(xpp); }
     }
 
     private void getNextUrl(XmlPullParser xpp) {
@@ -75,22 +98,30 @@ public class FFFeedParser {
         int b = xpp.getAttributeCount();
         if (b > 2) {
             String a = xpp.getAttributeName(1);
-            Log.d("TADAAaaa-------", String.valueOf(b));
+//            Log.d("TADAAaaa-------", String.valueOf(b));
         }
     }
 
     private void CreateItem(){
-        ItemMode = modeEnum.START.value();
+//        Log.d("TAG","Start tag:------------- ");
+        itemCreated = true;
         mffffItem = new FFFFItem();
     }
     private void CloseItem(){
-        ItemMode = modeEnum.END.value();
-        mFFData.setItems(mffffItem);
-        mffffItem = null;
+        itemCreated = false;
+        retVal.add(mffffItem);
     }
 
     private void buildItem(String text){
-                    Log.d("TAG",text);
+        if (itemCreated == false){return;}
+
+        if( ItemMode == modeEnum.DESCRIP ){
+            mffffItem.setDescription(text);
+        }else if( ItemMode == modeEnum.TITLE ){
+            mffffItem.setTitle(text);
+        }else if( ItemMode == modeEnum.AUTHOR ){
+            mffffItem.setAuthor(text);
+        }
     }
 
 

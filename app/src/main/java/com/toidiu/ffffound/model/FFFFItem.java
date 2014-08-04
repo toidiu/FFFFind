@@ -1,50 +1,68 @@
 package com.toidiu.ffffound.model;
 
 public class FFFFItem {
-    private String mUser;
-    private String mTitle;
-    private String mUrl;
+    private String Author;
+    private String Title;
+    private String SmallUrl;
+    private String MedUrl;
+    private String BigUrl;
+    private String Descrip;
 
     public FFFFItem(){
-        mUrl = "";
-        mTitle = "";
-        mUser = "";
-    }
-    public FFFFItem(String url){
-        mUrl = url;
-        mTitle = "";
-        mUser = "";
-    }
-    public FFFFItem(String url, String title, String user){
-        mUrl = url;
-        mTitle = title;
-        mUser = user;
+        SmallUrl = "";
+        MedUrl = "";
+        BigUrl = "";
+        Title = "";
+        Author = "";
     }
 
-
-    public String getUser() {
-        return mUser;
+    public String getAuthor() {
+        return Author;
     }
-    public void setUser(String mUser) {
-        this.mUser = mUser;
+    public void setAuthor(String mUser) {
+        this.Author = mUser;
     }
 
     public String getTitle() {
-        return mTitle;
+        return Title;
     }
     public void setTitle(String mTitle) {
-        this.mTitle = mTitle;
+        this.Title = mTitle;
     }
 
+
+    public String getDescrip() {
+        return Descrip;
+    }
+    public void setDescription(String descrip) {
+        Descrip = descrip;
+    }
+
+
+    //URL
     public String getUrl() {
-        return mUrl;
-    }
-    public void setUrl(String mUrl) {
-        this.mUrl = mUrl;
+        return getSmallUrl();
     }
 
-    @Override
-    public String toString() {
-        return mTitle;
+    public String getSmallUrl() {
+        return SmallUrl;
     }
+    public void setSmallUrl(String smallUrl) {
+        SmallUrl = smallUrl;
+    }
+
+    public String getMedUrl() {
+        return MedUrl;
+    }
+    public void setMedUrl(String medUrl) {
+        MedUrl = medUrl;
+    }
+
+    public String getBigUrl() {
+        return BigUrl;
+    }
+    public void setBigUrl(String bigUrl) {
+        BigUrl = bigUrl;
+    }
+
 }

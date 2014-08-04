@@ -31,7 +31,7 @@ public class FFFragment extends Fragment{
     GridView mGridView;
 
     ThumbDownloader<ImageView> mThumbDownloader;
-    String URLBASE = "http://ffffound.com";
+    String URLBASE = "http://ffffound.com/feed";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +80,7 @@ public class FFFragment extends Fragment{
 
         if (items != null){
             mGridView.setAdapter(new GalleryItemAdapter(items));
+            Log.d("asdfasdf","---------here!");
         }else{
             mGridView.setAdapter(null);
         }
@@ -91,22 +92,11 @@ public class FFFragment extends Fragment{
         @Override
         protected ArrayList<FFFFItem> doInBackground(Void... params) {
             try{
-                String result = new FFHttpRequest().getUrl(URLBASE + "/feed");
+                String result = new FFHttpRequest().getUrl(URLBASE);
 
-                ArrayList<FFFFItem> ffGalleryItems = new ArrayList<FFFFItem>();
                 FFFeedParser ffFeedParser = new FFFeedParser(result);
-                ffFeedParser.parse();
+                ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
 
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url1)));
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url2)));
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url3)));
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url4)));
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url5)));
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url6)));
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url7)));
-                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url8)));
-
-//                Log.d(TAG, result);
                 return ffGalleryItems;
 
             } catch (IOException e) {
@@ -118,6 +108,10 @@ public class FFFragment extends Fragment{
         @Override
         protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
             FFData.getInstance().setItems(galleryItems);
+            Log.d("hey", String.valueOf(galleryItems.size()));
+            for (int i = 0; i < galleryItems.size(); i++) {
+                Log.d("test---------", galleryItems.get(i).getSmallUrl() );
+            }
             setUpAdapter();
         }
     }
