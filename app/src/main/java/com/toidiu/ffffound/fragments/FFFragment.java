@@ -15,8 +15,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.model.FFAdapter;
-import com.toidiu.ffffound.model.FFGalleryItem;
+import com.toidiu.ffffound.model.FFData;
+import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.utils.FFFeedParser;
 import com.toidiu.ffffound.utils.FFHttpRequest;
 import com.toidiu.ffffound.utils.ThumbDownloader;
@@ -76,7 +76,7 @@ public class FFFragment extends Fragment{
 
     void setUpAdapter(){
         if(getActivity() == null || mGridView == null) return;
-        ArrayList<FFGalleryItem> items = FFAdapter.getInstance().getItems();
+        ArrayList<FFFFItem> items = FFData.getInstance().getItems();
 
         if (items != null){
             mGridView.setAdapter(new GalleryItemAdapter(items));
@@ -86,27 +86,27 @@ public class FFFragment extends Fragment{
     }
 
 //--------------------------------------PRIVATE CLASS---------------
-    private class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<FFGalleryItem>>{
+    private class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<FFFFItem>>{
 
         @Override
-        protected ArrayList<FFGalleryItem> doInBackground(Void... params) {
+        protected ArrayList<FFFFItem> doInBackground(Void... params) {
             try{
                 String result = new FFHttpRequest().getUrl(URLBASE + "/feed");
 
-                ArrayList<FFGalleryItem> ffGalleryItems = new ArrayList<FFGalleryItem>();
+                ArrayList<FFFFItem> ffGalleryItems = new ArrayList<FFFFItem>();
                 FFFeedParser ffFeedParser = new FFFeedParser(result);
-//                ffGalleryItems = ffFeedParser.parse();
+                ffFeedParser.parse();
 
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url1)));
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url2)));
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url3)));
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url4)));
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url5)));
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url6)));
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url7)));
-                ffGalleryItems.add(new FFGalleryItem(getActivity().getString(R.string.url8)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url1)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url2)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url3)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url4)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url5)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url6)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url7)));
+                ffGalleryItems.add(new FFFFItem(getActivity().getString(R.string.url8)));
 
-                Log.d(TAG, result);
+//                Log.d(TAG, result);
                 return ffGalleryItems;
 
             } catch (IOException e) {
@@ -116,15 +116,15 @@ public class FFFragment extends Fragment{
         }
 
         @Override
-        protected void onPostExecute(ArrayList<FFGalleryItem> galleryItems) {
-            FFAdapter.getInstance().setItems(galleryItems);
+        protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
+            FFData.getInstance().setItems(galleryItems);
             setUpAdapter();
         }
     }
 
 //--------------------------------------PRIVATE CLASS---------------
-    private class GalleryItemAdapter extends ArrayAdapter<FFGalleryItem> {
-        public GalleryItemAdapter(ArrayList<FFGalleryItem> itemArr) {
+    private class GalleryItemAdapter extends ArrayAdapter<FFFFItem> {
+        public GalleryItemAdapter(ArrayList<FFFFItem> itemArr) {
             super(getActivity(), 0, itemArr);
         }
 
@@ -138,7 +138,7 @@ public class FFFragment extends Fragment{
 //                imageView.setImageResource(R.drawable.ic_launcher);
                 imgView.setBackgroundColor(generateRandomColor( Color.LTGRAY ));
 
-                FFGalleryItem item = getItem(position);
+                FFFFItem item = getItem(position);
                 mThumbDownloader.queueThumb(imgView, item.getUrl());
             }
             return convertView;
