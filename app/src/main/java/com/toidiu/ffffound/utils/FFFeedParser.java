@@ -90,17 +90,13 @@ public class FFFeedParser {
         }
 
         //get the link for the next page
-//        if (name == "link") { getNextUrl(xpp); }
-    }
-
-    private void getNextUrl(XmlPullParser xpp) {
-        //GET THE NEXT URL
-        int b = xpp.getAttributeCount();
-        if (b > 2) {
-            String a = xpp.getAttributeName(1);
-//            Log.d("TADAAaaa-------", String.valueOf(b));
+        else if ( name.equals("link") &&
+                xpp.getAttributeCount() >= 2 ){
+            String nextUrl = xpp.getAttributeValue(null, "href");
+            FFData.getInstance().setNextUrl(nextUrl);
         }
     }
+
 
     private void CreateItem(){
 //        Log.d("TAG","Start tag:------------- ");

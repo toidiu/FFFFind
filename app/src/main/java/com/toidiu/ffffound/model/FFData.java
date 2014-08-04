@@ -10,8 +10,8 @@ public class FFData {
     private ArrayList<FFFFItem> mFFItemsList;
     private HashSet<String> mUsers;
     private int mTotalUsers;
-    private URI nextUrl;
-    private URI prevUrl;
+    private String nextUrl;
+    private String prevUrl;
 
     //----------instance
     private FFData() {
@@ -48,10 +48,10 @@ public class FFData {
     public void setItems(FFFFItem items) {
         mFFItemsList.add(items);
     }
-    public void setPrevUrl(URI prevUrl) {
+    public void setPrevUrl(String prevUrl) {
         this.prevUrl = prevUrl;
     }
-    public void setNextUrl(URI nextUrl) {
+    public void setNextUrl(String nextUrl) {
         this.nextUrl = nextUrl;
     }
 
@@ -62,10 +62,10 @@ public class FFData {
     public ArrayList<FFFFItem> getItems() {
         return mFFItemsList;
     }
-    public URI getPrevUrl() {
+    public String getPrevUrl() {
         return prevUrl;
     }
-    public URI getNextUrl() {
+    public String getNextUrl() {
         return nextUrl;
     }
 }

@@ -55,7 +55,7 @@ public class FFFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);
-        mGridView = (GridView) v.findViewById(R.id.aww_grid);
+        mGridView = (GridView) v.findViewById(R.id.grid_view);
 
         setUpAdapter();
 
@@ -80,7 +80,6 @@ public class FFFragment extends Fragment{
 
         if (items != null){
             mGridView.setAdapter(new GalleryItemAdapter(items));
-            Log.d("asdfasdf","---------here!");
         }else{
             mGridView.setAdapter(null);
         }
@@ -108,10 +107,6 @@ public class FFFragment extends Fragment{
         @Override
         protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
             FFData.getInstance().setItems(galleryItems);
-            Log.d("hey", String.valueOf(galleryItems.size()));
-            for (int i = 0; i < galleryItems.size(); i++) {
-                Log.d("test---------", galleryItems.get(i).getSmallUrl() );
-            }
             setUpAdapter();
         }
     }
