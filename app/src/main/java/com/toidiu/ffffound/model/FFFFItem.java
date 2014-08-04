@@ -41,7 +41,7 @@ public class FFFFItem {
 
     //URL
     public String getUrl() {
-        return getSmallUrl();
+        return getMedUrl();
     }
 
     public String getSmallUrl() {

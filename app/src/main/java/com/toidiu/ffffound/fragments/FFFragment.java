@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -122,14 +123,20 @@ public class FFFragment extends Fragment{
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater()
                         .inflate(R.layout.gallery_item, parent, false);
-
-                ImageView imgView = (ImageView) convertView.findViewById(R.id.gallery_item_imgView);
-//                imageView.setImageResource(R.drawable.ic_launcher);
-                imgView.setBackgroundColor(generateRandomColor( Color.LTGRAY ));
-
-                FFFFItem item = getItem(position);
-                mThumbDownloader.queueThumb(imgView, item.getUrl());
             }
+
+            ImageView imgView = (ImageView) convertView.findViewById(R.id.gallery_item_imgView);
+            FFFFItem item = getItem(position);
+
+            imgView.setBackgroundColor(generateRandomColor( Color.LTGRAY ));
+            String url = item.getBigUrl();
+            if (url == ""){url = item.getSmallUrl(); }
+
+            Picasso.with(getActivity()).load(
+                    url
+            ).into(imgView);
+//            mThumbDownloader.queueThumb(imgView, item.getUrl());
+
             return convertView;
         }
 
