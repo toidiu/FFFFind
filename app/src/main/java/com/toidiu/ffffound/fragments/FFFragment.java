@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -31,7 +32,6 @@ public class FFFragment extends Fragment{
     private static final String TAG = "FFFragment";
     GridView mGridView;
 
-    ThumbDownloader<ImageView> mThumbDownloader;
     String URLBASE = "http://ffffound.com/feed";
 
     @Override
@@ -40,17 +40,6 @@ public class FFFragment extends Fragment{
         setRetainInstance(true);
         new FetchItemsTask().execute();
 
-        mThumbDownloader = new ThumbDownloader<ImageView>(new Handler());
-        mThumbDownloader.setListener(new ThumbDownloader.Listener<ImageView>() {
-            @Override
-            public void onThumbDownloaded(ImageView imageView, Bitmap bitmap) {
-                if (isVisible()) {
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-        });
-        mThumbDownloader.start();
-        mThumbDownloader.getLooper();
     }
 
     @Override
@@ -59,20 +48,7 @@ public class FFFragment extends Fragment{
         mGridView = (GridView) v.findViewById(R.id.grid_view);
 
         setUpAdapter();
-
         return v;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mThumbDownloader.clearQueue();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mThumbDownloader.quit();
     }
 
     void setUpAdapter(){
@@ -128,14 +104,13 @@ public class FFFragment extends Fragment{
             ImageView imgView = (ImageView) convertView.findViewById(R.id.gallery_item_imgView);
             FFFFItem item = getItem(position);
 
-            imgView.setBackgroundColor(generateRandomColor( Color.LTGRAY ));
-            String url = item.getBigUrl();
-            if (url == ""){url = item.getSmallUrl(); }
+            imgView.setBackgroundColor(generateRandomColor(Color.LTGRAY));
+            String url = item.getMedUrl();
 
-            Picasso.with(getActivity()).load(
-                    url
-            ).into(imgView);
-//            mThumbDownloader.queueThumb(imgView, item.getUrl());
+            Picasso.with(getActivity())
+                    .load(url)
+                    .centerCrop()
+                    .into(imgView);
 
             return convertView;
         }

@@ -82,11 +82,11 @@ public class FFFeedParser {
         } else if(name.equals("content")){
             ItemMode = modeEnum.MEDIUM;
             String url = xpp.getAttributeValue(null, "url");
-            mffffItem.setSmallUrl(url);
+            mffffItem.setMedUrl(url);
         } else if(name.equals("source")){
             ItemMode = modeEnum.BIG;
             String url = xpp.getAttributeValue(null, "url");
-            mffffItem.setSmallUrl(url);
+            mffffItem.setBigUrl(url);
         }
 
         //get the link for the next page
