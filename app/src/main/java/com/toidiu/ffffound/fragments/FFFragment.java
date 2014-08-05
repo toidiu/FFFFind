@@ -1,16 +1,13 @@
 package com.toidiu.ffffound.fragments;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -21,7 +18,6 @@ import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.utils.FFFeedParser;
 import com.toidiu.ffffound.utils.FFHttpRequest;
-import com.toidiu.ffffound.utils.ThumbDownloader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,15 +27,19 @@ import java.util.Random;
 public class FFFragment extends Fragment{
     private static final String TAG = "FFFragment";
     GridView mGridView;
-
     String URLBASE = "http://ffffound.com/feed";
+    GalleryItemAdapter mGalleryAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        new FetchItemsTask().execute();
 
+
+        ArrayList<FFFFItem> items = FFData.getInstance().getItems();
+        mGalleryAdapter = new GalleryItemAdapter( items );
+
+        new FetchItemsTask(URLBASE).execute();
     }
 
     @Override
@@ -55,8 +55,10 @@ public class FFFragment extends Fragment{
         if(getActivity() == null || mGridView == null) return;
         ArrayList<FFFFItem> items = FFData.getInstance().getItems();
 
-        if (items != null){
-            mGridView.setAdapter(new GalleryItemAdapter(items));
+        if (items != null && mGridView.getAdapter() == null){
+            mGridView.setAdapter(mGalleryAdapter);
+        }else if (items != null){
+            mGalleryAdapter.notifyDataSetChanged();
         }else{
             mGridView.setAdapter(null);
         }
@@ -65,10 +67,15 @@ public class FFFragment extends Fragment{
 //--------------------------------------PRIVATE CLASS---------------
     private class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<FFFFItem>>{
 
+        private String mUrl;
+        private FetchItemsTask(String url) {
+            mUrl = url;
+        }
+
         @Override
         protected ArrayList<FFFFItem> doInBackground(Void... params) {
             try{
-                String result = new FFHttpRequest().getUrl(URLBASE);
+                String result = new FFHttpRequest().getUrl(mUrl);
 
                 FFFeedParser ffFeedParser = new FFFeedParser(result);
                 ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
@@ -83,7 +90,7 @@ public class FFFragment extends Fragment{
 
         @Override
         protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
-            FFData.getInstance().setItems(galleryItems);
+            FFData.getInstance().addItems(galleryItems);
             setUpAdapter();
         }
     }
@@ -110,7 +117,12 @@ public class FFFragment extends Fragment{
             Picasso.with(getActivity())
                     .load(url)
                     .centerCrop()
+                    .resize(150,150)
                     .into(imgView);
+
+            if ( position == FFData.getInstance().getSize()-4 ){
+                new FetchItemsTask(FFData.getInstance().getNextUrl()).execute();
+            }
 
             return convertView;
         }

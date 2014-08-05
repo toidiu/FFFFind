@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class FFData {
     private static FFData mFFData;
-    private ArrayList<FFFFItem> mFFItemsList;
+    public ArrayList<FFFFItem> mFFItemsList;
     private HashSet<String> mUsers;
     private int mTotalUsers;
     private String nextUrl;
@@ -42,8 +42,12 @@ public class FFData {
     }
 
     //----------setter
-    public void setItems(ArrayList<FFFFItem> ffArray) {
-        mFFItemsList = ffArray;
+    public void addItems(ArrayList<FFFFItem> ffArray) {
+        if (mFFItemsList == null) {
+            mFFItemsList = ffArray;
+        }else {
+            mFFItemsList.addAll(ffArray);
+        }
     }
     public void setItems(FFFFItem items) {
         mFFItemsList.add(items);
@@ -62,10 +66,13 @@ public class FFData {
     public ArrayList<FFFFItem> getItems() {
         return mFFItemsList;
     }
+    public int getSize() { return mFFItemsList.size(); }
     public String getPrevUrl() {
         return prevUrl;
     }
     public String getNextUrl() {
         return nextUrl;
     }
+
+
 }
