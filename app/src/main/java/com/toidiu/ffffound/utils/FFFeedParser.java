@@ -1,8 +1,6 @@
 package com.toidiu.ffffound.utils;
 
 
-import android.util.Log;
-
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 
