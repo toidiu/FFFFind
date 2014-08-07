@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
@@ -20,7 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class FFFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface {
+public class FFFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface, AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFFragment";
     String URLBASE = "http://ffffound.com/feed";
 
@@ -50,19 +53,39 @@ public class FFFragment extends Fragment implements FFGalleryAdapter.FFFetcherIn
         new FetchItemsTask(FFData.getInstance().getNextUrl()).execute();
     }
 
+    @Override
+    public void onScrollStateChanged(final AbsListView view, final int scrollState) {
+        Log.d(TAG, "onScrollStateChanged:" + scrollState);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onScroll(final AbsListView view, final int firstVisibleItem,
+                         final int visibleItemCount, final int totalItemCount) {
+        Log.d(TAG, "onScroll firstVisibleItem:" + firstVisibleItem +
+                " visibleItemCount:" + visibleItemCount +
+                " totalItemCount:" + totalItemCount);
+
+    }
+
     public void setUpAdapter(){
         if(getActivity() == null || mSGView == null) return;
         ArrayList<FFFFItem> items = FFData.getInstance().getItems();
 
         if (items != null && mSGView.getAdapter() == null){
             mSGView.setAdapter(mGalleryAdapter);
+            mSGView.setOnScrollListener(this);
+            mSGView.setOnItemClickListener(this);
         }else if (items != null){
             mGalleryAdapter.notifyDataSetChanged();
         }else{
             mSGView.setAdapter(null);
         }
     }
-
 
     //--------------------------------------PRIVATE CLASS---------------
     private class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
