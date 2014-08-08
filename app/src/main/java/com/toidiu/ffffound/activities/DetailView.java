@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,10 +21,11 @@ import com.toidiu.ffffound.utils.FFFeedParser;
 import com.toidiu.ffffound.utils.FFHttpRequest;
 import com.toidiu.ffffound.utils.Stuff;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class DetailView extends Activity{
+public class DetailView extends Activity implements View.OnLongClickListener{
     public static final String ITEM_IDX = "com.toidiu.itemIdx";
     private static final String TAG = "DetailView";
     ImageView imgView;
@@ -38,9 +40,10 @@ public class DetailView extends Activity{
         int idx = intent.getIntExtra(ITEM_IDX, -1);
         FFFFItem item = FFData.getInstance().getItems(idx);
 
+        TextView title = (TextView) findViewById(R.id.pic_title);
+        title.setText(item.getTitle());
 
         TextView artist = (TextView) findViewById(R.id.artist_name);
-        artist.setTypeface(null, Typeface.BOLD);
         artist.setText(item.getArtist());
 
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.detail_back);
@@ -67,6 +70,10 @@ public class DetailView extends Activity{
 
     }
 
+    @Override
+    public boolean onLongClick(View view) {
+        return false;
+    }
 
 
     //--------------------------------------PRIVATE CLASS---------------

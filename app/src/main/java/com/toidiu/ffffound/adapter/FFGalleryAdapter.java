@@ -44,17 +44,16 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
                     .inflate(R.layout.gallery_item, parent, false);
         }
 
-        DynamicHeightImageView imgView = (DynamicHeightImageView) convertView.findViewById(R.id.imgView);
         FFFFItem item = getItem(position);
 
 
+        DynamicHeightImageView imgView = (DynamicHeightImageView) convertView.findViewById(R.id.imgView);
         double positionHeight = getPositionRatio(position);
         imgView.setHeightRatio(positionHeight);
-
-
         imgView.setBackgroundColor(generateRandomColor(Color.LTGRAY));
-        String url = item.getMedUrl();
 
+
+        String url = item.getMedUrl();
         Picasso.with(mActivity)
                 .load(url)
 //                    .centerCrop()
