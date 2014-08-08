@@ -114,7 +114,7 @@ public class FFFeedParser {
         }else if( ItemMode == modeEnum.TITLE ){
             mffffItem.setTitle(text);
         }else if( ItemMode == modeEnum.AUTHOR ){
-            mffffItem.setAuthor(text);
+            mffffItem.setArtist(text);
         }
     }
 

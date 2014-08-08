@@ -1,5 +1,6 @@
 package com.toidiu.ffffound.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
+import com.toidiu.ffffound.activities.DetailView;
 import com.toidiu.ffffound.adapter.FFGalleryAdapter;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -22,8 +24,11 @@ import com.toidiu.ffffound.utils.FFHttpRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.toidiu.ffffound.adapter.FFGalleryAdapter.FFFetcherInterface;
 
-public class FFFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface, AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
+
+public class FFFragment extends Fragment implements FFFetcherInterface,
+        AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFFragment";
     String URLBASE = "http://ffffound.com/feed";
 
@@ -60,7 +65,11 @@ public class FFFragment extends Fragment implements FFGalleryAdapter.FFFetcherIn
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getActivity(), DetailView.class);
+        intent.putExtra(DetailView.ITEM_IDX, position);
+        startActivity(intent);
     }
 
     @Override

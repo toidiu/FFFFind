@@ -1,7 +1,7 @@
 package com.toidiu.ffffound.model;
 
 public class FFFFItem {
-    private String Author;
+    private String Artist;
     private String Title;
     private String SmallUrl;
     private String MedUrl;
@@ -13,14 +13,14 @@ public class FFFFItem {
         MedUrl = "";
         BigUrl = "";
         Title = "";
-        Author = "";
+        Artist = "";
     }
 
-    public String getAuthor() {
-        return Author;
+    public String getArtist() {
+        return Artist;
     }
-    public void setAuthor(String mUser) {
-        this.Author = mUser;
+    public void setArtist(String mUser) {
+        this.Artist = mUser;
     }
 
     public String getTitle() {

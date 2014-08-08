@@ -6,8 +6,10 @@ import java.util.Iterator;
 
 public class FFData {
     private static FFData mFFData;
+
     public ArrayList<FFFFItem> mFFItemsList;
     private HashSet<String> mUsers;
+
     private int mTotalUsers;
     private String nextUrl;
     private String prevUrl;
@@ -25,6 +27,7 @@ public class FFData {
         return mFFData;
     }
 
+
     //----------user hash
     public void addUser(String user){
         mUsers.add(user);
@@ -40,6 +43,7 @@ public class FFData {
         return userList;
     }
 
+
     //----------setter
     public void addItems(ArrayList<FFFFItem> ffArray) {
         if (mFFItemsList == null) {
@@ -48,8 +52,8 @@ public class FFData {
             mFFItemsList.addAll(ffArray);
         }
     }
-    public void setItems(FFFFItem items) {
-        mFFItemsList.add(items);
+    public void addItems(FFFFItem item) {
+        mFFItemsList.add(item);
     }
     public void setPrevUrl(String prevUrl) {
         this.prevUrl = prevUrl;
@@ -58,6 +62,7 @@ public class FFData {
         this.nextUrl = nextUrl;
     }
 
+
     //----------getter
     public FFFFItem getItems(int idx) {
         return mFFItemsList.get(idx);
@@ -65,13 +70,14 @@ public class FFData {
     public ArrayList<FFFFItem> getItems() {
         return mFFItemsList;
     }
-    public int getSize() { return mFFItemsList.size(); }
     public String getPrevUrl() {
         return prevUrl;
     }
     public String getNextUrl() {
         return nextUrl;
     }
-
-
+    public int getSize() { return mFFItemsList.size(); }
+    public int getIdx(FFFFItem item){
+        return mFFItemsList.indexOf(item);
+    }
 }
