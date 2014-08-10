@@ -10,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.DetailView;
+import com.toidiu.ffffound.activities.DetailActivity;
 import com.toidiu.ffffound.adapter.FFGalleryAdapter;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import static com.toidiu.ffffound.adapter.FFGalleryAdapter.FFFetcherInterface;
 
 
-public class FFFragment extends Fragment implements FFFetcherInterface,
+public class FFListFragment extends Fragment implements FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFFragment";
     String URLBASE = "http://ffffound.com/feed";
@@ -67,8 +66,8 @@ public class FFFragment extends Fragment implements FFFetcherInterface,
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 //        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getActivity(), DetailView.class);
-        intent.putExtra(DetailView.ITEM_IDX, position);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.ITEM_IDX, position);
         startActivity(intent);
     }
 
