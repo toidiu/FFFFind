@@ -67,7 +67,7 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
 //        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(DetailActivity.ITEM_IDX, position);
+        intent.putExtra(FFDetailFragment.ITEM_IDX, position);
         startActivity(intent);
     }
 
