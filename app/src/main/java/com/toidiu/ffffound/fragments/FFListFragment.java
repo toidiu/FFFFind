@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.DetailActivity;
+import com.toidiu.ffffound.activities.FFDetailActivity;
 import com.toidiu.ffffound.adapter.FFGalleryAdapter;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -36,55 +36,34 @@ import static com.toidiu.ffffound.adapter.FFGalleryAdapter.FFFetcherInterface;
 public class FFListFragment extends Fragment implements FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFFragment";
-    String URLBASE = "http://ffffound.com/feed";
+    public static final String LIST_URL = "com.toidiu.list_url";
+    public static final String ADAPTER_CHOICE = "com.toidiu.adapter";
 
+
+    public static String EVERYONEURL = "http://ffffound.com/feed";
+    public static String USERURLBASE = "http://ffffound.com/home/";
+
+    private String mUrl;
     private FFGalleryAdapter mGalleryAdapter;
     private StaggeredGridView mSGView;
+    private boolean userAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
+        mUrl = getArguments().getString(LIST_URL);
+        userAdapter = getArguments().getBoolean(ADAPTER_CHOICE, false);
+        Log.d("-------------ddsssss-----------",mUrl);
+        if (userAdapter){
 
+        }else{
+            mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
+        }
 
         testNetwork();
         setRetryListener();
-
-
-
-    }
-
-    private void setRetryListener() {
-        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
-
-        retryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                testNetwork();
-            }
-        });
-    }
-
-    private void testNetwork() {
-        ConnectivityManager cm = (ConnectivityManager)
-                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
-        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
-
-        if (networkInfo != null){
-            networkTxt.setVisibility(View.INVISIBLE);
-            retryBtn.setVisibility(View.INVISIBLE);
-            new FetchItemsTask(URLBASE).execute();
-        }else{
-            retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
-            networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
-            networkTxt.setVisibility(View.VISIBLE);
-            retryBtn.setVisibility(View.VISIBLE);
-            networkTxt.setText("you LLLLOST the internet!");
-        }
     }
 
     @Override
@@ -110,7 +89,7 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 //        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        Intent intent = new Intent(getActivity(), FFDetailActivity.class);
         intent.putExtra(FFDetailFragment.ITEM_IDX, position);
         startActivity(intent);
     }
@@ -136,6 +115,37 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
             mGalleryAdapter.notifyDataSetChanged();
         }else{
             mSGView.setAdapter(null);
+        }
+    }
+
+    private void setRetryListener() {
+        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
+
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testNetwork();
+            }
+        });
+    }
+
+    private void testNetwork() {
+        ConnectivityManager cm = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
+        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
+
+        if (networkInfo != null){
+            networkTxt.setVisibility(View.INVISIBLE);
+            retryBtn.setVisibility(View.INVISIBLE);
+            new FetchItemsTask(mUrl).execute();
+        }else{
+            retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
+            networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
+            networkTxt.setVisibility(View.VISIBLE);
+            retryBtn.setVisibility(View.VISIBLE);
+            networkTxt.setText("you LLLLOST the internet!");
         }
     }
 

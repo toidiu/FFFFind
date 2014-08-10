@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +19,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
+import com.toidiu.ffffound.activities.FFListActivity;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.utils.Stuff;
 
 import java.io.IOException;
 
-public class FFDetailFragment extends Fragment {
+public class FFDetailFragment extends Fragment{
     public static final String ITEM_IDX = "com.toidiu.itemIdx";
     private static final String TAG = "FFDetailFragment";
     private FFFFItem item;
@@ -45,6 +47,7 @@ public class FFDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.detail_item, container, false);
+        artistClick(v);
 
         TextView title = (TextView) v.findViewById(R.id.pic_title);
         title.setText(item.getTitle());
@@ -59,6 +62,25 @@ public class FFDetailFragment extends Fragment {
         new AttachDetailImg().execute(item.getMedUrl());
 
         return v;
+    }
+
+    public void artistClick(View v) {
+        TextView artist = (TextView) v.findViewById(R.id.artist_name);
+
+        artist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String url = FFListFragment.USERURLBASE + item.getArtist() + "/feed";
+                Log.d(TAG, url);
+
+
+                Intent intent = new Intent(getActivity(), FFListActivity.class);
+                intent.putExtra(FFListFragment.LIST_URL, url);
+                startActivity(intent);
+
+            }
+        });
     }
 
     //--------------------------------------PRIVATE CLASS---------------

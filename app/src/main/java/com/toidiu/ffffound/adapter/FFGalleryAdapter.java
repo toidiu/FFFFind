@@ -45,7 +45,6 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
 
         FFFFItem item = getItem(position);
 
-
         DynamicHeightImageView imgView = (DynamicHeightImageView) convertView.findViewById(R.id.imgView);
         double positionHeight = getPositionRatio(position);
         imgView.setHeightRatio(positionHeight);
@@ -55,8 +54,6 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
         String url = item.getMedUrl();
         Picasso.with(mActivity)
                 .load(url)
-//                    .centerCrop()
-//                    .resize(120,150)
                 .into(imgView);
 
         if ( position == FFData.getInstance().getSize()-4 ){

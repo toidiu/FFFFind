@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.fragments.FFDetailFragment;
 
-public class DetailActivity extends FragmentActivity {
+public class FFDetailActivity extends FragmentActivity {
     private static final String TAG = "DetailView";
 
 
