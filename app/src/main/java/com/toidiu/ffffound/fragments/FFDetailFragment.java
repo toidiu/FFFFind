@@ -2,10 +2,13 @@ package com.toidiu.ffffound.fragments;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +16,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.utils.Stuff;
 
+import java.io.IOException;
+
 public class FFDetailFragment extends Fragment {
     public static final String ITEM_IDX = "com.toidiu.itemIdx";
     private static final String TAG = "FFDetailFragment";
-    FFFFItem item;
-    ImageView imgView;
+    private FFFFItem item;
+    private ImageView imgView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,13 +40,7 @@ public class FFDetailFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         int idx = intent.getIntExtra(ITEM_IDX, -1);
         item = FFData.getInstance().getItems(idx);
-
-
-//        mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
-//        new FetchItemsTask(URLBASE).execute();
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,62 +55,38 @@ public class FFDetailFragment extends Fragment {
         RelativeLayout rl = (RelativeLayout) v.findViewById(R.id.detail_back);
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
-
         imgView = (ImageView) v.findViewById(R.id.detail_img);
-        Log.d(TAG, item.getBigUrl());
-        Picasso.with(getActivity())
-            .load(item.getBigUrl())
-            .into(imgView, new Callback() {
-
-
-        @Override
-        public void onSuccess() {
-            Log.d(TAG, "BIG");
-        }
-
-        @Override
-        public void onError() {
-            Picasso.with(getActivity())
-                    .load(item.getMedUrl())
-                    .into(imgView);
-            Log.d(TAG, "MID");
-        }
-    });
-
+        new AttachDetailImg().execute(item.getMedUrl());
 
         return v;
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View v = inflater.inflate(R.layout.fragment_gallery, container, false);
-////        mSGView = (StaggeredGridView) v.findViewById(R.id.grid_view);
-////
-////        setUpAdapter();
-//        return v;
-//    }
+    //--------------------------------------PRIVATE CLASS---------------
+    private class AttachDetailImg extends AsyncTask<String, Void, Bitmap> {
+        protected Bitmap doInBackground(String... urls) {
+            Bitmap bitmap = null;
+            try {
+                bitmap = Picasso.with(getActivity())
+                        .load(urls[0])
+                        .get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                return bitmap;
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        protected void onPostExecute(Bitmap result) {
+            Drawable d = getResources().getDrawable(R.drawable.ffffound);
+            if (result != null) {
+                d = new BitmapDrawable(getResources(), result);
+            }
+            Picasso.with(getActivity())
+                    .load(item.getBigUrl())
+                    .placeholder(d)
+                    .into(imgView);
+        }
+    }
 
 
 

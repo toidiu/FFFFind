@@ -1,6 +1,10 @@
 package com.toidiu.ffffound.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
@@ -19,6 +25,7 @@ import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.utils.FFFeedParser;
 import com.toidiu.ffffound.utils.FFHttpRequest;
+import com.toidiu.ffffound.utils.Stuff;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +47,44 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
         setRetainInstance(true);
 
         mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
-        new FetchItemsTask(URLBASE).execute();
+
+
+        testNetwork();
+        setRetryListener();
+
+
+
+    }
+
+    private void setRetryListener() {
+        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
+
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testNetwork();
+            }
+        });
+    }
+
+    private void testNetwork() {
+        ConnectivityManager cm = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
+        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
+
+        if (networkInfo != null){
+            networkTxt.setVisibility(View.INVISIBLE);
+            retryBtn.setVisibility(View.INVISIBLE);
+            new FetchItemsTask(URLBASE).execute();
+        }else{
+            retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
+            networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
+            networkTxt.setVisibility(View.VISIBLE);
+            retryBtn.setVisibility(View.VISIBLE);
+            networkTxt.setText("you LLLLOST the internet!");
+        }
     }
 
     @Override
@@ -121,8 +165,10 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
 
         @Override
         protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
-            FFData.getInstance().addItems(galleryItems);
-            setUpAdapter();
+            if (galleryItems!=null){
+                FFData.getInstance().addItems(galleryItems);
+                setUpAdapter();
+            }
         }
     }
 

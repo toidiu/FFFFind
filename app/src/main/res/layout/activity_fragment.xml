@@ -6,4 +6,22 @@
     android:layout_width="fill_parent"
     >
 
+    <TextView
+        android:id="@+id/network_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="no WIFI"
+        android:layout_gravity="center"
+        />
+
+    <Button
+        android:id="@+id/retry"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:background="#efd"
+        android:text="ReTry"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="40dp"
+        />
 </FrameLayout>
