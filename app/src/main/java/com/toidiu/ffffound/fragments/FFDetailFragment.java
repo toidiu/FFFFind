@@ -1,6 +1,8 @@
 package com.toidiu.ffffound.fragments;
 
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
@@ -24,7 +28,13 @@ import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.utils.Stuff;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class FFDetailFragment extends Fragment{
     public static final String ITEM_IDX = "com.toidiu.itemIdx";
@@ -59,12 +69,13 @@ public class FFDetailFragment extends Fragment{
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
         imgView = (ImageView) v.findViewById(R.id.detail_img);
+        downloadImgListener(imgView);
         new AttachDetailImg().execute(item.getMedUrl());
 
         return v;
     }
 
-    public void artistClick(View v) {
+    private void artistClick(View v) {
         TextView artist = (TextView) v.findViewById(R.id.artist_name);
 
         artist.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +92,20 @@ public class FFDetailFragment extends Fragment{
 
             }
         });
+    }
+
+    private void downloadImgListener(View v){
+        imgView = (ImageView) v.findViewById(R.id.detail_img);
+
+        imgView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
+
+                return false;
+            }
+        });
+
     }
 
     //--------------------------------------PRIVATE CLASS---------------
@@ -107,6 +132,68 @@ public class FFDetailFragment extends Fragment{
                     .load(item.getBigUrl())
                     .placeholder(d)
                     .into(imgView);
+        }
+    }
+
+
+
+    private class DownloadImg extends AsyncTask<String, Void, Bitmap> {
+        protected Bitmap doInBackground(String... urls) {
+            Bitmap bitmap = null;
+            try {
+                bitmap = Picasso.with(getActivity())
+                        .load(urls[1])
+                        .get();
+
+//                if (bitmap==null){
+//                    bitmap = Picasso.with(getActivity())
+//                            .load(urls[1])
+//                            .get();
+//                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return bitmap;
+        }
+
+        protected void onPostExecute(Bitmap image) {
+            if (image != null) {
+
+                Calendar c = Calendar.getInstance();
+                String m = String.valueOf(c.get(Calendar.MINUTE));
+                String s = String.valueOf(c.get(Calendar.SECOND));
+                String fileName = item.getArtist() + m + s + ".png";
+                File folder = null;
+                File output = null;
+
+
+                FileOutputStream fos = null;
+                try {
+                    folder = new File(Environment.getExternalStorageDirectory(), "FFFFound");
+                    if( !folder.exists() ) {
+                        folder.mkdirs();
+                    }
+                    String file_path = folder.getPath();
+
+                    output = new File(file_path, fileName);
+
+                    // create outstream and write data
+                    fos = new FileOutputStream(output);
+                    image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+
+                } catch (FileNotFoundException e) { // <10>
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                Toast.makeText(getActivity(), output.getAbsolutePath(), Toast.LENGTH_LONG).show();
+
+            }
         }
     }
 
