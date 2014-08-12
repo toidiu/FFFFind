@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
@@ -38,6 +39,7 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
     private static final String TAG = "FFFragment";
     public static final String LIST_URL = "com.toidiu.list_url";
     public static final String ADAPTER_CHOICE = "com.toidiu.adapter";
+    private boolean itemsShowing = false;
 
 
     public static String EVERYONEURL = "http://ffffound.com/feed";
@@ -136,16 +138,27 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
         TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
         Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
 
-        if (networkInfo != null){
+        if (networkInfo != null) {
             networkTxt.setVisibility(View.INVISIBLE);
             retryBtn.setVisibility(View.INVISIBLE);
             new FetchItemsTask(mUrl).execute();
-        }else{
-            retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
-            networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
-            networkTxt.setVisibility(View.VISIBLE);
-            retryBtn.setVisibility(View.VISIBLE);
-            networkTxt.setText("you LLLLOST the internet!");
+            itemsShowing = true;
+
+        } else {
+            if (itemsShowing) {
+                networkTxt.setVisibility(View.INVISIBLE);
+                retryBtn.setVisibility(View.INVISIBLE);
+                Toast noWifi = Toast.makeText(getActivity(),
+                        getResources().getString(R.string.no_wifi), Toast.LENGTH_LONG);
+                noWifi.show();
+            }else {
+                retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
+                networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
+                networkTxt.setVisibility(View.VISIBLE);
+                retryBtn.setVisibility(View.VISIBLE);
+                networkTxt.setText("you LLLLOST the internet!");
+            }
+
         }
     }
 
@@ -178,6 +191,8 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
             if (galleryItems!=null){
                 FFData.getInstance().addItems(galleryItems);
                 setUpAdapter();
+            }else{
+                testNetwork();
             }
         }
     }
