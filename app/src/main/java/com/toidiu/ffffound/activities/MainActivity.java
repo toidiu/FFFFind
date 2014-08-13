@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
             mFragment = new FFListFragment();
 
             Bundle bundle = new Bundle();
-            bundle.putString(FFListFragment.LIST_URL, FFListFragment.EVERYONEURL);
+//            bundle.putString(FFListFragment.LIST_URL, FFListFragment.USERURLBASE);
             mFragment.setArguments(bundle);
 
             mFragManager.beginTransaction()

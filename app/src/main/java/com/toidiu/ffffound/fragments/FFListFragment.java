@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,10 +32,9 @@ import com.toidiu.ffffound.utils.Stuff;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.toidiu.ffffound.adapter.FFGalleryAdapter.FFFetcherInterface;
 
 
-public class FFListFragment extends Fragment implements FFFetcherInterface,
+public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFFragment";
     public static final String LIST_URL = "com.toidiu.list_url";
@@ -43,7 +43,7 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
 
 
     public static String EVERYONEURL = "http://ffffound.com/feed";
-    public static String USERURLBASE = "http://ffffound.com/home/";
+    public static String USERURLBASE = "http://ffffound.com/home/404/found/feed";
 
     private String mUrl;
     private FFGalleryAdapter mGalleryAdapter;
@@ -55,14 +55,15 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        mUrl = getArguments().getString(LIST_URL);
-        userAdapter = getArguments().getBoolean(ADAPTER_CHOICE, false);
-        Log.d("-------------ddsssss-----------",mUrl);
-        if (userAdapter){
-
-        }else{
+        mUrl = EVERYONEURL;
+//        mUrl = getArguments().getString(LIST_URL);
+//        userAdapter = getArguments().getBoolean(ADAPTER_CHOICE, false);
+//        Log.d("-------------ddsssss-----------",mUrl);
+//        if (userAdapter){
+//
+//        }else{
             mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
-        }
+//        }
 
         testNetwork();
         setRetryListener();
@@ -163,7 +164,7 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
     }
 
     //--------------------------------------PRIVATE CLASS---------------
-    private class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
+    class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
 
         private String mUrl;
         private FetchItemsTask(String url) {
@@ -173,8 +174,10 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
         @Override
         protected ArrayList<FFFFItem> doInBackground(Void... params) {
             try{
+                Log.d(TAG, mUrl);
                 String result = new FFHttpRequest().getUrl(mUrl);
 
+                Log.d(TAG, result);
                 FFFeedParser ffFeedParser = new FFFeedParser(result);
                 ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
 
@@ -191,9 +194,10 @@ public class FFListFragment extends Fragment implements FFFetcherInterface,
             if (galleryItems!=null){
                 FFData.getInstance().addItems(galleryItems);
                 setUpAdapter();
-            }else{
-                testNetwork();
             }
+//            else{
+//                testNetwork();
+//            }
         }
     }
 

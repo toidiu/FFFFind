@@ -8,12 +8,17 @@ public class FFFFItem {
     private String BigUrl;
     private String Descrip;
 
+    private boolean Favorite;
+    private boolean Download;
+
     public FFFFItem(){
         SmallUrl = "";
         MedUrl = "";
         BigUrl = "";
         Title = "";
         Artist = "";
+        Favorite = false;
+        Download = false;
     }
 
     public String getArtist() {
@@ -65,4 +70,18 @@ public class FFFFItem {
         BigUrl = bigUrl;
     }
 
+
+    public boolean isFavorite() {
+        return Favorite;
+    }
+    public void setFavorite(boolean favorite) {
+        Favorite = favorite;
+    }
+
+    public boolean isDownload() {
+        return Download;
+    }
+    public void setDownload(boolean download) {
+        Download = download;
+    }
 }

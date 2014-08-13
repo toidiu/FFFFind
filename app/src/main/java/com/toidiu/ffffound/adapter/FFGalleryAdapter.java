@@ -52,6 +52,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
 
 
         String url = item.getMedUrl();
+        Log.d(TAG, url);
         Picasso.with(mActivity)
                 .load(url)
                 .into(imgView);

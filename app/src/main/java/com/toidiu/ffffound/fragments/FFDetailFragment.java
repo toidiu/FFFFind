@@ -1,8 +1,6 @@
 package com.toidiu.ffffound.fragments;
 
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -32,15 +30,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class FFDetailFragment extends Fragment{
     public static final String ITEM_IDX = "com.toidiu.itemIdx";
     private static final String TAG = "FFDetailFragment";
     private FFFFItem item;
     private ImageView imgView;
+    private ImageView downView;
+    private ImageView starView;
 
 
     @Override
@@ -68,8 +66,23 @@ public class FFDetailFragment extends Fragment{
         RelativeLayout rl = (RelativeLayout) v.findViewById(R.id.detail_back);
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
+        starView = (ImageView) v.findViewById(R.id.favorite);
+        setFavStar(starView);
+        if (item.isFavorite()) {
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.on));
+        }else {
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.off));
+        }
+
+        downView = (ImageView) v.findViewById(R.id.download);
+        if (item.isDownload()) {
+            downView.setImageDrawable(getResources().getDrawable(R.drawable.down_done));
+        }else {
+            downView.setImageDrawable(getResources().getDrawable(R.drawable.down_start));
+        }
+
         imgView = (ImageView) v.findViewById(R.id.detail_img);
-        downloadImgListener(imgView);
+        downloadImgListener(imgView, downView);
         new AttachDetailImg().execute(item.getMedUrl());
 
         return v;
@@ -94,19 +107,61 @@ public class FFDetailFragment extends Fragment{
         });
     }
 
-    private void downloadImgListener(View v){
-        imgView = (ImageView) v.findViewById(R.id.detail_img);
+    private void downloadImgListener(View v1, View v2){
+        imgView = (ImageView) v1.findViewById(R.id.detail_img);
+        downView = (ImageView) v2.findViewById(R.id.download);
+
+        downView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
+            }
+        });
 
         imgView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
-
                 return false;
             }
         });
 
     }
+
+    void setFavStar (View v){
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean fav = !item.isFavorite();
+                setStarImg(fav);
+            }
+        });
+    }
+
+    void setStarImg(boolean fav){
+        int a = FFData.getInstance().getIdx(item);
+        FFData.getInstance().getItems(a).setFavorite(fav);
+
+        ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
+        if (fav) {
+            star.setImageDrawable(getResources().getDrawable(R.drawable.on));
+        }else {
+            star.setImageDrawable(getResources().getDrawable(R.drawable.off));
+        }
+    }
+
+    private void setDownImg(boolean b) {
+        int a = FFData.getInstance().getIdx(item);
+        FFData.getInstance().getItems(a).setDownload(b);
+
+        ImageView down = (ImageView) getActivity().findViewById(R.id.download);
+        if (b) {
+            down.setImageDrawable(getResources().getDrawable(R.drawable.down_done));
+        }else {
+            down.setImageDrawable(getResources().getDrawable(R.drawable.down_start));
+        }
+    }
+
 
     //--------------------------------------PRIVATE CLASS---------------
     private class AttachDetailImg extends AsyncTask<String, Void, Bitmap> {
@@ -134,8 +189,6 @@ public class FFDetailFragment extends Fragment{
                     .into(imgView);
         }
     }
-
-
 
     private class DownloadImg extends AsyncTask<String, Void, Bitmap> {
         protected Bitmap doInBackground(String... urls) {
@@ -184,6 +237,8 @@ public class FFDetailFragment extends Fragment{
                     image.compress(Bitmap.CompressFormat.PNG, 100, fos);
                     fos.close();
 
+                    setDownImg(true);
+
                 } catch (FileNotFoundException e) { // <10>
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -195,6 +250,7 @@ public class FFDetailFragment extends Fragment{
 
             }
         }
+
     }
 
 

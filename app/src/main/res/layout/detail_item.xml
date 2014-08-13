@@ -32,6 +32,34 @@
         android:clickable="true"
         />
 
+    <ImageButton android:id="@+id/favorite"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:scaleType="centerCrop"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/artist_name"
+        android:layout_margin="5dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/off"
+        android:background="#00ffffff"
+        />
+
+    <ImageButton android:id="@+id/download"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:scaleType="centerCrop"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/favorite"
+        android:layout_margin="5dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/down_start"
+        android:background="#00ffffff"
+        />
+
     <ImageView
         android:id="@+id/detail_img"
         android:layout_width="match_parent"

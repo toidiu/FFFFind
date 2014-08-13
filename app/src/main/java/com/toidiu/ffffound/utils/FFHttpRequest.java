@@ -1,5 +1,7 @@
 package com.toidiu.ffffound.utils;
 
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +35,7 @@ public class FFHttpRequest {
     }
 
     public String getUrl(String urlSpec)  throws IOException{
+        Log.d("------daf", urlSpec);
         return new String(getUrlBytes(urlSpec));
     }
 
