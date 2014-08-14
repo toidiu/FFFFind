@@ -43,7 +43,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
 
     public static String EVERYONEURL = "http://ffffound.com/feed";
-    public static String USERURLBASE = "http://ffffound.com/home/404/found/feed";
+    public static String SPAREURL = "http://ffffound.com/home/404/found/feed";
 
     private String mUrl;
     private FFGalleryAdapter mGalleryAdapter;
@@ -55,15 +55,12 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        mUrl = EVERYONEURL;
-//        mUrl = getArguments().getString(LIST_URL);
-//        userAdapter = getArguments().getBoolean(ADAPTER_CHOICE, false);
-//        Log.d("-------------ddsssss-----------",mUrl);
-//        if (userAdapter){
-//
-//        }else{
+        mUrl = getArguments().getCharSequence(LIST_URL).toString();
+        if (mUrl == EVERYONEURL){
             mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
-//        }
+        }else{
+            mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
+        }
 
         testNetwork();
         setRetryListener();

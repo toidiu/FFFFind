@@ -1,6 +1,5 @@
 package com.toidiu.ffffound.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 
 import com.google.gson.reflect.TypeToken;
 import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.fragments.FFDetailFragment;
 import com.toidiu.ffffound.fragments.FFListFragment;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -46,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
             mFragment = new FFListFragment();
 
             Bundle bundle = new Bundle();
-//            bundle.putString(FFListFragment.LIST_URL, FFListFragment.USERURLBASE);
+            bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONEURL);
             mFragment.setArguments(bundle);
 
             mFragManager.beginTransaction()

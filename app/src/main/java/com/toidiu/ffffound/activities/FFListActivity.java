@@ -22,6 +22,7 @@ public class FFListActivity extends FragmentActivity{
         String url = intent.getStringExtra(FFListFragment.LIST_URL);
         Bundle bundle = new Bundle();
 //        bundle.putString(FFListFragment.LIST_URL, url);
+        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.SPAREURL);
 
         mFragManager = getSupportFragmentManager();
         mFragment = mFragManager.findFragmentById(R.id.frag_container);
