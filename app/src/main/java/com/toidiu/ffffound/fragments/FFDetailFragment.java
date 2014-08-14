@@ -145,8 +145,10 @@ public class FFDetailFragment extends Fragment{
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
         if (fav) {
             star.setImageDrawable(getResources().getDrawable(R.drawable.on));
+            FFData.getInstance().addFav(item);
         }else {
             star.setImageDrawable(getResources().getDrawable(R.drawable.off));
+            FFData.getInstance().removeFav(item);
         }
     }
 

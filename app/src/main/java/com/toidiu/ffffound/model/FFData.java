@@ -8,6 +8,7 @@ public class FFData {
     private static FFData mFFData;
 
     public ArrayList<FFFFItem> mFFItemsList;
+    public ArrayList<FFFFItem> mFFFavList;
     private HashSet<String> mUsers;
 
     private int mTotalUsers;
@@ -17,6 +18,7 @@ public class FFData {
     //----------instance
     private FFData() {
         mFFItemsList = new ArrayList<FFFFItem>();
+        mFFFavList = new ArrayList<FFFFItem>();
         mUsers = new HashSet<String>();
     }
     public static FFData getInstance(){
@@ -42,6 +44,18 @@ public class FFData {
         }
         return userList;
     }
+
+    //------------------Favorite List
+    public ArrayList<FFFFItem> getFav(){ return mFFFavList; }
+    public void setFav(ArrayList<FFFFItem> list){
+        if (list != null) {
+            mFFFavList = list;
+        }
+    }
+    public void addFav(FFFFItem item){ mFFFavList.add(item); }
+    public void removeFav(FFFFItem item){ mFFFavList.remove(item); }
+    public void applyFavs(){ mFFItemsList = mFFFavList; }
+
 
 
     //----------setter

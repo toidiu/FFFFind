@@ -114,8 +114,6 @@ public class FFFeedParser {
     private void buildItem(String text){
         if (itemCreated == false){return;}
 
-        Log.d(TAG, text);
-
         if( ItemMode == modeEnum.DESCRIP ){
             mffffItem.setDescription(text);
         }else if( ItemMode == modeEnum.TITLE ){

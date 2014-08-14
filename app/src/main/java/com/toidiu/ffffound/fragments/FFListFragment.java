@@ -177,7 +177,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
                 Log.d(TAG, mUrl);
                 String result = new FFHttpRequest().getUrl(mUrl);
 
-                Log.d(TAG, result);
                 FFFeedParser ffFeedParser = new FFFeedParser(result);
                 ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
 
