@@ -1,6 +1,9 @@
 package com.toidiu.ffffound.utils;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.util.Random;
 
@@ -23,4 +26,16 @@ public  class Stuff {
         return color;
     }
 
+    public static boolean isConnected(Context ctx){
+        ConnectivityManager CManager;
+
+        CManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = CManager.getActiveNetworkInfo();
+
+        if (networkInfo != null){
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -40,7 +40,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = mActivity.getLayoutInflater()
-                    .inflate(R.layout.gallery_item, parent, false);
+                .inflate(R.layout.gallery_item, parent, false);
         }
 
         FFFFItem item = getItem(position);

@@ -1,11 +1,7 @@
 package com.toidiu.ffffound.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,18 +33,17 @@ import java.util.ArrayList;
 public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFFragment";
-    public static final String LIST_URL = "com.toidiu.list_url";
-    public static final String ADAPTER_CHOICE = "com.toidiu.adapter";
     private boolean itemsShowing = false;
 
-
-    public static String EVERYONEURL = "http://ffffound.com/feed";
-    public static String SPAREURL = "http://ffffound.com/home/404/found/feed";
+    public static final String LIST_URL = "com.toidiu.list_url";
+    public static final String EVERYONEUrl = "http://ffffound.com/feed";
+    public static final String SPAREUrlBase = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
+    public static final String SPAREUrlEnd = "/found/feed";
 
     private String mUrl;
     private FFGalleryAdapter mGalleryAdapter;
     private StaggeredGridView mSGView;
-    private boolean userAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,35 +51,31 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         setRetainInstance(true);
 
         mUrl = getArguments().getCharSequence(LIST_URL).toString();
-        if (mUrl == EVERYONEURL){
+        if (mUrl == EVERYONEUrl){
             mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
         }else{
             mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
         }
-
-        testNetwork();
+        loadItems();
         setRetryListener();
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);
         mSGView = (StaggeredGridView) v.findViewById(R.id.grid_view);
-
         setUpAdapter();
         return v;
     }
 
     @Override
     public void FFFFItem() {
-        new FetchItemsTask(FFData.getInstance().getNextUrl()).execute();
+        mUrl = FFData.getInstance().getNextUrl();
+        loadItems();
     }
-
     @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
         Log.d(TAG, "onScrollStateChanged:" + scrollState);
     }
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 //        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
@@ -93,14 +84,10 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         intent.putExtra(FFDetailFragment.ITEM_IDX, position);
         startActivity(intent);
     }
-
     @Override
-    public void onScroll(final AbsListView view, final int firstVisibleItem,
-                         final int visibleItemCount, final int totalItemCount) {
-        Log.d(TAG, "onScroll firstVisibleItem:" + firstVisibleItem +
-                " visibleItemCount:" + visibleItemCount +
-                " totalItemCount:" + totalItemCount);
-
+    public void onScroll(final AbsListView view, final int un, final int deux, final int trois) {
+        Log.d(TAG, "onScroll firstVisibleItem:" + un + " visibleItemCount:" + deux +
+                " totalItemCount:" + trois);
     }
 
     public void setUpAdapter(){
@@ -113,35 +100,19 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
             mSGView.setOnItemClickListener(this);
         }else if (items != null){
             mGalleryAdapter.notifyDataSetChanged();
+            itemsShowing = true;
         }else{
             mSGView.setAdapter(null);
         }
     }
-
-    private void setRetryListener() {
-        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
-
-        retryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                testNetwork();
-            }
-        });
-    }
-
-    private void testNetwork() {
-        ConnectivityManager cm = (ConnectivityManager)
-                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+    private void loadItems() {
         TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
         Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
 
-        if (networkInfo != null) {
+        if (Stuff.isConnected(getActivity())) {
             networkTxt.setVisibility(View.INVISIBLE);
             retryBtn.setVisibility(View.INVISIBLE);
-            new FetchItemsTask(mUrl).execute();
-            itemsShowing = true;
-
+            new FetchItemsAsync(mUrl).execute();
         } else {
             if (itemsShowing) {
                 networkTxt.setVisibility(View.INVISIBLE);
@@ -154,17 +125,27 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
                 networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
                 networkTxt.setVisibility(View.VISIBLE);
                 retryBtn.setVisibility(View.VISIBLE);
-                networkTxt.setText("you LLLLOST the internet!");
+                networkTxt.setText(getResources().getString(R.string.lostWifi));
             }
-
         }
     }
 
+
+    private void setRetryListener() {
+        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadItems();
+            }
+        });
+    }
+
     //--------------------------------------PRIVATE CLASS---------------
-    class FetchItemsTask extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
+    class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
 
         private String mUrl;
-        private FetchItemsTask(String url) {
+        private FetchItemsAsync(String url) {
             mUrl = url;
         }
 
@@ -191,9 +172,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
                 FFData.getInstance().addItems(galleryItems);
                 setUpAdapter();
             }
-//            else{
-//                testNetwork();
-//            }
         }
     }
 

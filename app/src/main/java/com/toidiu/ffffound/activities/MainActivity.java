@@ -29,27 +29,25 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        //init save/load handler
+        //Save/Load handler
         FILE = new File(this.getFilesDir() + File.separator + SAVE_FILE);
         Type type = new TypeToken<ArrayList<FFFFItem>>(){}.getType();
         slh = new SaveLoadHandler(type, FILE);
         final ArrayList<FFFFItem> list = slh.loadData();
         FFData.getInstance().setFav(list);
 
-//        FFData.getInstance().applyFavs();
+        //pass Everyone URL
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONEUrl);
 
         mFragManager = getSupportFragmentManager();
         mFragment = mFragManager.findFragmentById(R.id.frag_container);
         if(mFragment == null){
             mFragment = new FFListFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONEURL);
             mFragment.setArguments(bundle);
-
             mFragManager.beginTransaction()
-                    .add(R.id.frag_container, mFragment)
-                    .commit();
+                .add(R.id.frag_container, mFragment)
+                .commit();
         }
     }
 

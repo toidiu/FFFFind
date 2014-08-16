@@ -12,5 +12,6 @@
     <string name="url7">"http://b.thumbs.redditmedia.com/wMKt7GIq2ivEIhbq.jpg"</string>
     <string name="url8">"http://b.thumbs.redditmedia.com/SEY5MDyLUvfEtH5U.jpg"</string>
     <string name="no_wifi">No Wifi. Please connect to the internet.</string>
+    <string name="lostWifi">you LLLLOST the internet!</string>
 
 </resources>

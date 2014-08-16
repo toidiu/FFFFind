@@ -1,6 +1,5 @@
 package com.toidiu.ffffound.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,21 +17,21 @@ public class FFListActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        Intent intent = getIntent();
-        String url = intent.getStringExtra(FFListFragment.LIST_URL);
+//        Intent intent = getIntent();
+//        String url = intent.getStringExtra(FFListFragment.LIST_URL);
+
+        //set base URL
         Bundle bundle = new Bundle();
-//        bundle.putString(FFListFragment.LIST_URL, url);
-        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.SPAREURL);
+        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.SPAREUrlBase);
 
         mFragManager = getSupportFragmentManager();
         mFragment = mFragManager.findFragmentById(R.id.frag_container);
-
         if(mFragment == null){
             mFragment = new FFListFragment();
             mFragment.setArguments(bundle);
             mFragManager.beginTransaction()
-                    .add(R.id.frag_container, mFragment)
-                    .commit();
+                .add(R.id.frag_container, mFragment)
+                .commit();
         }
 
     }
