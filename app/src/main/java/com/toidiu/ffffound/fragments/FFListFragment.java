@@ -33,16 +33,19 @@ import java.util.ArrayList;
 public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFFragment";
-    private boolean itemsShowing = false;
 
     public static final String LIST_URL = "com.toidiu.list_url";
-    public static final String EVERYONEUrl = "http://ffffound.com/feed";
-    public static final String SPAREUrlBase = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
-    public static final String SPAREUrlEnd = "/found/feed";
+    public static final String EVERYONE_URL = "http://ffffound.com/feed";
+    public static final String SPARE_URL_BASE = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
+    public static final String SPARE_URL_END = "/found/feed";
 
     private String mUrl;
-    private FFGalleryAdapter mGalleryAdapter;
+    private boolean itemsShowing = false;
     private StaggeredGridView mSGView;
+    private FFGalleryAdapter mGalleryAdapter;
+    public FFData mListData;
+    private FFFeedParser ffFeedParser;
+
 
 
     @Override
@@ -51,12 +54,13 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         setRetainInstance(true);
 
         mUrl = getArguments().getCharSequence(LIST_URL).toString();
-        if (mUrl == EVERYONEUrl){
+        if (mUrl == EVERYONE_URL){
+            mListData = new FFData();
             if (mGalleryAdapter == null) {
-                mGalleryAdapter = new FFGalleryAdapter(getActivity(), this);
+                mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
             }
         }else{
-            mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
+            mGalleryAdapter = new FFGalleryAdapter( getActivity(), this, mListData);
         }
         loadItems();
         setRetryListener();
@@ -71,7 +75,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
     @Override
     public void FFFFItem() {
-        mUrl = FFData.getInstance().getNextUrl();
+        mUrl = mListData.getNextUrl();
         loadItems();
     }
     @Override
@@ -92,7 +96,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
     public void setUpAdapter(){
         if(getActivity() == null || mSGView == null) return;
-        ArrayList<FFFFItem> items = FFData.getInstance().getItems();
+        ArrayList<FFFFItem> items = mListData.getItems();
 
         if (items != null && mSGView.getAdapter() == null){
             mSGView.setAdapter(mGalleryAdapter);
@@ -151,7 +155,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         protected ArrayList<FFFFItem> doInBackground(Void... params) {
             try{
                 String result = new FFHttpRequest().getUrl(mUrl);
-                FFFeedParser ffFeedParser = new FFFeedParser(result);
+                ffFeedParser = new FFFeedParser(result, mListData);
                 ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
                 return ffGalleryItems;
             } catch (IOException e) { Log.d(TAG, "Failed"); }
@@ -160,7 +164,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         @Override
         protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
             if (galleryItems!=null){
-                FFData.getInstance().addItems(galleryItems);
+                mListData.addItems(galleryItems);
                 setUpAdapter();
             }
         }

@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarActivity;
 import com.google.gson.reflect.TypeToken;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.fragments.FFListFragment;
-import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.SaveLoadHandler;
@@ -40,7 +39,7 @@ public class MainActivity extends ActionBarActivity {
 
         //pass Everyone URL
         Bundle bundle = new Bundle();
-        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONEUrl);
+        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONE_URL);
 
         mFragManager = getSupportFragmentManager();
         mFragment = mFragManager.findFragmentById(R.id.frag_container);

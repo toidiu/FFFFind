@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class FFFavData {
-    private static FFFavData mFavData;
+    private static FFFavData FAV_DATA;
 
     public ArrayList<FFFFItem> mFFFavList;
     private HashSet<String> mUsers;
@@ -18,10 +18,10 @@ public class FFFavData {
     }
     //----------Instance
     public static FFFavData getInstance() {
-        if (mFavData == null) {
-            mFavData = new FFFavData();
+        if (FAV_DATA == null) {
+            FAV_DATA = new FFFavData();
         }
-        return mFavData;
+        return FAV_DATA;
     }
 
 

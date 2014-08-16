@@ -96,7 +96,7 @@ public class FFDetailFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                String url = FFListFragment.SPAREUrlBase + item.getArtist() + "/feed";
+                String url = FFListFragment.SPARE_URL_BASE + item.getArtist() + "/feed";
                 Log.d(TAG, url);
 
 

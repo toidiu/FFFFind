@@ -22,7 +22,7 @@ public class FFListActivity extends FragmentActivity{
 
         //set base URL
         Bundle bundle = new Bundle();
-        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.SPAREUrlBase);
+        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.SPARE_URL_BASE);
 
         mFragManager = getSupportFragmentManager();
         mFragment = mFragManager.findFragmentById(R.id.frag_container);

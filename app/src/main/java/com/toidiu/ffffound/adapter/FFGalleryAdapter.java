@@ -27,10 +27,12 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
     private FFFetcherInterface mListener;
     private final Random mRandom;
     private static final SparseArray<Double> sPositionHeightRatios = new SparseArray<Double>();
+    private FFData mData;
 
-    public FFGalleryAdapter(Context ctx, FFFetcherInterface listener) {
-        super( ctx, 0, FFData.getInstance().getItems());
+    public FFGalleryAdapter(Context ctx, FFFetcherInterface listener, FFData data) {
+        super( ctx, 0, data.getItems());
 
+        mData = data;
         mListener = listener;
         mActivity = (Activity) getContext();
         mRandom = new Random();
@@ -57,7 +59,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
                 .load(url)
                 .into(imgView);
 
-        if ( position == FFData.getInstance().getSize()-4 ){
+        if ( position == mData.getSize()-4 ){
             mListener.FFFFItem();
         }
 

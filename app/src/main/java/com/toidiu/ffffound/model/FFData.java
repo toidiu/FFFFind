@@ -5,22 +5,22 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class FFData {
-    private static FFData mFFData;
+//    private static FFData mFFData;
 
     public ArrayList<FFFFItem> mFFItemsList;
     private String nextUrl;
     private String prevUrl;
 
     //----------Instance
-    private FFData() {
+    public FFData() {
         mFFItemsList = new ArrayList<FFFFItem>();
     }
-    public static FFData getInstance() {
-        if (mFFData == null) {
-            mFFData = new FFData();
-        }
-        return mFFData;
-    }
+//    public static FFData getInstance() {
+//        if (mFFData == null) {
+//            mFFData = new FFData();
+//        }
+//        return mFFData;
+//    }
 
     //------------------Item List
     public void addItems(ArrayList<FFFFItem> ffArray) {
