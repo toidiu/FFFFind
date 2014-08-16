@@ -8,26 +8,17 @@ public class FFData {
     private static FFData mFFData;
 
     public ArrayList<FFFFItem> mFFItemsList;
-
-    public ArrayList<FFFFItem> mFFFavList;
-    private HashSet<String> mUsers;
-
-    private int mTotalUsers;
     private String nextUrl;
     private String prevUrl;
 
     //----------Instance
     private FFData() {
         mFFItemsList = new ArrayList<FFFFItem>();
-
-        mFFFavList = new ArrayList<FFFFItem>();
-        mUsers = new HashSet<String>();
     }
     public static FFData getInstance() {
         if (mFFData == null) {
             mFFData = new FFData();
         }
-
         return mFFData;
     }
 
@@ -65,32 +56,6 @@ public class FFData {
     public int getIdx(FFFFItem item){
         return mFFItemsList.indexOf(item);
     }
-
-    //-----------------User Hash
-    public void addUser(String user){
-        mUsers.add(user);
-        mTotalUsers = mUsers.size();
-    }
-    public String[] getUsers(){
-        String[] userList = new String[mTotalUsers];
-        Iterator<String> iterator = mUsers.iterator();
-
-        for (int i = 0; i < mTotalUsers; i++) {
-            userList[i] = iterator.next();
-        }
-        return userList;
-    }
-
-    //------------------Favorite List
-    public ArrayList<FFFFItem> getFav(){ return mFFFavList; }
-    public void setFav(ArrayList<FFFFItem> list){
-        if (list != null) {
-            mFFFavList = list;
-        }
-    }
-    public void addFav(FFFFItem item){ mFFFavList.add(item); }
-    public void removeFav(FFFFItem item){ mFFFavList.remove(item); }
-    public void applyFavs(){ mFFItemsList = mFFFavList; }
 
 }
 

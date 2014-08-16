@@ -10,6 +10,7 @@ import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.fragments.FFListFragment;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
+import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.SaveLoadHandler;
 
 import java.io.File;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
     private FragmentManager mFragManager;
     private Fragment mFragment;
+
     private SaveLoadHandler<ArrayList<FFFFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
     public File FILE;
@@ -34,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
         Type type = new TypeToken<ArrayList<FFFFItem>>(){}.getType();
         slh = new SaveLoadHandler(type, FILE);
         final ArrayList<FFFFItem> list = slh.loadData();
-        FFData.getInstance().setFav(list);
+        FFFavData.getInstance().setFav(list);
 
         //pass Everyone URL
         Bundle bundle = new Bundle();
@@ -54,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        slh.saveData(FFData.getInstance().getFav() );
+        slh.saveData(FFFavData.getInstance().getFav() );
     }
 
 }

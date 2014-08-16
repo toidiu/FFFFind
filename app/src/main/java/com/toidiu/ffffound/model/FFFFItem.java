@@ -26,7 +26,7 @@ public class FFFFItem {
     }
     public void setArtist(String user) {
         this.Artist = user;
-        FFData.getInstance().addUser(user);
+        FFFavData.getInstance().addUser(user);
     }
 
     public String getTitle() {
