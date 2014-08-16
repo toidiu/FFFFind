@@ -27,15 +27,14 @@ public  class Stuff {
     }
 
     public static boolean isConnected(Context ctx){
-        ConnectivityManager CManager;
-
-        CManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = CManager.getActiveNetworkInfo();
+        ConnectivityManager cm = (ConnectivityManager)
+                ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
         if (networkInfo != null){
             return true;
+        }else {
+            return false;
         }
-
-        return false;
     }
 }

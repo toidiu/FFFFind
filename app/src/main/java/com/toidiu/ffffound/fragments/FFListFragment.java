@@ -52,7 +52,9 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
         mUrl = getArguments().getCharSequence(LIST_URL).toString();
         if (mUrl == EVERYONEUrl){
-            mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
+            if (mGalleryAdapter == null) {
+                mGalleryAdapter = new FFGalleryAdapter(getActivity(), this);
+            }
         }else{
             mGalleryAdapter = new FFGalleryAdapter( getActivity(), this);
         }
@@ -78,8 +80,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//        Toast.makeText(getActivity(), "Item Clicked: " + position, Toast.LENGTH_SHORT).show();
-
         Intent intent = new Intent(getActivity(), FFDetailActivity.class);
         intent.putExtra(FFDetailFragment.ITEM_IDX, position);
         startActivity(intent);
@@ -129,8 +129,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
             }
         }
     }
-
-
     private void setRetryListener() {
         Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
         retryBtn.setOnClickListener(new View.OnClickListener() {
@@ -141,31 +139,24 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         });
     }
 
+
     //--------------------------------------PRIVATE CLASS---------------
     class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
-
         private String mUrl;
+
         private FetchItemsAsync(String url) {
             mUrl = url;
         }
-
         @Override
         protected ArrayList<FFFFItem> doInBackground(Void... params) {
             try{
-                Log.d(TAG, mUrl);
                 String result = new FFHttpRequest().getUrl(mUrl);
-
                 FFFeedParser ffFeedParser = new FFFeedParser(result);
                 ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
-
                 return ffGalleryItems;
-
-            } catch (IOException e) {
-                Log.d(TAG, "Failed");
-            }
+            } catch (IOException e) { Log.d(TAG, "Failed"); }
             return null;
         }
-
         @Override
         protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
             if (galleryItems!=null){
