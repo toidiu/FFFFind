@@ -1,5 +1,6 @@
 package com.toidiu.ffffound.utils;
 
+import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -9,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class FFHttpRequest {
+
+    private static final String TAG = "FFHttpRequest";
 
     byte[] getUrlBytes(String urlSpec) throws IOException{
         URL url = new URL(urlSpec);
@@ -35,7 +38,7 @@ public class FFHttpRequest {
     }
 
     public String getUrl(String urlSpec)  throws IOException{
-        Log.d("------daf", urlSpec);
+        Log.d(TAG, urlSpec);
         return new String(getUrlBytes(urlSpec));
     }
 

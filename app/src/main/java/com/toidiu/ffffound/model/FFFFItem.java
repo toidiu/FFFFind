@@ -23,6 +23,20 @@ public class FFFFItem implements Parcelable{
         Favorite = false;
         Download = false;
     }
+    public FFFFItem(Parcel parcel){
+        Artist = parcel.readString();
+        Title = parcel.readString();
+        SmallUrl = parcel.readString();
+        MedUrl = parcel.readString();
+        BigUrl = parcel.readString();
+        Descrip = parcel.readString();
+
+        boolean[] array = new boolean[2];
+        parcel.readBooleanArray(array);
+        Favorite = array[0];
+        Download = array[1];
+    }
+
 
     public String getArtist() {
         return Artist;
@@ -31,15 +45,12 @@ public class FFFFItem implements Parcelable{
         this.Artist = user;
         FFFavData.getInstance().addUser(user);
     }
-
     public String getTitle() {
         return Title;
     }
     public void setTitle(String mTitle) {
         this.Title = mTitle;
     }
-
-
     public String getDescrip() {
         return Descrip;
     }
@@ -52,21 +63,18 @@ public class FFFFItem implements Parcelable{
     public String getUrl() {
         return getMedUrl();
     }
-
     public String getSmallUrl() {
         return SmallUrl;
     }
     public void setSmallUrl(String smallUrl) {
         SmallUrl = smallUrl;
     }
-
     public String getMedUrl() {
         return MedUrl;
     }
     public void setMedUrl(String medUrl) {
         MedUrl = medUrl;
     }
-
     public String getBigUrl() {
         return BigUrl;
     }
@@ -81,7 +89,6 @@ public class FFFFItem implements Parcelable{
     public void setFavorite(boolean favorite) {
         Favorite = favorite;
     }
-
     public boolean isDownload() {
         return Download;
     }
@@ -89,6 +96,8 @@ public class FFFFItem implements Parcelable{
         Download = download;
     }
 
+
+    //--------------------------------------PARCELABLE---------------
     @Override
     public int describeContents() {
         return 0;
@@ -105,31 +114,8 @@ public class FFFFItem implements Parcelable{
         boolean[] array = new boolean[]{Favorite, Download};
         parcel.writeBooleanArray(array);
     }
-
-
-    public FFFFItem(Parcel parcel){
-        Artist = parcel.readString();
-        Title = parcel.readString();
-        SmallUrl = parcel.readString();
-        MedUrl = parcel.readString();
-        BigUrl = parcel.readString();
-        Descrip = parcel.readString();
-
-        boolean[] array = new boolean[2];
-        parcel.readBooleanArray(array);
-        Favorite = array[0];
-        Download = array[1];
-    }
-
-
-    public static final Parcelable.Creator<FFFFItem> CREATOR
-            = new Parcelable.Creator<FFFFItem>() {
-        public FFFFItem createFromParcel(Parcel in) {
-            return new FFFFItem(in);
-        }
-
-        public FFFFItem[] newArray(int size) {
-            return new FFFFItem[size];
-        }
+    public static final Parcelable.Creator<FFFFItem> CREATOR = new Parcelable.Creator<FFFFItem>() {
+        public FFFFItem createFromParcel(Parcel in) { return new FFFFItem(in); }
+        public FFFFItem[] newArray(int size) { return new FFFFItem[size]; }
     };
 }

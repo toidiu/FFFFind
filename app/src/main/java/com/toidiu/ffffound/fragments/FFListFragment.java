@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
-    private static final String TAG = "FFFragment";
+    private static final String TAG = "FFListFragment";
 
     public static final String LIST_URL = "com.toidiu.list_url";
     public static final String EVERYONE_URL = "http://ffffound.com/feed";
@@ -61,6 +61,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
                 mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
             }
         }else{
+            mListData = new FFData();
             mGalleryAdapter = new FFGalleryAdapter( getActivity(), this, mListData);
         }
         loadItems();
@@ -158,11 +159,12 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         @Override
         protected ArrayList<FFFFItem> doInBackground(Void... params) {
             try{
+                Log.d(TAG, mUrl);
                 String result = new FFHttpRequest().getUrl(mUrl);
                 ffFeedParser = new FFFeedParser(result, mListData);
                 ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
                 return ffGalleryItems;
-            } catch (IOException e) { Log.d(TAG, "Failed"); }
+            } catch (IOException e) { Log.d(TAG, "Failed to get xml feed"); }
             return null;
         }
         @Override

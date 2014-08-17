@@ -99,7 +99,7 @@ public class FFDetailFragment extends Fragment{
             @Override
             public void onClick(View view) {
 
-                String url = FFListFragment.SPARE_URL_BASE + item.getArtist() + "/feed";
+                String url = FFListFragment.SPARE_URL_BASE + item.getArtist() + FFListFragment.SPARE_URL_END;
                 Log.d(TAG, url);
 
 
@@ -156,12 +156,12 @@ public class FFDetailFragment extends Fragment{
         }
     }
 
-    private void setDownImg(boolean b) {
+    private void setDownImg(boolean setFlag) {
 //        int a = FFData.getInstance().getIdx(item);
 //        FFData.getInstance().getItems(a).setDownload(b);
 
         ImageView down = (ImageView) getActivity().findViewById(R.id.download);
-        if (b) {
+        if (setFlag) {
             down.setImageDrawable(getResources().getDrawable(R.drawable.down_done));
         }else {
             down.setImageDrawable(getResources().getDrawable(R.drawable.down_start));
