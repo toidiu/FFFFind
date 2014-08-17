@@ -6,25 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<!--TITLE/ARTIST-->
     <TextView
         android:id="@+id/pic_title"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
 
+        android:maxLines="2"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:textColor="#fff"
         android:textSize="25sp"
+        android:ellipsize="end"
         android:gravity="center_horizontal"
         />
-
     <TextView
         android:id="@+id/artist_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="artist"
 
-        android:textColor="#000"
+        android:paddingLeft="10dp"
+        android:textColor="#ffc20020"
+        android:textColorHint="#ffc20020"
         android:textSize="20sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -32,32 +36,32 @@
         android:clickable="true"
         />
 
+<!--FLAGS-->
     <ImageButton android:id="@+id/favorite"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
         android:scaleType="centerCrop"
+        android:src="@drawable/off"
+        android:background="#00ffffff"
+        android:layout_margin="5dp"
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@id/artist_name"
-        android:layout_margin="5dp"
-        android:src="@drawable/off"
-        android:background="#00ffffff"
         />
-
     <ImageButton android:id="@+id/download"
         android:layout_width="30dp"
         android:layout_height="30dp"
 
         android:scaleType="centerCrop"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/favorite"
-        android:layout_margin="5dp"
         android:src="@drawable/down_start"
         android:background="#00ffffff"
-        />
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/detail_img"
+        android:layout_toLeftOf="@+id/favorite"
+        android:layout_toStartOf="@+id/favorite" />
 
+<!--IMAGE-->
     <ImageView
         android:id="@+id/detail_img"
         android:layout_width="match_parent"

@@ -9,8 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.activities.FFListActivity;
-import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.Stuff;
@@ -37,7 +34,7 @@ import java.util.Calendar;
 
 public class FFDetailFragment extends Fragment{
     public static final String ITEM_EXTRA = "com.toidiu.itemExtra";
-    public static final int ITEM_CODE = 0;
+    public static final int ITEM_RTN_CODE = 0;
 
     private static final String TAG = "FFDetailFragment";
     private FFFFItem item;
@@ -50,10 +47,10 @@ public class FFDetailFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        getActivity().setTitle("Detail View");
 
         Intent intent = getActivity().getIntent();
-        item = (FFFFItem) intent.getParcelableExtra(ITEM_EXTRA);
+        item = intent.getParcelableExtra(ITEM_EXTRA);
+        getActivity().setTitle(item.getArtist());
     }
 
     @Override
@@ -102,9 +99,9 @@ public class FFDetailFragment extends Fragment{
                 String url = FFListFragment.SPARE_URL_BASE + item.getArtist() + FFListFragment.SPARE_URL_END;
                 Log.d(TAG, url);
 
-
                 Intent intent = new Intent(getActivity(), FFListActivity.class);
                 intent.putExtra(FFListFragment.LIST_URL, url);
+                intent.putExtra(FFListActivity.ARTIST_NAME, item.getArtist());
                 startActivity(intent);
 
             }

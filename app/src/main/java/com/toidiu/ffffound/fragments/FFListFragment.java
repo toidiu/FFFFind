@@ -55,15 +55,8 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         setRetainInstance(true);
 
         mUrl = getArguments().getCharSequence(LIST_URL).toString();
-        if (mUrl == EVERYONE_URL){
-            mListData = new FFData();
-            if (mGalleryAdapter == null) {
-                mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
-            }
-        }else{
-            mListData = new FFData();
-            mGalleryAdapter = new FFGalleryAdapter( getActivity(), this, mListData);
-        }
+        mListData = new FFData();
+        mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
         loadItems();
         setRetryListener();
     }

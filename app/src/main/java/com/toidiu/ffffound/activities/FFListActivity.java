@@ -10,14 +10,19 @@ import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.fragments.FFListFragment;
 
 public class FFListActivity extends FragmentActivity{
+    public static final String ARTIST_NAME = "com.toidiu.artist_name";
+
     private FragmentManager mFragManager;
     private Fragment mFragment;
     private String url;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
+        setTitle( getIntent().getStringExtra(ARTIST_NAME) );
 
         //set URL
         url = getIntent().getStringExtra(FFListFragment.LIST_URL);
@@ -33,6 +38,5 @@ public class FFListActivity extends FragmentActivity{
                 .add(R.id.frag_container, mFragment)
                 .commit();
         }
-
     }
 }
