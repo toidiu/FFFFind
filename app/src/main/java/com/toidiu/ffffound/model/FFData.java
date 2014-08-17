@@ -15,11 +15,11 @@ public class FFData {
     public FFData() {
         mFFItemsList = new ArrayList<FFFFItem>();
     }
-//    public static FFData getInstance() {
+//    public static ArrayList<FFFFItem> getInstance() {
 //        if (mFFData == null) {
 //            mFFData = new FFData();
 //        }
-//        return mFFData;
+//        return mFFItemsList;
 //    }
 
     //------------------Item List

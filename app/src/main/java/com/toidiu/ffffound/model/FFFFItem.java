@@ -1,6 +1,9 @@
 package com.toidiu.ffffound.model;
 
-public class FFFFItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class FFFFItem implements Parcelable{
     private String Artist;
     private String Title;
     private String SmallUrl;
@@ -85,4 +88,48 @@ public class FFFFItem {
     public void setDownload(boolean download) {
         Download = download;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Artist);
+        parcel.writeString(Title);
+        parcel.writeString(SmallUrl);
+        parcel.writeString(MedUrl);
+        parcel.writeString(BigUrl);
+        parcel.writeString(Descrip);
+
+        boolean[] array = new boolean[]{Favorite, Download};
+        parcel.writeBooleanArray(array);
+    }
+
+
+    public FFFFItem(Parcel parcel){
+        Artist = parcel.readString();
+        Title = parcel.readString();
+        SmallUrl = parcel.readString();
+        MedUrl = parcel.readString();
+        BigUrl = parcel.readString();
+        Descrip = parcel.readString();
+
+        boolean[] array = new boolean[2];
+        parcel.readBooleanArray(array);
+        Favorite = array[0];
+        Download = array[1];
+    }
+
+
+    public static final Parcelable.Creator<FFFFItem> CREATOR
+            = new Parcelable.Creator<FFFFItem>() {
+        public FFFFItem createFromParcel(Parcel in) {
+            return new FFFFItem(in);
+        }
+
+        public FFFFItem[] newArray(int size) {
+            return new FFFFItem[size];
+        }
+    };
 }

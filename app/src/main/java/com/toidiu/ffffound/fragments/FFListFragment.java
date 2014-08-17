@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,8 +86,11 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), FFDetailActivity.class);
-        intent.putExtra(FFDetailFragment.ITEM_IDX, position);
+//        intent.putExtra(FFDetailFragment.ITEM_EXTRA, position);
+        FFFFItem item = mListData.getItems(position);
+        intent.putExtra(FFDetailFragment.ITEM_EXTRA, (Parcelable) item);
         startActivity(intent);
+//        startActivityForResult(intent, FFDetailFragment.ITEM_CODE);
     }
     @Override
     public void onScroll(final AbsListView view, final int un, final int deux, final int trois) {

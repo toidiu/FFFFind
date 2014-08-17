@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +36,9 @@ import java.io.IOException;
 import java.util.Calendar;
 
 public class FFDetailFragment extends Fragment{
-    public static final String ITEM_IDX = "com.toidiu.itemIdx";
+    public static final String ITEM_EXTRA = "com.toidiu.itemExtra";
+    public static final int ITEM_CODE = 0;
+
     private static final String TAG = "FFDetailFragment";
     private FFFFItem item;
     private ImageView imgView;
@@ -49,8 +53,7 @@ public class FFDetailFragment extends Fragment{
         getActivity().setTitle("Detail View");
 
         Intent intent = getActivity().getIntent();
-        int idx = intent.getIntExtra(ITEM_IDX, -1);
-        item = FFData.getInstance().getItems(idx);
+        item = (FFFFItem) intent.getParcelableExtra(ITEM_EXTRA);
     }
 
     @Override
@@ -140,8 +143,8 @@ public class FFDetailFragment extends Fragment{
     }
 
     void setStarImg(boolean fav){
-        int a = FFData.getInstance().getIdx(item);
-        FFData.getInstance().getItems(a).setFavorite(fav);
+//        int a = FFData.getInstance().getIdx(item);
+//        FFData.getInstance().getItems(a).setFavorite(fav);
 
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
         if (fav) {
@@ -154,8 +157,8 @@ public class FFDetailFragment extends Fragment{
     }
 
     private void setDownImg(boolean b) {
-        int a = FFData.getInstance().getIdx(item);
-        FFData.getInstance().getItems(a).setDownload(b);
+//        int a = FFData.getInstance().getIdx(item);
+//        FFData.getInstance().getItems(a).setDownload(b);
 
         ImageView down = (ImageView) getActivity().findViewById(R.id.download);
         if (b) {
