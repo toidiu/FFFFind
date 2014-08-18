@@ -51,6 +51,8 @@ public class FFDetailFragment extends Fragment{
         Intent intent = getActivity().getIntent();
         item = intent.getParcelableExtra(ITEM_EXTRA);
         getActivity().setTitle(item.getArtist());
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -101,7 +103,7 @@ public class FFDetailFragment extends Fragment{
 
                 Intent intent = new Intent(getActivity(), FFListActivity.class);
                 intent.putExtra(FFListFragment.LIST_URL, url);
-                intent.putExtra(FFListActivity.ARTIST_NAME, item.getArtist());
+                intent.putExtra(FFListActivity.LIST_TITLE, item.getArtist());
                 startActivity(intent);
 
             }

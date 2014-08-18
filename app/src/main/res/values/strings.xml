@@ -2,15 +2,7 @@
 <resources>
 
     <string name="app_name">FFFFound</string>
-    <string name="action_settings">Settings</string>
-    <string name="url1">"http://www.reddit.com/r/aww/comments/2bxq23/reddit_101/"</string>
-    <string name="url2">"http://b.thumbs.redditmedia.com/ZYJxtCr1IBR9Zj1U.jpg"</string>
-    <string name="url3">"http://a.thumbs.redditmedia.com/cJHxQw81fDZbkeuV.jpg"</string>
-    <string name="url4">"http://a.thumbs.redditmedia.com/6ZLk1g2SSY3XO4IP.jpg"</string>
-    <string name="url5">"http://b.thumbs.redditmedia.com/r9TTAYQ5NZOwDPOq.jpg"</string>
-    <string name="url6">"http://a.thumbs.redditmedia.com/Y_bzNE6o4-8YwNjh.jpg"</string>
-    <string name="url7">"http://b.thumbs.redditmedia.com/wMKt7GIq2ivEIhbq.jpg"</string>
-    <string name="url8">"http://b.thumbs.redditmedia.com/SEY5MDyLUvfEtH5U.jpg"</string>
+    <string name="action_settings">Random</string>
     <string name="no_wifi">No Wifi. Please connect to the internet.</string>
     <string name="lostWifi">you LLLLOST the internet!</string>
 
