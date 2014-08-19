@@ -3,13 +3,13 @@ package com.toidiu.ffffound.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 
 public class FFFavData {
     private static FFFavData FAV_DATA;
 
     public ArrayList<FFFFItem> mFFFavList;
     private HashSet<String> mUsers;
-    private int mTotalUsers;
 
 
     FFFavData(){
@@ -42,14 +42,15 @@ public class FFFavData {
     //-----------------User Hash
     public void addUser(String user){
         mUsers.add(user);
-        mTotalUsers = mUsers.size();
     }
     public String[] getUsers(){
-        String[] userList = new String[mTotalUsers];
+
+        String[] userList = new String[ mUsers.size() ];
         Iterator<String> iterator = mUsers.iterator();
-        for (int i = 0; i < mTotalUsers; i++) {
+        for (int i = 0; i < mUsers.size(); i++) {
             userList[i] = iterator.next();
         }
         return userList;
+
     }
 }

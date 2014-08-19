@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,10 +24,9 @@ import java.util.Random;
 
 
 public class MainActivity extends ActionBarActivity {
-    private static final String TAG = "MAIN ACTIVITY";
+    private static final String TAG = "Main Activity";
     private FragmentManager mFragManager;
     private Fragment mFragment;
-    ShareActionProvider mActionProvider;
     int mOffset;
 
     private SaveLoadHandler<ArrayList<FFFFItem>> slh;
@@ -70,32 +68,45 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent mIntent;
+        String url;
+
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.randomMenu:
                 Toast.makeText(this, "Random selected", Toast.LENGTH_SHORT)
                         .show();
-                Random r = new Random();
-                mOffset = r.nextInt(10000);
-//                mOffset = 100;
-                String url = FFListFragment.RANDOM_URL_BASE + mOffset;
+                mOffset = new Random().nextInt(10000);
+                url = FFListFragment.RANDOM_URL_BASE + mOffset;
                 Log.d(TAG, url);
 
-                Intent intent = new Intent(this, FFListActivity.class);
-                intent.putExtra(FFListFragment.LIST_URL, url);
-                intent.putExtra(FFListActivity.LIST_TITLE, "Random:" + mOffset);
-                startActivity(intent);
-
+                mIntent = new Intent(this, FFListActivity.class);
+                mIntent.putExtra(FFListFragment.LIST_URL, url);
+                mIntent.putExtra(FFListActivity.LIST_TITLE, "Random:" + mOffset);
+                startActivity(mIntent);
                 break;
-            case R.id.favMenu:
+            case R.id.randomUser:
+                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT)
+                        .show();
 
-                
+                String[] randUserList = FFFavData.getInstance().getUsers();
+                int rand = new Random().nextInt(randUserList.length);
+                String randUser = randUserList[rand];
+
+                url = FFListFragment.SPARE_URL_BASE + randUser + FFListFragment.SPARE_URL_END;
+                Log.d(TAG, url);
+
+                mIntent = new Intent(this, FFListActivity.class);
+                mIntent.putExtra(FFListFragment.LIST_URL, url);
+                mIntent.putExtra(FFListActivity.LIST_TITLE, randUser);
+                startActivity(mIntent);
+
                 break;
             default:
                 break;

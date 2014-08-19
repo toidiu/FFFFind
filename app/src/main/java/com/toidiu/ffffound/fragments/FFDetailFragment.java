@@ -124,6 +124,7 @@ public class FFDetailFragment extends Fragment{
         imgView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                setStarImg(true);
                 new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
                 return false;
             }

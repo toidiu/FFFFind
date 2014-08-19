@@ -4,11 +4,11 @@
     tools:context=".MainActivity" >
 
     <item android:id="@+id/randomMenu"
-        android:title="@string/action_settings"
+        android:title="@string/offset"
         android:orderInCategory="100"
         app:showAsAction="never" />
-    <item android:id="@+id/favMenu"
-        android:title="Favorite"
+    <item android:id="@+id/randomUser"
+        android:title="Random User"
         android:orderInCategory="110"
         app:showAsAction="never" />
 </menu>
