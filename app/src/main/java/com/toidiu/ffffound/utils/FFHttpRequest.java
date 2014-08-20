@@ -38,7 +38,7 @@ public class FFHttpRequest {
     }
 
     public String getUrl(String urlSpec)  throws IOException{
-        Log.d(TAG, urlSpec);
+//        Log.d(TAG, urlSpec);
         return new String(getUrlBytes(urlSpec));
     }
 

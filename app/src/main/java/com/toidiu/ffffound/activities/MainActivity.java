@@ -80,21 +80,18 @@ public class MainActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.randomMenu:
-                Toast.makeText(this, "Random selected", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(this, "Random selected", Toast.LENGTH_SHORT).show();
                 mOffset = new Random().nextInt(10000);
                 url = FFListFragment.RANDOM_URL_BASE + mOffset;
                 Log.d(TAG, url);
 
                 mIntent = new Intent(this, FFListActivity.class);
                 mIntent.putExtra(FFListFragment.LIST_URL, url);
-                mIntent.putExtra(FFListActivity.LIST_TITLE, "Random:" + mOffset);
+                mIntent.putExtra(FFListActivity.LIST_TITLE, "Offset: " + mOffset);
                 startActivity(mIntent);
                 break;
             case R.id.randomUser:
-                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT)
-                        .show();
-
+                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
                 String[] randUserList = FFFavData.getInstance().getUsers();
                 int rand = new Random().nextInt(randUserList.length);
                 String randUser = randUserList[rand];
@@ -106,7 +103,6 @@ public class MainActivity extends ActionBarActivity {
                 mIntent.putExtra(FFListFragment.LIST_URL, url);
                 mIntent.putExtra(FFListActivity.LIST_TITLE, randUser);
                 startActivity(mIntent);
-
                 break;
             default:
                 break;
