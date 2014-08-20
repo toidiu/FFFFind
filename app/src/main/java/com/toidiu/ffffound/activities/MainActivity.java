@@ -104,6 +104,19 @@ public class MainActivity extends ActionBarActivity {
                 mIntent.putExtra(FFListActivity.LIST_TITLE, randUser);
                 startActivity(mIntent);
                 break;
+            case R.id.favorite:
+                Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+
+                mIntent = new Intent(this, FFListActivity.class);
+                mIntent.putExtra(FFListFragment.LIST_URL, "");
+                mIntent.putExtra(FFListFragment.SHOW_FAV, true);
+                mIntent.putExtra(FFListActivity.LIST_TITLE, "Favorites");
+                startActivity(mIntent);
+                break;
+            case R.id.clear_fav:
+                Toast.makeText(this, "Favorites Cleared!", Toast.LENGTH_SHORT).show();
+                FFFavData.getInstance().clearFav();
+                break;
             default:
                 break;
         }

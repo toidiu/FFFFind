@@ -15,7 +15,7 @@ public class FFData {
     public FFData() {
         mFFItemsList = new ArrayList<FFFFItem>();
     }
-//    public static ArrayList<FFFFItem> getInstance() {
+//    public static ArrayList<FFFetchItem> getInstance() {
 //        if (mFFData == null) {
 //            mFFData = new FFData();
 //        }
@@ -39,6 +39,7 @@ public class FFData {
     public void setNextUrl(String nextUrl) {
         this.nextUrl = nextUrl;
     }
+    public void clearList(){ mFFItemsList.clear(); }
 
     public FFFFItem getItems(int idx) {
         return mFFItemsList.get(idx);

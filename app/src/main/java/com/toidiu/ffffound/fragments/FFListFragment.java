@@ -22,6 +22,7 @@ import com.toidiu.ffffound.activities.FFDetailActivity;
 import com.toidiu.ffffound.adapter.FFGalleryAdapter;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
+import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.FFFeedParser;
 import com.toidiu.ffffound.utils.FFHttpRequest;
 import com.toidiu.ffffound.utils.Stuff;
@@ -36,6 +37,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     private static final String TAG = "FFListFragment";
 
     public static final String LIST_URL = "com.toidiu.list_url";
+    public static final String SHOW_FAV = "com.toidiu.show_fav";
     public static final String EVERYONE_URL = "http://ffffound.com/feed";
     public static final String SPARE_URL_BASE = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
     public static final String SPARE_URL_END = "/found/feed";
@@ -47,17 +49,23 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     private FFGalleryAdapter mGalleryAdapter;
     public FFData mListData;
     private FFFeedParser ffFeedParser;
-
-
+    private boolean showFavs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        mUrl = getArguments().getCharSequence(LIST_URL).toString();
         mListData = new FFData();
         mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
+
+        showFavs = getArguments().getBoolean(SHOW_FAV, false);
+//        showFavs = true;
+            mUrl = getArguments().getCharSequence(LIST_URL).toString();
+        if (showFavs) {
+            mListData.addItems(FFFavData.getInstance().getFav());
+        }
+
         loadItems();
         setRetryListener();
     }
@@ -70,7 +78,20 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     }
 
     @Override
-    public void FFFFItem() {
+    public void onResume() {
+        super.onResume();
+        if (showFavs) {
+            mListData.clearList();
+            mListData.addItems(FFFavData.getInstance().getFav());
+        }
+        mGalleryAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void FFFetchItem() {
+        if (showFavs) {
+            return;
+        }
         mUrl = mListData.getNextUrl();
         loadItems();
     }
@@ -112,7 +133,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
         Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
 
-        if (Stuff.isConnected(getActivity())) {
+        if ( Stuff.isConnected(getActivity()) ) {
             networkTxt.setVisibility(View.INVISIBLE);
             retryBtn.setVisibility(View.INVISIBLE);
             new FetchItemsAsync(mUrl).execute();

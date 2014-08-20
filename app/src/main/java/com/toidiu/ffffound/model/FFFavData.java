@@ -35,6 +35,7 @@ public class FFFavData {
     public ArrayList<FFFFItem> getFav(){ return mFFFavList; }
     public void addFav(FFFFItem item){ mFFFavList.add(item); }
     public void removeFav(FFFFItem item){ mFFFavList.remove(item); }
+    public void clearFav(){ mFFFavList.clear(); }
 //    public void applyFavs(){ mFFItemsList = mFFFavList; }
 
 

@@ -11,4 +11,12 @@
         android:title="Random User"
         android:orderInCategory="110"
         app:showAsAction="never" />
+    <item android:id="@+id/favorite"
+        android:title="Favorite"
+        android:orderInCategory="110"
+        app:showAsAction="never" />
+    <item android:id="@+id/clear_fav"
+        android:title="Clear Favorites"
+        android:orderInCategory="110"
+        app:showAsAction="never" />
 </menu>

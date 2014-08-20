@@ -60,7 +60,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
                 .into(imgView);
 
         if ( position == mData.getSize()-4 ){
-            mListener.FFFFItem();
+            mListener.FFFetchItem();
         }
 
         return convertView;
@@ -76,7 +76,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
         if (ratio == 0) {
             ratio = getRandomHeightRatio();
             sPositionHeightRatios.append(position, ratio);
-            Log.d(TAG, "getPositionRatio:" + position + " ratio:" + ratio);
+//            Log.d(TAG, "getPositionRatio:" + position + " ratio:" + ratio);
         }
         return ratio;
     }
@@ -88,7 +88,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
 
     //--------------------------------------INTERFACE---------------
     public interface FFFetcherInterface {
-        public void FFFFItem();
+        public void FFFetchItem();
     }
 
 }

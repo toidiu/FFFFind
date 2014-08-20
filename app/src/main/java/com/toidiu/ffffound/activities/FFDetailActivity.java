@@ -49,8 +49,7 @@ public class FFDetailActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.randomMenu:
-                Toast.makeText(this, "Random selected", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(this, "Random selected", Toast.LENGTH_SHORT).show();
                 break;
             // action with ID action_settings was selected
             default:

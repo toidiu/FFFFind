@@ -24,7 +24,7 @@ public class FFListActivity extends FragmentActivity{
     private Fragment mFragment;
     private String url;
     private Bundle bundle;
-
+    private boolean showFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,11 @@ public class FFListActivity extends FragmentActivity{
 
         //set URL
         url = getIntent().getStringExtra(FFListFragment.LIST_URL);
+        showFav = getIntent().getBooleanExtra(FFListFragment.SHOW_FAV, false);
+
         bundle = new Bundle();
         bundle.putCharSequence(FFListFragment.LIST_URL, url);
+        bundle.putBoolean(FFListFragment.SHOW_FAV, showFav);
 
         mFragManager = getSupportFragmentManager();
         mFragment = mFragManager.findFragmentById(R.id.frag_container);
@@ -76,6 +79,8 @@ public class FFListActivity extends FragmentActivity{
                 mFragManager = getSupportFragmentManager();
                 mFragment = mFragManager.findFragmentById(R.id.frag_container);
 
+//                bundle.putBoolean(FFListFragment.SHOW_FAV, true);
+
                 mFragment = new FFListFragment();
                 mFragment.setArguments(bundle);
                 mFragManager.beginTransaction()
@@ -103,6 +108,27 @@ public class FFListActivity extends FragmentActivity{
                 mFragManager.beginTransaction()
                     .replace(R.id.frag_container, mFragment)
                     .commit();
+                break;
+            case R.id.favorite:
+                Toast.makeText(this, "Favorites ListActivity", Toast.LENGTH_SHORT).show();
+                setTitle("Favorites");
+                //set URL
+                bundle = new Bundle();
+                bundle.putCharSequence(FFListFragment.LIST_URL, "");
+                bundle.putBoolean(FFListFragment.SHOW_FAV, true);
+
+                mFragManager = getSupportFragmentManager();
+                mFragment = mFragManager.findFragmentById(R.id.frag_container);
+
+                mFragment = new FFListFragment();
+                mFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                    .replace(R.id.frag_container, mFragment)
+                    .commit();
+                break;
+            case R.id.clear_fav:
+                Toast.makeText(this, "Favorites Cleared!", Toast.LENGTH_SHORT).show();
+                FFFavData.getInstance().clearFav();
                 break;
             default:
                 break;
