@@ -23,6 +23,8 @@ public class FFListActivity extends FragmentActivity{
     private FragmentManager mFragManager;
     private Fragment mFragment;
     private String url;
+    private Bundle bundle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class FFListActivity extends FragmentActivity{
 
         //set URL
         url = getIntent().getStringExtra(FFListFragment.LIST_URL);
-        Bundle bundle = new Bundle();
+        bundle = new Bundle();
         bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
         mFragManager = getSupportFragmentManager();
@@ -61,34 +63,46 @@ public class FFListActivity extends FragmentActivity{
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.randomMenu:
-                Toast.makeText(this, "Random offset", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(this, "Random offset ListActivity", Toast.LENGTH_SHORT).show();
                 mOffset = new Random().nextInt(10000);
                 url = FFListFragment.RANDOM_URL_BASE + mOffset;
                 Log.d(TAG, url);
+                setTitle("Offset: " + mOffset);
 
-                mIntent = new Intent(this, FFListActivity.class);
-                mIntent.putExtra(FFListFragment.LIST_URL, url);
-                mIntent.putExtra(FFListActivity.LIST_TITLE, "Random: " + mOffset);
-                startActivity(mIntent);
+                //set URL
+                bundle = new Bundle();
+                bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
+                mFragManager = getSupportFragmentManager();
+                mFragment = mFragManager.findFragmentById(R.id.frag_container);
+
+                mFragment = new FFListFragment();
+                mFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                    .replace(R.id.frag_container, mFragment)
+                    .commit();
                 break;
             case R.id.randomUser:
-                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT)
-                        .show();
-
+                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
                 String[] randUserList = FFFavData.getInstance().getUsers();
                 int rand = new Random().nextInt(randUserList.length);
                 String randUser = randUserList[rand];
 
                 url = FFListFragment.SPARE_URL_BASE + randUser + FFListFragment.SPARE_URL_END;
                 Log.d(TAG, url);
+                setTitle(randUser);
 
-                mIntent = new Intent(this, FFListActivity.class);
-                mIntent.putExtra(FFListFragment.LIST_URL, url);
-                mIntent.putExtra(FFListActivity.LIST_TITLE, randUser);
-                startActivity(mIntent);
+                bundle = new Bundle();
+                bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
+                mFragManager = getSupportFragmentManager();
+                mFragment = mFragManager.findFragmentById(R.id.frag_container);
+
+                mFragment = new FFListFragment();
+                mFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                    .replace(R.id.frag_container, mFragment)
+                    .commit();
                 break;
             default:
                 break;
