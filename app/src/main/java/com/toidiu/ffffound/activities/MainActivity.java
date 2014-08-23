@@ -28,6 +28,8 @@ public class MainActivity extends ActionBarActivity {
     private FragmentManager mFragManager;
     private Fragment mFragment;
     int mOffset;
+    private String url;
+    private Bundle bundle;
 
     private SaveLoadHandler<ArrayList<FFFFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
@@ -72,23 +74,35 @@ public class MainActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int mOffset;
         Intent mIntent;
-        String url;
 
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
             case R.id.randomMenu:
-                Toast.makeText(this, "Random selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Random offset", Toast.LENGTH_SHORT).show();
                 mOffset = new Random().nextInt(10000);
                 url = FFListFragment.RANDOM_URL_BASE + mOffset;
                 Log.d(TAG, url);
+                setTitle("Offset: " + mOffset);
 
-                mIntent = new Intent(this, FFListActivity.class);
-                mIntent.putExtra(FFListFragment.LIST_URL, url);
-                mIntent.putExtra(FFListActivity.LIST_TITLE, "Offset: " + mOffset);
-                startActivity(mIntent);
+                //set URL
+                bundle = new Bundle();
+                bundle.putCharSequence(FFListFragment.LIST_URL, url);
+
+                mFragManager = getSupportFragmentManager();
+                mFragment = mFragManager.findFragmentById(R.id.frag_container);
+
+//                bundle.putBoolean(FFListFragment.SHOW_FAV, true);
+
+                mFragment = new FFListFragment();
+                mFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .replace(R.id.frag_container, mFragment)
+                        .commit();
                 break;
             case R.id.randomUser:
                 Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
@@ -98,20 +112,36 @@ public class MainActivity extends ActionBarActivity {
 
                 url = FFListFragment.SPARE_URL_BASE + randUser + FFListFragment.SPARE_URL_END;
                 Log.d(TAG, url);
+                setTitle(randUser);
 
-                mIntent = new Intent(this, FFListActivity.class);
-                mIntent.putExtra(FFListFragment.LIST_URL, url);
-                mIntent.putExtra(FFListActivity.LIST_TITLE, randUser);
-                startActivity(mIntent);
+                bundle = new Bundle();
+                bundle.putCharSequence(FFListFragment.LIST_URL, url);
+
+                mFragManager = getSupportFragmentManager();
+                mFragment = mFragManager.findFragmentById(R.id.frag_container);
+
+                mFragment = new FFListFragment();
+                mFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .replace(R.id.frag_container, mFragment)
+                        .commit();
                 break;
             case R.id.favorite:
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+                setTitle("Favorites");
+                //set URL
+                bundle = new Bundle();
+                bundle.putCharSequence(FFListFragment.LIST_URL, "");
+                bundle.putBoolean(FFListFragment.SHOW_FAV, true);
 
-                mIntent = new Intent(this, FFListActivity.class);
-                mIntent.putExtra(FFListFragment.LIST_URL, "");
-                mIntent.putExtra(FFListFragment.SHOW_FAV, true);
-                mIntent.putExtra(FFListActivity.LIST_TITLE, "Favorites");
-                startActivity(mIntent);
+                mFragManager = getSupportFragmentManager();
+                mFragment = mFragManager.findFragmentById(R.id.frag_container);
+
+                mFragment = new FFListFragment();
+                mFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .replace(R.id.frag_container, mFragment)
+                        .commit();
                 break;
             case R.id.clear_fav:
                 Toast.makeText(this, "Favorites Cleared!", Toast.LENGTH_SHORT).show();
@@ -123,4 +153,5 @@ public class MainActivity extends ActionBarActivity {
 
         return true;
     }
+
 }
