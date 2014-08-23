@@ -58,6 +58,9 @@ public class FFDetailActivity extends ActionBarActivity {
                 break;
             case R.id.favorite:
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+                setResult(FFDetailFragment.DETAIL_FAV_LIST);
+                finish();
+
                 break;
             case R.id.clear_fav:
                 break;

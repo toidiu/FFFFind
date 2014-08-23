@@ -61,6 +61,7 @@ public class MainActivity extends ActionBarActivity {
                 .commit();
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();

@@ -34,7 +34,10 @@ import java.util.Calendar;
 
 public class FFDetailFragment extends Fragment{
     public static final String ITEM_EXTRA = "com.toidiu.itemExtra";
-    public static final int ITEM_RTN_CODE = 0;
+    public static final int DETAIL_REQUEST = 0;
+    public static final int DETAIL_TAB = 1;
+    public static final int DETAIL_NEW_LIST = 2;
+    public static final int DETAIL_FAV_LIST = 3;
 
     private static final String TAG = "FFDetailFragment";
     private FFFFItem item;
@@ -91,6 +94,11 @@ public class FFDetailFragment extends Fragment{
         return v;
     }
 
+    private void returnResult(int code, Intent intent){
+        getActivity().setResult(code, intent);
+        getActivity().finish();
+    }
+
     private void artistClick(View v) {
         TextView artist = (TextView) v.findViewById(R.id.artist_name);
 
@@ -104,8 +112,7 @@ public class FFDetailFragment extends Fragment{
                 Intent intent = new Intent(getActivity(), FFListActivity.class);
                 intent.putExtra(FFListFragment.LIST_URL, url);
                 intent.putExtra(FFListActivity.LIST_TITLE, item.getArtist());
-                startActivity(intent);
-
+                returnResult(DETAIL_NEW_LIST, intent);
             }
         });
     }

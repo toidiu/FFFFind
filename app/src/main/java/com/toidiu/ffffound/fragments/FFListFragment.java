@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.activities.FFDetailActivity;
+import com.toidiu.ffffound.activities.FFListActivity;
 import com.toidiu.ffffound.adapter.FFGalleryAdapter;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -59,9 +60,8 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         mListData = new FFData();
         mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
 
+        mUrl = getArguments().getCharSequence(LIST_URL).toString();
         showFavs = getArguments().getBoolean(SHOW_FAV, false);
-//        showFavs = true;
-            mUrl = getArguments().getCharSequence(LIST_URL).toString();
         if (showFavs) {
             mListData.addItems(FFFavData.getInstance().getFav());
         }
@@ -75,6 +75,29 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         mSGView = (StaggeredGridView) v.findViewById(R.id.grid_view);
         setUpAdapter();
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == FFDetailFragment.DETAIL_NEW_LIST){
+            String title = data.getStringExtra(FFListActivity.LIST_TITLE);
+            mUrl = data.getStringExtra(FFListFragment.LIST_URL);
+            getActivity().setTitle(title);
+
+            //clear current list, update view and fetch new items
+            mListData.clearList();
+            mGalleryAdapter.notifyDataSetChanged();
+            loadItems();
+        }else if(resultCode == FFDetailFragment.DETAIL_TAB){
+            //handle
+        }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
+            mUrl = "";
+            getActivity().setTitle("Favorites");
+            mListData.clearList();
+            mListData.addItems(FFFavData.getInstance().getFav());
+            mGalleryAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -104,10 +127,11 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         Intent intent = new Intent(getActivity(), FFDetailActivity.class);
 //        intent.putExtra(FFDetailFragment.ITEM_EXTRA, position);
         FFFFItem item = mListData.getItems(position);
-        intent.putExtra(FFDetailFragment.ITEM_EXTRA, (Parcelable) item);
-        startActivity(intent);
-//        startActivityForResult(intent, FFDetailFragment.ITEM_CODE);
+        intent.putExtra(FFDetailFragment.ITEM_EXTRA, item);
+//        startActivity(intent);
+        startActivityForResult(intent, FFDetailFragment.DETAIL_REQUEST);
     }
+
     @Override
     public void onScroll(final AbsListView view, final int un, final int deux, final int trois) {
         Log.d(TAG, "onScroll firstVisibleItem:" + un + " visibleItemCount:" + deux +
