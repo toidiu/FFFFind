@@ -89,6 +89,10 @@ public class FFFFItem implements Parcelable{
     public void setFavorite(boolean favorite) {
         Favorite = favorite;
     }
+    public boolean toggleFavorite() {
+        Favorite = Favorite ^ true;
+        return Favorite;
+    }
     public boolean isDownload() {
         return Download;
     }

@@ -73,7 +73,7 @@ public class FFDetailFragment extends Fragment{
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
         starView = (ImageView) v.findViewById(R.id.favorite);
-        setFavStar(starView);
+        setFavStarListener(starView);
         if (item.isFavorite()) {
             starView.setImageDrawable(getResources().getDrawable(R.drawable.on));
         }else {
@@ -105,7 +105,6 @@ public class FFDetailFragment extends Fragment{
         artist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String url = FFListFragment.SPARE_URL_BASE + item.getArtist() + FFListFragment.SPARE_URL_END;
                 Log.d(TAG, url);
 
@@ -131,7 +130,7 @@ public class FFDetailFragment extends Fragment{
         imgView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                setStarImg(true);
+                setFavStar(true);
                 new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
                 return false;
             }
@@ -139,27 +138,23 @@ public class FFDetailFragment extends Fragment{
 
     }
 
-    void setFavStar (View v){
+    void setFavStarListener(View v){
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean fav = !item.isFavorite();
-                setStarImg(fav);
+                setFavStar(item.toggleFavorite());
             }
         });
     }
 
-    void setStarImg(boolean fav){
-//        int a = FFData.getInstance().getIdx(item);
-//        FFData.getInstance().getItems(a).setFavorite(fav);
+    void setFavStar(boolean fav){
+        FFFavData.getInstance().updateFav(item);
 
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
         if (fav) {
             star.setImageDrawable(getResources().getDrawable(R.drawable.on));
-            FFFavData.getInstance().addFav(item);
         }else {
             star.setImageDrawable(getResources().getDrawable(R.drawable.off));
-            FFFavData.getInstance().removeFav(item);
         }
     }
 

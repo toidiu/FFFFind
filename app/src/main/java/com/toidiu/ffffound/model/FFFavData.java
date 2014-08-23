@@ -33,6 +33,16 @@ public class FFFavData {
         }
     }
     public ArrayList<FFFFItem> getFav(){ return mFFFavList; }
+    public void updateFav(FFFFItem item){
+//        mFFFavList.remove(item);
+        int idx = mFFFavList.indexOf(item);
+        if (idx == -1){
+            addFav(item);
+        }else {
+            mFFFavList.remove(idx);
+        }
+//        mFFFavList.set(idx, item);
+    }
     public void addFav(FFFFItem item){ mFFFavList.add(item); }
     public void removeFav(FFFFItem item){ mFFFavList.remove(item); }
     public void clearFav(){ mFFFavList.clear(); }
