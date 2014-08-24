@@ -42,7 +42,7 @@
         android:layout_height="30dp"
 
         android:scaleType="centerCrop"
-        android:src="@drawable/off"
+        android:src="@drawable/fav_add"
         android:background="#00ffffff"
         android:layout_margin="5dp"
         android:layout_centerInParent="true"
@@ -54,7 +54,7 @@
         android:layout_height="30dp"
 
         android:scaleType="centerCrop"
-        android:src="@drawable/down_start"
+        android:src="@drawable/save"
         android:background="#00ffffff"
         android:layout_marginRight="20dp"
         android:layout_below="@+id/detail_img"

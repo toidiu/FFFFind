@@ -38,6 +38,7 @@ public class FFDetailFragment extends Fragment {
     public static final int DETAIL_TAB = 1;
     public static final int DETAIL_USER_LIST = 2;
     public static final int DETAIL_FAV_LIST = 3;
+    public static final int DETAIL_RAND_USER_LIST = 4;
 
     private static final String TAG = "FFDetailFragment";
     private FFFFItem item;
@@ -77,18 +78,12 @@ public class FFDetailFragment extends Fragment {
         starView = (ImageView) v.findViewById(R.id.favorite);
         setFavStarListener(starView);
         if (item.isFavorite()) {
-            starView.setImageDrawable(getResources().getDrawable(R.drawable.on));
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
         }else {
-            starView.setImageDrawable(getResources().getDrawable(R.drawable.off));
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.fav_add));
         }
 
         downView = (ImageView) v.findViewById(R.id.download);
-        if (item.isDownload()) {
-            downView.setImageDrawable(getResources().getDrawable(R.drawable.down_done));
-        }else {
-            downView.setImageDrawable(getResources().getDrawable(R.drawable.down_start));
-        }
-
         imgView = (ImageView) v.findViewById(R.id.detail_img);
         downloadImgListener(imgView, downView);
         new AttachDetailImg().execute(item.getMedUrl());
@@ -155,23 +150,13 @@ public class FFDetailFragment extends Fragment {
     void setFavStar(boolean isFav){
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
         if (isFav) {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.on));
+            star.setImageDrawable(getResources().getDrawable(R.drawable.fav));
             FFFavData.getInstance().addFav(item);
         }else {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.off));
+            star.setImageDrawable(getResources().getDrawable(R.drawable.fav_add));
             FFFavData.getInstance().removeFav(item);
         }
     }
-
-    private void setDownImg(boolean setFlag) {
-        ImageView down = (ImageView) getActivity().findViewById(R.id.download);
-        if (setFlag) {
-            down.setImageDrawable(getResources().getDrawable(R.drawable.down_done));
-        }else {
-            down.setImageDrawable(getResources().getDrawable(R.drawable.down_start));
-        }
-    }
-
 
     //--------------------------------------PRIVATE CLASS---------------
     private class AttachDetailImg extends AsyncTask<String, Void, Bitmap> {
@@ -246,8 +231,6 @@ public class FFDetailFragment extends Fragment {
                     fos = new FileOutputStream(output);
                     image.compress(Bitmap.CompressFormat.PNG, 100, fos);
                     fos.close();
-
-                    setDownImg(true);
 
                 } catch (FileNotFoundException e) { // <10>
                     e.printStackTrace();

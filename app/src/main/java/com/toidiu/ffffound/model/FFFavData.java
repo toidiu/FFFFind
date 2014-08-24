@@ -1,12 +1,9 @@
 package com.toidiu.ffffound.model;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 
 public class FFFavData {
     private static FFFavData FAV_DATA;

@@ -1,8 +1,6 @@
 package com.toidiu.ffffound.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 
 public class FFData {
 //    private static FFData mFFData;

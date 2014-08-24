@@ -1,8 +1,5 @@
 package com.toidiu.ffffound.utils;
 
-import android.nfc.Tag;
-import android.util.Log;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

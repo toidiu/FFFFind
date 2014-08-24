@@ -2,11 +2,9 @@ package com.toidiu.ffffound.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.activities.FFDetailActivity;
-import com.toidiu.ffffound.activities.MainActivity;
 import com.toidiu.ffffound.adapter.FFGalleryAdapter;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -82,13 +79,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         if(resultCode == FFDetailFragment.DETAIL_TAB){
             //handle
             Log.d(TAG, "detail_tab");
-        }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
-//            Log.d(TAG, "detail_tab");
-//            mUrl = "";
-//            getActivity().setTitle("Favorites");
-//            mListData.clearList();
-//            mListData.addItems(FFFavData.getInstance().getFav());
-//            mGalleryAdapter.notifyDataSetChanged();
         }
     }
 

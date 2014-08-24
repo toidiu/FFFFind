@@ -1,13 +1,9 @@
 package com.toidiu.ffffound.utils;
 
 
-import android.nfc.Tag;
-import android.util.Log;
-
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 
-import org.xml.sax.Parser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;

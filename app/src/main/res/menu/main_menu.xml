@@ -3,20 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity" >
 
-    <item android:id="@+id/randomMenu"
+    <item android:id="@+id/randomOffset"
         android:title="@string/offset"
+        android:icon="@drawable/random"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item android:id="@+id/randomUser"
         android:title="Random User"
+        android:icon="@drawable/random_user"
         android:orderInCategory="110"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/favorite"
         android:title="Favorite"
-        android:orderInCategory="110"
-        app:showAsAction="never" />
+        android:icon="@drawable/fav_list"
+        android:orderInCategory="120"
+        app:showAsAction="always" />
     <item android:id="@+id/clear_fav"
         android:title="Clear Favorites"
-        android:orderInCategory="110"
+        android:orderInCategory="130"
         app:showAsAction="never" />
 </menu>

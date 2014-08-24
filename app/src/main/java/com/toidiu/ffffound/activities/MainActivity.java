@@ -75,6 +75,12 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.clear_fav).setVisible(true);
+        menu.findItem(R.id.favorite).setVisible(true);
+        menu.findItem(R.id.randomOffset).setVisible(true);
+        menu.findItem(R.id.randomUser).setVisible(true);
+//        getActionBar().setHomeButtonEnabled(true);
+//        getActionBar().setHomeButtonEnabled(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -84,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
 
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.randomMenu:
+            case R.id.randomOffset:
                 Toast.makeText(this, "Random offset", Toast.LENGTH_SHORT).show();
                 mOffset = new Random().nextInt(10000);
                 url = FFListFragment.RANDOM_URL_BASE + mOffset;
@@ -161,6 +167,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
+            Toast.makeText(this, "Detail User", Toast.LENGTH_SHORT).show();
             String title = data.getStringExtra(MainActivity.LIST_TITLE);
             url = data.getStringExtra(FFListFragment.LIST_URL);
             setTitle(title);
@@ -177,7 +184,47 @@ public class MainActivity extends ActionBarActivity {
             mFragManager.beginTransaction()
                     .add(R.id.frag_container, mMainFragment)
                     .commitAllowingStateLoss();
-        }else {
+        }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
+            Toast.makeText(this, "Detail Favorites", Toast.LENGTH_SHORT).show();
+            setTitle("Favorites");
+            //set URL
+            bundle = new Bundle();
+            bundle.putCharSequence(FFListFragment.LIST_URL, "");
+            bundle.putBoolean(FFListFragment.SHOW_FAV, true);
+
+            mFragManager = getSupportFragmentManager();
+            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+            if (mMainFragment == null) {
+                mMainFragment = new FFListFragment();
+            }
+            mMainFragment.setArguments(bundle);
+            mFragManager.beginTransaction()
+                    .add(R.id.frag_container, mMainFragment)
+                    .commitAllowingStateLoss();
+        }else if(resultCode == FFDetailFragment.DETAIL_RAND_USER_LIST){
+            Toast.makeText(this, "Detail Rand User", Toast.LENGTH_SHORT).show();
+            String[] randUserList = FFFavData.getInstance().getUsers();
+            int rand = new Random().nextInt(randUserList.length);
+            String randUser = randUserList[rand];
+
+            url = FFListFragment.USER_URL_BASE + randUser + FFListFragment.USER_URL_END;
+            Log.d(TAG, url);
+            setTitle(randUser);
+
+            bundle = new Bundle();
+            bundle.putCharSequence(FFListFragment.LIST_URL, url);
+
+            mFragManager = getSupportFragmentManager();
+            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+            if (mMainFragment == null) {
+                mMainFragment = new FFListFragment();
+            }
+            mMainFragment.setArguments(bundle);
+            mFragManager.beginTransaction()
+                    .add(R.id.frag_container, mMainFragment)
+                    .commitAllowingStateLoss();
+        }
+        else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
