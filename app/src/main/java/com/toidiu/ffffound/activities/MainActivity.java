@@ -177,34 +177,34 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
-//            String title = data.getStringExtra(MainActivity.LIST_TITLE);
-//            url = data.getStringExtra(FFListFragment.LIST_URL);
-//            setTitle(title);
-//
-//            bundle = new Bundle();
-//            bundle.putCharSequence(FFListFragment.LIST_URL, url);
-//
-//            mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
-//            if (mSpareFragment == null) {
-//                mSpareFragment = new FFListFragment();
-//                mSpareFragment.setArguments(bundle);
-//                mFragManager.beginTransaction()
-//                        .addToBackStack(null)
-//                        .replace(R.id.frag_container, mSpareFragment)
-//                        .commitAllowingStateLoss();
-////                        .commit();
-//            }else {
-//                mSpareFragment.setArguments(bundle);
-//                mFragManager.beginTransaction()
-//                        .replace(R.id.frag_container, mSpareFragment)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
+            String title = data.getStringExtra(MainActivity.LIST_TITLE);
+            url = data.getStringExtra(FFListFragment.LIST_URL);
+            setTitle(title);
+
+            bundle = new Bundle();
+            bundle.putCharSequence(FFListFragment.LIST_URL, url);
+
+            mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
+            if (mSpareFragment == null) {
+                mSpareFragment = new FFListFragment();
+                mSpareFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.frag_container, mSpareFragment)
+                        .commitAllowingStateLoss();
 //                        .commit();
-//            }
-//        }else {
-//            super.onActivityResult(requestCode, resultCode, data);
-//        }
-//    }
+            }else {
+                mSpareFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .replace(R.id.frag_container, mSpareFragment)
+                        .commit();
+            }
+        }else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }
