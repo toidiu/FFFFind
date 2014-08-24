@@ -29,6 +29,7 @@ import com.toidiu.ffffound.utils.Stuff;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -53,6 +54,8 @@ public class FFDetailFragment extends Fragment{
 
         Intent intent = getActivity().getIntent();
         item = intent.getParcelableExtra(ITEM_EXTRA);
+        FFFFItem getFav = FFFavData.getInstance().getFav(item.getMedUrl());
+        item = getFav != null ? getFav : item;
         getActivity().setTitle(item.getArtist());
 
         setHasOptionsMenu(true);
@@ -123,6 +126,8 @@ public class FFDetailFragment extends Fragment{
         downView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                item.setDownload(true);
+                FFFavData.getInstance().updateFav(item);
                 new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
             }
         });
@@ -130,6 +135,7 @@ public class FFDetailFragment extends Fragment{
         imgView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                item.setDownload(true);
                 setFavStar(true);
                 new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
                 return false;
@@ -147,21 +153,18 @@ public class FFDetailFragment extends Fragment{
         });
     }
 
-    void setFavStar(boolean fav){
-        FFFavData.getInstance().updateFav(item);
-
+    void setFavStar(boolean isFav){
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
-        if (fav) {
+        if (isFav) {
             star.setImageDrawable(getResources().getDrawable(R.drawable.on));
+            FFFavData.getInstance().addFav(item);
         }else {
             star.setImageDrawable(getResources().getDrawable(R.drawable.off));
+            FFFavData.getInstance().removeFav(item);
         }
     }
 
     private void setDownImg(boolean setFlag) {
-//        int a = FFData.getInstance().getIdx(item);
-//        FFData.getInstance().getItems(a).setDownload(b);
-
         ImageView down = (ImageView) getActivity().findViewById(R.id.download);
         if (setFlag) {
             down.setImageDrawable(getResources().getDrawable(R.drawable.down_done));

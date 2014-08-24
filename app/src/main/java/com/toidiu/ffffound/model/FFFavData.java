@@ -1,20 +1,23 @@
 package com.toidiu.ffffound.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Random;
+import java.util.Map;
 
 public class FFFavData {
     private static FFFavData FAV_DATA;
 
-    public ArrayList<FFFFItem> mFFFavList;
-    private HashSet<String> mUsers;
+    public HashMap<String, FFFFItem> mFFFavMap;
+    private HashSet<String> mUsersSet;
 
 
     FFFavData(){
-        mFFFavList = new ArrayList<FFFFItem>();
-        mUsers = new HashSet<String>();
+        mFFFavMap = new HashMap<String, FFFFItem>();
+        mUsersSet = new HashSet<String>();
     }
     //----------Instance
     public static FFFavData getInstance() {
@@ -29,39 +32,48 @@ public class FFFavData {
     //------------------Favorite List
     public void setFav(ArrayList<FFFFItem> list){
         if (list != null) {
-            mFFFavList = list;
+            for (int i = 0; i < list.size(); i++) {
+                FFFFItem item = list.get(i);
+                mFFFavMap.put(item.getMedUrl(), item);
+            }
         }
     }
-    public ArrayList<FFFFItem> getFav(){ return mFFFavList; }
-    public void updateFav(FFFFItem item){
-//        mFFFavList.remove(item);
-        int idx = mFFFavList.indexOf(item);
-        if (idx == -1){
-            addFav(item);
-        }else {
-            mFFFavList.remove(idx);
+    public ArrayList<FFFFItem> getFav(){
+        ArrayList<FFFFItem> mFFFavList = new ArrayList<FFFFItem>();
+        for (FFFFItem item : mFFFavMap.values() ){
+            mFFFavList.add(item);
         }
-//        mFFFavList.set(idx, item);
+        return mFFFavList;
     }
-    public void addFav(FFFFItem item){ mFFFavList.add(item); }
-    public void removeFav(FFFFItem item){ mFFFavList.remove(item); }
-    public void clearFav(){ mFFFavList.clear(); }
-//    public void applyFavs(){ mFFItemsList = mFFFavList; }
-
+    public FFFFItem getFav(String midUrl){
+        return mFFFavMap.get(midUrl);
+    }
+    public void updateFav(FFFFItem item) {
+        if ( mFFFavMap.containsKey(item.getMedUrl()) ){
+            mFFFavMap.put(item.getMedUrl(), item);
+        }
+    }
+    public void addFav(FFFFItem item){
+        item.setFavorite(true);
+        mFFFavMap.put(item.getMedUrl(), item);
+    }
+    public void removeFav(FFFFItem item){ mFFFavMap.remove(item.getMedUrl()); }
+    public void clearFav(){ mFFFavMap.clear(); }
 
 
     //-----------------User Hash
     public void addUser(String user){
-        mUsers.add(user);
+        mUsersSet.add(user);
     }
     public String[] getUsers(){
 
-        String[] userList = new String[ mUsers.size() ];
-        Iterator<String> iterator = mUsers.iterator();
-        for (int i = 0; i < mUsers.size(); i++) {
+        String[] userList = new String[ mUsersSet.size() ];
+        Iterator<String> iterator = mUsersSet.iterator();
+        for (int i = 0; i < mUsersSet.size(); i++) {
             userList[i] = iterator.next();
         }
         return userList;
 
     }
+
 }

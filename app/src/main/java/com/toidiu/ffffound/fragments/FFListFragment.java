@@ -120,7 +120,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     }
     @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState) {
-        Log.d(TAG, "onScrollStateChanged:" + scrollState);
+//        Log.d(TAG, "onScrollStateChanged:" + scrollState);
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -134,8 +134,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
     @Override
     public void onScroll(final AbsListView view, final int un, final int deux, final int trois) {
-        Log.d(TAG, "onScroll firstVisibleItem:" + un + " visibleItemCount:" + deux +
-                " totalItemCount:" + trois);
+//        Log.d(TAG, "onScroll firstVisibleItem:" + un + " visibleItemCount:" + deux + " totalItemCount:" + trois);
     }
 
     public void setUpAdapter(){
