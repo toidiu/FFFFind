@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.activities.MainActivity;
-import com.toidiu.ffffound.interfaces.OnBackInterface;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.Stuff;
@@ -31,15 +29,14 @@ import com.toidiu.ffffound.utils.Stuff;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class FFDetailFragment extends Fragment implements OnBackInterface {
+public class FFDetailFragment extends Fragment {
     public static final String ITEM_EXTRA = "com.toidiu.itemExtra";
     public static final int DETAIL_REQUEST = 0;
     public static final int DETAIL_TAB = 1;
-    public static final int DETAIL_NEW_LIST = 2;
+    public static final int DETAIL_USER_LIST = 2;
     public static final int DETAIL_FAV_LIST = 3;
 
     private static final String TAG = "FFDetailFragment";
@@ -116,18 +113,9 @@ public class FFDetailFragment extends Fragment implements OnBackInterface {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra(FFListFragment.LIST_URL, url);
                 intent.putExtra(MainActivity.LIST_TITLE, item.getArtist());
-                returnResult(DETAIL_NEW_LIST, intent);
+                returnResult(DETAIL_USER_LIST, intent);
             }
         });
-    }
-
-    @Override
-    public void onBack() {
-//        Intent intent = new Intent();
-////        intent.putExtra(FFListFragment.LIST_URL, url);
-//        intent.putExtra(MainActivity.LIST_TITLE, item.getArtist());
-//
-//        returnResult(DETAIL_NEW_LIST, intent);
     }
 
     private void downloadImgListener(View v1, View v2){

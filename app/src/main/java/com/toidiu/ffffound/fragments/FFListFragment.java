@@ -2,10 +2,11 @@ package com.toidiu.ffffound.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,6 @@ import com.toidiu.ffffound.utils.Stuff;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 
 public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface,
@@ -79,18 +79,37 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == FFDetailFragment.DETAIL_NEW_LIST){
-            String title = data.getStringExtra(MainActivity.LIST_TITLE);
-            mUrl = data.getStringExtra(FFListFragment.LIST_URL);
-            getActivity().setTitle(title);
+//        if (resultCode == FFDetailFragment.DETAIL_USER_LIST){
+//            String title = data.getStringExtra(MainActivity.LIST_TITLE);
+//            mUrl = data.getStringExtra(FFListFragment.LIST_URL);
+//            getActivity().setTitle(title);
+//
+//
+//            Bundle bundle = new Bundle();
+//            bundle.putCharSequence(FFListFragment.LIST_URL, mUrl);
+//
+//            FragmentManager mFragManager = getActivity().getSupportFragmentManager();
+//            Fragment mSpareFragment = mFragManager.findFragmentByTag(MainActivity.SPARE_LIST);
+//            if(mSpareFragment == null) {
+//                mSpareFragment = new FFListFragment();
+//                mSpareFragment.setArguments(bundle);
+//                mFragManager.beginTransaction()
+//                        .addToBackStack(null)
+//                        .replace(R.id.frag_container, mSpareFragment)
+//                        .commit();
+//            }
+//
+//            //clear current list, update view and fetch new items
+////            mListData.clearList();
+////            mGalleryAdapter.notifyDataSetChanged();
+////            loadItems();
+//        }else
 
-            //clear current list, update view and fetch new items
-            mListData.clearList();
-            mGalleryAdapter.notifyDataSetChanged();
-            loadItems();
-        }else if(resultCode == FFDetailFragment.DETAIL_TAB){
+        if(resultCode == FFDetailFragment.DETAIL_TAB){
             //handle
+            Log.d(TAG, "detail_tab");
         }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
+            Log.d(TAG, "detail_tab");
             mUrl = "";
             getActivity().setTitle("Favorites");
             mListData.clearList();

@@ -71,8 +71,4 @@ public class FFDetailActivity extends ActionBarActivity{
         return true;
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        mFragment.onBack();
-//    }
 }
