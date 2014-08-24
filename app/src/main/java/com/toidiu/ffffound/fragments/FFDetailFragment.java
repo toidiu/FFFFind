@@ -107,7 +107,7 @@ public class FFDetailFragment extends Fragment {
         artist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = FFListFragment.SPARE_URL_BASE + item.getArtist() + FFListFragment.SPARE_URL_END;
+                String url = FFListFragment.USER_URL_BASE + item.getArtist() + FFListFragment.USER_URL_END;
                 Log.d(TAG, url);
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);

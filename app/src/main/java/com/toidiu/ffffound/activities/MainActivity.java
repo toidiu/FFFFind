@@ -28,11 +28,9 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "Main Activity";
     public static final String LIST_TITLE = "com.toidiu.artist_name";
     private static final String MAIN_LIST = "com.toidiu.main_list";
-    public static final String SPARE_LIST = "com.toidiu.spare_list";
 
     private FragmentManager mFragManager;
     private Fragment mMainFragment;
-    private Fragment mSpareFragment;
     private String url;
     private Bundle bundle;
 
@@ -97,25 +95,15 @@ public class MainActivity extends ActionBarActivity {
                 bundle = new Bundle();
                 bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
-                if (mFragManager == null) {
-                    mFragManager = getSupportFragmentManager();
+                mFragManager = getSupportFragmentManager();
+                mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+                if (mMainFragment == null) {
+                    mMainFragment = new FFListFragment();
                 }
-//                mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
-                if(mSpareFragment == null){
-                    mSpareFragment = new FFListFragment();
-                    mSpareFragment.setArguments(bundle);
-                    mFragManager.beginTransaction()
-                            .addToBackStack(null)
-                            .add(R.id.frag_container, mSpareFragment, SPARE_LIST)
-                            .commit();
-                }else {
-                    mSpareFragment = new FFListFragment();
-                    mSpareFragment.setArguments(bundle);
-                    mFragManager.beginTransaction()
-                            .replace(R.id.frag_container, mSpareFragment, SPARE_LIST)
-                            .commit();
-                }
-                mFragManager.executePendingTransactions();
+                mMainFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .add(R.id.frag_container, mMainFragment)
+                        .commit();
                 break;
             case R.id.randomUser:
                 Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
@@ -123,7 +111,7 @@ public class MainActivity extends ActionBarActivity {
                 int rand = new Random().nextInt(randUserList.length);
                 String randUser = randUserList[rand];
 
-                url = FFListFragment.SPARE_URL_BASE + randUser + FFListFragment.SPARE_URL_END;
+                url = FFListFragment.USER_URL_BASE + randUser + FFListFragment.USER_URL_END;
                 Log.d(TAG, url);
                 setTitle(randUser);
 
@@ -131,20 +119,14 @@ public class MainActivity extends ActionBarActivity {
                 bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
                 mFragManager = getSupportFragmentManager();
-                mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
-                if(mSpareFragment == null){
-                    mSpareFragment = new FFListFragment();
-                    mSpareFragment.setArguments(bundle);
-                    mFragManager.beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.frag_container, mSpareFragment)
-                            .commit();
-                }else {
-                    mSpareFragment.setArguments(bundle);
-                    mFragManager.beginTransaction()
-                            .replace(R.id.frag_container, mSpareFragment)
-                            .commit();
+                mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+                if (mMainFragment == null) {
+                    mMainFragment = new FFListFragment();
                 }
+                mMainFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .add(R.id.frag_container, mMainFragment)
+                        .commit();
                 break;
             case R.id.favorite:
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
@@ -155,20 +137,14 @@ public class MainActivity extends ActionBarActivity {
                 bundle.putBoolean(FFListFragment.SHOW_FAV, true);
 
                 mFragManager = getSupportFragmentManager();
-                mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
-                if(mSpareFragment == null){
-                    mSpareFragment = new FFListFragment();
-                    mSpareFragment.setArguments(bundle);
-                    mFragManager.beginTransaction()
-                            .addToBackStack(null)
-                            .replace(R.id.frag_container, mSpareFragment)
-                            .commit();
-                }else {
-                    mSpareFragment.setArguments(bundle);
-                    mFragManager.beginTransaction()
-                            .replace(R.id.frag_container, mSpareFragment)
-                            .commit();
+                mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+                if (mMainFragment == null) {
+                    mMainFragment = new FFListFragment();
                 }
+                mMainFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .add(R.id.frag_container, mMainFragment)
+                        .commit();
                 break;
             case R.id.clear_fav:
                 Toast.makeText(this, "Favorites Cleared!", Toast.LENGTH_SHORT).show();
@@ -192,21 +168,15 @@ public class MainActivity extends ActionBarActivity {
             bundle = new Bundle();
             bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
-            mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
-            if (mSpareFragment == null) {
-                mSpareFragment = new FFListFragment();
-                mSpareFragment.setArguments(bundle);
-                mFragManager.beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.frag_container, mSpareFragment)
-                        .commitAllowingStateLoss();
-//                        .commit();
-            }else {
-                mSpareFragment.setArguments(bundle);
-                mFragManager.beginTransaction()
-                        .replace(R.id.frag_container, mSpareFragment)
-                        .commit();
+            mFragManager = getSupportFragmentManager();
+            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+            if (mMainFragment == null) {
+                mMainFragment = new FFListFragment();
             }
+            mMainFragment.setArguments(bundle);
+            mFragManager.beginTransaction()
+                    .add(R.id.frag_container, mMainFragment)
+                    .commitAllowingStateLoss();
         }else {
             super.onActivityResult(requestCode, resultCode, data);
         }
