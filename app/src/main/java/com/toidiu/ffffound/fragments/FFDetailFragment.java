@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.FFListActivity;
+import com.toidiu.ffffound.activities.MainActivity;
+import com.toidiu.ffffound.interfaces.OnBackInterface;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.Stuff;
@@ -33,7 +35,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class FFDetailFragment extends Fragment{
+public class FFDetailFragment extends Fragment implements OnBackInterface {
     public static final String ITEM_EXTRA = "com.toidiu.itemExtra";
     public static final int DETAIL_REQUEST = 0;
     public static final int DETAIL_TAB = 1;
@@ -111,12 +113,21 @@ public class FFDetailFragment extends Fragment{
                 String url = FFListFragment.SPARE_URL_BASE + item.getArtist() + FFListFragment.SPARE_URL_END;
                 Log.d(TAG, url);
 
-                Intent intent = new Intent(getActivity(), FFListActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra(FFListFragment.LIST_URL, url);
-                intent.putExtra(FFListActivity.LIST_TITLE, item.getArtist());
+                intent.putExtra(MainActivity.LIST_TITLE, item.getArtist());
                 returnResult(DETAIL_NEW_LIST, intent);
             }
         });
+    }
+
+    @Override
+    public void onBack() {
+//        Intent intent = new Intent();
+////        intent.putExtra(FFListFragment.LIST_URL, url);
+//        intent.putExtra(MainActivity.LIST_TITLE, item.getArtist());
+//
+//        returnResult(DETAIL_NEW_LIST, intent);
     }
 
     private void downloadImgListener(View v1, View v2){
@@ -263,8 +274,5 @@ public class FFDetailFragment extends Fragment{
         }
 
     }
-
-
-
 
 }

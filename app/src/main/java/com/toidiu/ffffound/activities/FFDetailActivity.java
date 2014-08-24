@@ -13,12 +13,12 @@ import com.toidiu.ffffound.fragments.FFDetailFragment;
 import com.toidiu.ffffound.fragments.FFListFragment;
 import com.toidiu.ffffound.model.FFFavData;
 
-public class FFDetailActivity extends ActionBarActivity {
+public class FFDetailActivity extends ActionBarActivity{
     private static final String TAG = "DetailView";
 
 
     private FragmentManager mFragManager;
-    private Fragment mFragment;
+    private FFDetailFragment mFragment;
 
 
     @Override
@@ -28,7 +28,7 @@ public class FFDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_fragment);
 
         mFragManager = getSupportFragmentManager();
-        mFragment = mFragManager.findFragmentById(R.id.frag_container);
+        mFragment = (FFDetailFragment) mFragManager.findFragmentById(R.id.frag_container);
 
         if(mFragment == null){
             mFragment = new FFDetailFragment();
@@ -71,4 +71,8 @@ public class FFDetailActivity extends ActionBarActivity {
         return true;
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        mFragment.onBack();
+//    }
 }

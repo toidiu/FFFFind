@@ -25,6 +25,8 @@ import java.util.Random;
 
 public class MainActivity extends ActionBarActivity {
     private static final String TAG = "Main Activity";
+    public static final String LIST_TITLE = "com.toidiu.artist_name";
+
     private FragmentManager mFragManager;
     private Fragment mFragment;
     int mOffset;

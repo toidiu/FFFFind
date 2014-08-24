@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.activities.FFDetailActivity;
-import com.toidiu.ffffound.activities.FFListActivity;
+import com.toidiu.ffffound.activities.MainActivity;
 import com.toidiu.ffffound.adapter.FFGalleryAdapter;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
@@ -79,9 +79,8 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == FFDetailFragment.DETAIL_NEW_LIST){
-            String title = data.getStringExtra(FFListActivity.LIST_TITLE);
+            String title = data.getStringExtra(MainActivity.LIST_TITLE);
             mUrl = data.getStringExtra(FFListFragment.LIST_URL);
             getActivity().setTitle(title);
 
@@ -128,7 +127,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 //        intent.putExtra(FFDetailFragment.ITEM_EXTRA, position);
         FFFFItem item = mListData.getItems(position);
         intent.putExtra(FFDetailFragment.ITEM_EXTRA, item);
-//        startActivity(intent);
         startActivityForResult(intent, FFDetailFragment.DETAIL_REQUEST);
     }
 
