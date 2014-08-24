@@ -97,21 +97,25 @@ public class MainActivity extends ActionBarActivity {
                 bundle = new Bundle();
                 bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
-                mFragManager = getSupportFragmentManager();
-                mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
+                if (mFragManager == null) {
+                    mFragManager = getSupportFragmentManager();
+                }
+//                mSpareFragment = mFragManager.findFragmentByTag(SPARE_LIST);
                 if(mSpareFragment == null){
                     mSpareFragment = new FFListFragment();
                     mSpareFragment.setArguments(bundle);
                     mFragManager.beginTransaction()
                             .addToBackStack(null)
-                            .replace(R.id.frag_container, mSpareFragment)
+                            .add(R.id.frag_container, mSpareFragment, SPARE_LIST)
                             .commit();
                 }else {
+                    mSpareFragment = new FFListFragment();
                     mSpareFragment.setArguments(bundle);
                     mFragManager.beginTransaction()
-                            .replace(R.id.frag_container, mSpareFragment)
+                            .replace(R.id.frag_container, mSpareFragment, SPARE_LIST)
                             .commit();
                 }
+                mFragManager.executePendingTransactions();
                 break;
             case R.id.randomUser:
                 Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
