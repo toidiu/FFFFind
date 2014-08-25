@@ -33,6 +33,7 @@ public class MainActivity extends ActionBarActivity {
     private Fragment mMainFragment;
     private String url;
     private Bundle bundle;
+    private Menu mMenu;
 
     private SaveLoadHandler<ArrayList<FFFFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
@@ -72,21 +73,24 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu
+        mMenu = menu;
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        menu.findItem(R.id.clear_fav).setVisible(true);
-        menu.findItem(R.id.favorite).setVisible(true);
-        menu.findItem(R.id.randomOffset).setVisible(true);
-        menu.findItem(R.id.randomUser).setVisible(true);
+        mMenu.findItem(R.id.clear_fav).setVisible(false);
+        mMenu.findItem(R.id.favorite).setVisible(true);
+        mMenu.findItem(R.id.randomOffset).setVisible(true);
+        mMenu.findItem(R.id.randomUser).setVisible(true);
 //        getActionBar().setHomeButtonEnabled(true);
 //        getActionBar().setHomeButtonEnabled(true);
-        return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu(mMenu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int mOffset;
+        mMenu.findItem(R.id.clear_fav).setVisible(false);
+        mMenu.findItem(R.id.favorite).setVisible(true);
 
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
@@ -135,6 +139,9 @@ public class MainActivity extends ActionBarActivity {
                         .commit();
                 break;
             case R.id.favorite:
+                mMenu.findItem(R.id.clear_fav).setVisible(true);
+                mMenu.findItem(R.id.favorite).setVisible(false);
+                
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 setTitle("Favorites");
                 //set URL
@@ -165,6 +172,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mMenu.findItem(R.id.clear_fav).setVisible(false);
+        mMenu.findItem(R.id.favorite).setVisible(true);
 
         if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
             Toast.makeText(this, "Detail User", Toast.LENGTH_SHORT).show();
@@ -185,6 +194,9 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.frag_container, mMainFragment)
                     .commitAllowingStateLoss();
         }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
+            mMenu.findItem(R.id.clear_fav).setVisible(true);
+            mMenu.findItem(R.id.favorite).setVisible(false);
+
             Toast.makeText(this, "Detail Favorites", Toast.LENGTH_SHORT).show();
             setTitle("Favorites");
             //set URL
