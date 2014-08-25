@@ -34,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
     private String url;
     private Bundle bundle;
     private Menu mMenu;
+    private static boolean IS_MAIN_LIST = true;
 
     private SaveLoadHandler<ArrayList<FFFFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
@@ -52,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         FFFavData.getInstance().setFav(list);
 
         //pass Everyone URL
-        Bundle bundle = new Bundle();
+        bundle = new Bundle();
         bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONE_URL);
 
         mFragManager = getSupportFragmentManager();
@@ -87,8 +88,49 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onResume() {
+//        if (mMenu != null){
+//            mMenu.findItem(R.id.clear_fav).setVisible(false);
+//            mMenu.findItem(R.id.favorite).setVisible(true);
+//            mMenu.findItem(R.id.randomOffset).setVisible(true);
+//            mMenu.findItem(R.id.randomUser).setVisible(true);
+//        }
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (IS_MAIN_LIST) {
+            super.onBackPressed();
+        }else {
+            mMenu.findItem(R.id.clear_fav).setVisible(false);
+            mMenu.findItem(R.id.favorite).setVisible(true);
+            mMenu.findItem(R.id.randomOffset).setVisible(true);
+            mMenu.findItem(R.id.randomUser).setVisible(true);
+
+            IS_MAIN_LIST = true;
+            setTitle(getResources().getString(R.string.app_name));
+            //pass Everyone URL
+            bundle = new Bundle();
+            bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONE_URL);
+
+            mFragManager = getSupportFragmentManager();
+            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+            if(mMainFragment == null){
+                mMainFragment = new FFListFragment();
+                mMainFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .add(R.id.frag_container, mMainFragment)
+                        .commit();
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int mOffset;
+        IS_MAIN_LIST = false;
+
         mMenu.findItem(R.id.clear_fav).setVisible(false);
         mMenu.findItem(R.id.favorite).setVisible(true);
 
@@ -96,7 +138,7 @@ public class MainActivity extends ActionBarActivity {
             // action with ID action_refresh was selected
             case R.id.randomOffset:
                 Toast.makeText(this, "Random offset", Toast.LENGTH_SHORT).show();
-                mOffset = new Random().nextInt(10000);
+                mOffset = new Random().nextInt(getResources().getInteger(R.integer.rand_cnt));
                 url = FFListFragment.RANDOM_URL_BASE + mOffset;
                 Log.d(TAG, url);
                 setTitle("Offset: " + mOffset);
@@ -141,7 +183,7 @@ public class MainActivity extends ActionBarActivity {
             case R.id.favorite:
                 mMenu.findItem(R.id.clear_fav).setVisible(true);
                 mMenu.findItem(R.id.favorite).setVisible(false);
-                
+
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 setTitle("Favorites");
                 //set URL
@@ -172,6 +214,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IS_MAIN_LIST = false;
+
         mMenu.findItem(R.id.clear_fav).setVisible(false);
         mMenu.findItem(R.id.favorite).setVisible(true);
 
@@ -237,6 +281,7 @@ public class MainActivity extends ActionBarActivity {
                     .commitAllowingStateLoss();
         }
         else {
+            IS_MAIN_LIST = true;
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
