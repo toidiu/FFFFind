@@ -88,17 +88,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onResume() {
-//        if (mMenu != null){
-//            mMenu.findItem(R.id.clear_fav).setVisible(false);
-//            mMenu.findItem(R.id.favorite).setVisible(true);
-//            mMenu.findItem(R.id.randomOffset).setVisible(true);
-//            mMenu.findItem(R.id.randomUser).setVisible(true);
-//        }
-        super.onResume();
-    }
-
-    @Override
     public void onBackPressed() {
         if (IS_MAIN_LIST) {
             super.onBackPressed();
