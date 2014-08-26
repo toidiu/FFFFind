@@ -41,7 +41,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     public static final String USER_URL_END = "/found/feed";
     public static final String RANDOM_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
 
-    private String mUrl;
+    public static String URL;
     private boolean itemsShowing = false;
     private StaggeredGridView mSGView;
     private FFGalleryAdapter mGalleryAdapter;
@@ -57,7 +57,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         mListData = new FFData();
         mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
 
-        mUrl = getArguments().getCharSequence(LIST_URL).toString();
+        URL = getArguments().getCharSequence(LIST_URL).toString();
         showFavs = getArguments().getBoolean(SHOW_FAV, false);
         if (showFavs) {
             mListData.addItems(FFFavData.getInstance().getFav());
@@ -97,7 +97,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         if (showFavs) {
             return;
         }
-        mUrl = mListData.getNextUrl();
+        URL = mListData.getNextUrl();
         loadItems();
     }
     @Override
@@ -140,7 +140,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         if ( Stuff.isConnected(getActivity()) ) {
             networkTxt.setVisibility(View.INVISIBLE);
             retryBtn.setVisibility(View.INVISIBLE);
-            new FetchItemsAsync(mUrl).execute();
+            new FetchItemsAsync(URL).execute();
         } else {
             if (itemsShowing) {
                 networkTxt.setVisibility(View.INVISIBLE);
@@ -166,7 +166,12 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
             }
         });
     }
-
+    public static String getURL(){
+        if (URL == null){
+            return "";
+        }
+        return URL;
+    }
 
     //--------------------------------------PRIVATE CLASS---------------
     class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {

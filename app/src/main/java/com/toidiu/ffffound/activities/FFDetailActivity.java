@@ -63,8 +63,6 @@ public class FFDetailActivity extends ActionBarActivity{
                 setResult(FFDetailFragment.DETAIL_FAV_LIST);
                 finish();
                 break;
-            case R.id.clear_fav:
-                break;
             default:
                 break;
         }

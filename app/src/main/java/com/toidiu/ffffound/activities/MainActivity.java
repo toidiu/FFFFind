@@ -1,13 +1,19 @@
 package com.toidiu.ffffound.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
@@ -36,41 +42,50 @@ public class MainActivity extends ActionBarActivity {
     private Menu mMenu;
     private static boolean IS_MAIN_LIST = true;
 
-    private SaveLoadHandler<ArrayList<FFFFItem>> slh;
+    private static SaveLoadHandler<ArrayList<FFFFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
     public File FILE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
 
-        //Save/Load handler
-        FILE = new File(this.getFilesDir() + File.separator + SAVE_FILE);
-        Type type = new TypeToken<ArrayList<FFFFItem>>(){}.getType();
-        slh = new SaveLoadHandler(type, FILE);
-        final ArrayList<FFFFItem> list = slh.loadData();
-        FFFavData.getInstance().setFav(list);
+        if (savedInstanceState != null) {
+            //orientation change so just set view
+            setContentView(R.layout.activity_fragment);
+        } else {
+            setContentView(R.layout.activity_fragment);
 
-        //pass Everyone URL
-        bundle = new Bundle();
-        bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONE_URL);
+            //Save/Load handler
+            FILE = new File(this.getFilesDir() + File.separator + SAVE_FILE);
+            Type type = new TypeToken<ArrayList<FFFFItem>>() {
+            }.getType();
+            slh = new SaveLoadHandler(type, FILE);
+            final ArrayList<FFFFItem> list = slh.loadData();
+            FFFavData.getInstance().setFav(list);
 
-        mFragManager = getSupportFragmentManager();
-        mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
-        if(mMainFragment == null){
-            mMainFragment = new FFListFragment();
-            mMainFragment.setArguments(bundle);
-            mFragManager.beginTransaction()
-                .add(R.id.frag_container, mMainFragment)
-                .commit();
+            //pass Everyone URL
+            bundle = new Bundle();
+            bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONE_URL);
+
+            mFragManager = getSupportFragmentManager();
+            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+            if (mMainFragment == null) {
+                mMainFragment = new FFListFragment();
+                mMainFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .add(R.id.frag_container, mMainFragment)
+                        .commit();
+            }
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        slh.saveData(FFFavData.getInstance().getFav() );
+        if (isFinishing()) {
+            slh.saveData(FFFavData.getInstance().getFav());
+        }
     }
 
     @Override
@@ -192,7 +207,30 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case R.id.clear_fav:
                 Toast.makeText(this, "Favorites Cleared!", Toast.LENGTH_SHORT).show();
-                FFFavData.getInstance().clearFav();
+
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                // set dialog message
+                builder.setTitle("Clear your Favorites?")
+                    .setNegativeButton("Naa jk", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //nothing
+                        }
+                    })
+                    .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            FFFavData.getInstance().clearFav();
+                        }
+                    });
+                // create alert dialog
+                AlertDialog d = builder.create();
+                d.show();
+                d.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.RED);
+
+                mMenu.findItem(R.id.clear_fav).setVisible(true);
+                mMenu.findItem(R.id.favorite).setVisible(false);
                 break;
             default:
                 break;
