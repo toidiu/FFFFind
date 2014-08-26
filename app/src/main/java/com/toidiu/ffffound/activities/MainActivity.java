@@ -40,8 +40,8 @@ public class MainActivity extends ActionBarActivity {
     private String url;
     private Bundle bundle;
     private Menu mMenu;
-    private static boolean IS_MAIN_LIST = true;
 
+    private static boolean IS_MAIN_LIST = true;
     private static SaveLoadHandler<ArrayList<FFFFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
     public File FILE;
@@ -93,10 +93,7 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu
         mMenu = menu;
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        mMenu.findItem(R.id.clear_fav).setVisible(false);
-        mMenu.findItem(R.id.favorite).setVisible(true);
-        mMenu.findItem(R.id.randomOffset).setVisible(true);
-        mMenu.findItem(R.id.randomUser).setVisible(true);
+        configMenu(true, true, true, false);
 //        getActionBar().setHomeButtonEnabled(true);
 //        getActionBar().setHomeButtonEnabled(true);
         return super.onCreateOptionsMenu(mMenu);
@@ -107,10 +104,7 @@ public class MainActivity extends ActionBarActivity {
         if (IS_MAIN_LIST) {
             super.onBackPressed();
         }else {
-            mMenu.findItem(R.id.clear_fav).setVisible(false);
-            mMenu.findItem(R.id.favorite).setVisible(true);
-            mMenu.findItem(R.id.randomOffset).setVisible(true);
-            mMenu.findItem(R.id.randomUser).setVisible(true);
+            configMenu(true, true, true, false);
 
             IS_MAIN_LIST = true;
             setTitle(getResources().getString(R.string.app_name));
@@ -135,8 +129,7 @@ public class MainActivity extends ActionBarActivity {
         int mOffset;
         IS_MAIN_LIST = false;
 
-        mMenu.findItem(R.id.clear_fav).setVisible(false);
-        mMenu.findItem(R.id.favorite).setVisible(true);
+        configMenu(true, true, true, false);
 
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
@@ -185,8 +178,7 @@ public class MainActivity extends ActionBarActivity {
                         .commit();
                 break;
             case R.id.favorite:
-                mMenu.findItem(R.id.clear_fav).setVisible(true);
-                mMenu.findItem(R.id.favorite).setVisible(false);
+                configMenu(true, true, false, true);
 
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 setTitle("Favorites");
@@ -229,8 +221,7 @@ public class MainActivity extends ActionBarActivity {
                 d.show();
                 d.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.RED);
 
-                mMenu.findItem(R.id.clear_fav).setVisible(true);
-                mMenu.findItem(R.id.favorite).setVisible(false);
+                configMenu(true, true, false, true);
                 break;
             default:
                 break;
@@ -243,8 +234,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IS_MAIN_LIST = false;
 
-        mMenu.findItem(R.id.clear_fav).setVisible(false);
-        mMenu.findItem(R.id.favorite).setVisible(true);
+        configMenu(true, true, true, false);
 
         if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
             Toast.makeText(this, "Detail User", Toast.LENGTH_SHORT).show();
@@ -265,8 +255,7 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.frag_container, mMainFragment)
                     .commitAllowingStateLoss();
         }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
-            mMenu.findItem(R.id.clear_fav).setVisible(true);
-            mMenu.findItem(R.id.favorite).setVisible(false);
+            configMenu(true, true, false, true);
 
             Toast.makeText(this, "Detail Favorites", Toast.LENGTH_SHORT).show();
             setTitle("Favorites");
@@ -310,6 +299,15 @@ public class MainActivity extends ActionBarActivity {
         else {
             IS_MAIN_LIST = true;
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void configMenu(boolean randOff, boolean randUser, boolean fav, boolean clearFav){
+        if (mMenu != null) {
+            mMenu.findItem(R.id.randomOffset).setVisible(randOff);
+            mMenu.findItem(R.id.randomUser).setVisible(randUser);
+            mMenu.findItem(R.id.favorite).setVisible(fav);
+            mMenu.findItem(R.id.clear_fav).setVisible(clearFav);
         }
     }
 }
