@@ -39,7 +39,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     public static final String EVERYONE_URL = "http://ffffound.com/feed";
     public static final String USER_URL_BASE = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
     public static final String USER_URL_END = "/found/feed";
-    public static final String RANDOM_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
+    public static final String EXPLORE_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
 
     public static String URL;
     private boolean itemsShowing = false;

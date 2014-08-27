@@ -1,7 +1,6 @@
 package com.toidiu.ffffound.activities;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,10 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
@@ -133,12 +130,12 @@ public class MainActivity extends ActionBarActivity {
 
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.randomOffset:
-                Toast.makeText(this, "Random offset", Toast.LENGTH_SHORT).show();
+            case R.id.explore:
+                Toast.makeText(this, "Explore", Toast.LENGTH_SHORT).show();
                 mOffset = new Random().nextInt(getResources().getInteger(R.integer.rand_cnt));
-                url = FFListFragment.RANDOM_URL_BASE + mOffset;
+                url = FFListFragment.EXPLORE_URL_BASE + mOffset;
                 Log.d(TAG, url);
-                setTitle("Offset: " + mOffset);
+                setTitle("Explore");
 
                 //set URL
                 bundle = new Bundle();
@@ -155,7 +152,7 @@ public class MainActivity extends ActionBarActivity {
                         .commit();
                 break;
             case R.id.randomUser:
-                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Random User", Toast.LENGTH_SHORT).show();
                 String[] randUserList = FFFavData.getInstance().getUsers();
                 int rand = new Random().nextInt(randUserList.length);
                 String randUser = randUserList[rand];
@@ -309,7 +306,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void configMenu(boolean randOff, boolean randUser, boolean fav, boolean clearFav){
         if (mMenu != null) {
-            mMenu.findItem(R.id.randomOffset).setVisible(randOff);
+            mMenu.findItem(R.id.explore).setVisible(randOff);
             mMenu.findItem(R.id.randomUser).setVisible(randUser);
             mMenu.findItem(R.id.favorite).setVisible(fav);
             mMenu.findItem(R.id.clear_fav).setVisible(clearFav);

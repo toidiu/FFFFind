@@ -3,7 +3,6 @@ package com.toidiu.ffffound.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -42,7 +41,7 @@ public class FFDetailActivity extends ActionBarActivity{
         // Inflate the menu
         getMenuInflater().inflate(R.menu.main_menu, menu);
         menu.findItem(R.id.clear_fav).setVisible(false);
-        menu.findItem(R.id.randomOffset).setVisible(false);
+        menu.findItem(R.id.explore).setVisible(false);
         menu.findItem(R.id.randomUser).setVisible(true);
         menu.findItem(R.id.favorite).setVisible(true);
 //        getActionBar().setHomeButtonEnabled(true);
