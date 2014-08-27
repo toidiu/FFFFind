@@ -31,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "Main Activity";
     public static final String LIST_TITLE = "com.toidiu.artist_name";
     private static final String MAIN_LIST = "com.toidiu.main_list";
+    private static String MAIN_URL;
 
     private FragmentManager mFragManager;
     private Fragment mMainFragment;
@@ -62,8 +63,9 @@ public class MainActivity extends ActionBarActivity {
             FFFavData.getInstance().setFav(list);
 
             //pass Everyone URL
+            MAIN_URL = FFListFragment.EVERYONE_URL;
             bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONE_URL);
+            bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
 
             mFragManager = getSupportFragmentManager();
             mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
@@ -107,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
             setTitle(getResources().getString(R.string.app_name));
             //pass Everyone URL
             bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, FFListFragment.EVERYONE_URL);
+            bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
 
             mFragManager = getSupportFragmentManager();
             mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
@@ -124,8 +126,11 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int mOffset;
-        IS_MAIN_LIST = false;
+        if (IS_MAIN_LIST && FFListFragment.getURL() != ""){
+            MAIN_URL = FFListFragment.getURL();
+        }
 
+        IS_MAIN_LIST = false;
         configMenu(true, true, true, false);
 
         switch (item.getItemId()) {
@@ -230,6 +235,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         configMenu(true, true, true, false);
+        if (IS_MAIN_LIST && FFListFragment.getURL() != ""){
+            MAIN_URL = FFListFragment.getURL();
+        }
 
         if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
             Toast.makeText(this, "Detail User", Toast.LENGTH_SHORT).show();
