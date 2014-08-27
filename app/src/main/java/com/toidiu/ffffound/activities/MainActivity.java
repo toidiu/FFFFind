@@ -232,8 +232,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IS_MAIN_LIST = false;
-
         configMenu(true, true, true, false);
 
         if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
@@ -254,6 +252,8 @@ public class MainActivity extends ActionBarActivity {
             mFragManager.beginTransaction()
                     .add(R.id.frag_container, mMainFragment)
                     .commitAllowingStateLoss();
+            IS_MAIN_LIST = false;
+
         }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
             configMenu(true, true, false, true);
 
@@ -273,6 +273,8 @@ public class MainActivity extends ActionBarActivity {
             mFragManager.beginTransaction()
                     .add(R.id.frag_container, mMainFragment)
                     .commitAllowingStateLoss();
+            IS_MAIN_LIST = false;
+
         }else if(resultCode == FFDetailFragment.DETAIL_RAND_USER_LIST){
             Toast.makeText(this, "Detail Rand User", Toast.LENGTH_SHORT).show();
             String[] randUserList = FFFavData.getInstance().getUsers();
@@ -295,8 +297,11 @@ public class MainActivity extends ActionBarActivity {
             mFragManager.beginTransaction()
                     .add(R.id.frag_container, mMainFragment)
                     .commitAllowingStateLoss();
-        }
-        else {
+            IS_MAIN_LIST = false;
+
+        }else if(resultCode == FFDetailFragment.DETAIL_BACK){
+            super.onActivityResult(requestCode, resultCode, data);
+        }else {
             IS_MAIN_LIST = true;
             super.onActivityResult(requestCode, resultCode, data);
         }

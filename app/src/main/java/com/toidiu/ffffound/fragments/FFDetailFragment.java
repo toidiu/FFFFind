@@ -39,6 +39,7 @@ public class FFDetailFragment extends Fragment {
     public static final int DETAIL_USER_LIST = 2;
     public static final int DETAIL_FAV_LIST = 3;
     public static final int DETAIL_RAND_USER_LIST = 4;
+    public static final int DETAIL_BACK = 5;
 
     private static final String TAG = "FFDetailFragment";
     private FFFFItem item;
@@ -192,12 +193,6 @@ public class FFDetailFragment extends Fragment {
                 bitmap = Picasso.with(getActivity())
                         .load(urls[1])
                         .get();
-
-//                if (bitmap==null){
-//                    bitmap = Picasso.with(getActivity())
-//                            .load(urls[1])
-//                            .get();
-//                }
 
             } catch (IOException e) {
                 e.printStackTrace();
