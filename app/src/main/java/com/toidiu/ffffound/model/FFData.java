@@ -3,9 +3,9 @@ package com.toidiu.ffffound.model;
 import java.util.ArrayList;
 
 public class FFData {
-//    private static FFData mFFData;
+    private static FFData mFFData;
 
-    public ArrayList<FFFFItem> mFFItemsList;
+    private ArrayList<FFFFItem> mFFItemsList;
     private String nextUrl;
     private String prevUrl;
 
@@ -13,12 +13,12 @@ public class FFData {
     public FFData() {
         mFFItemsList = new ArrayList<FFFFItem>();
     }
-//    public static ArrayList<FFFetchItem> getInstance() {
-//        if (mFFData == null) {
-//            mFFData = new FFData();
-//        }
-//        return mFFItemsList;
-//    }
+    public static FFData getInstance() {
+        if (mFFData == null) {
+            mFFData = new FFData();
+        }
+        return mFFData;
+    }
 
     //------------------Item List
     public void addItems(ArrayList<FFFFItem> ffArray) {

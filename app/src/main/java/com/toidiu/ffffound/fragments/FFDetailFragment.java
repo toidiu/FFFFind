@@ -53,14 +53,27 @@ public class FFDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        Intent intent = getActivity().getIntent();
-        item = intent.getParcelableExtra(ITEM_EXTRA);
+        item = getArguments().getParcelable(ITEM_EXTRA);
+
+//        Intent intent = getActivity().getIntent();
+//        item = intent.getParcelableExtra(ITEM_EXTRA);
         FFFFItem getFav = FFFavData.getInstance().getFav(item.getMedUrl());
         item = getFav != null ? getFav : item;
         getActivity().setTitle(item.getArtist());
 
         setHasOptionsMenu(true);
     }
+
+    public static FFDetailFragment newInstance(FFFFItem item) {
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ITEM_EXTRA, item);
+
+        FFDetailFragment fragment = new FFDetailFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

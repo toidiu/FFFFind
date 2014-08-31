@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.fragments.FFDetailFragment;
+import com.toidiu.ffffound.model.FFData;
+import com.toidiu.ffffound.model.FFFFItem;
 
 public class FFDetailActivity extends ActionBarActivity{
     private static final String TAG = "DetailView";
@@ -25,14 +27,18 @@ public class FFDetailActivity extends ActionBarActivity{
         setContentView(R.layout.activity_fragment);
 
         mFragManager = getSupportFragmentManager();
-        mFragment = (FFDetailFragment) mFragManager.findFragmentById(R.id.frag_container);
+        FFFFItem item = FFData.getInstance().getItems(0);
+        mFragment = FFDetailFragment.newInstance(item);
 
-        if(mFragment == null){
-            mFragment = new FFDetailFragment();
+
+//        mFragment = (FFDetailFragment) mFragManager.findFragmentById(R.id.frag_container);
+//        if(mFragment == null){
+//            mFragment = new FFDetailFragment();
+
             mFragManager.beginTransaction()
                 .add(R.id.frag_container, mFragment)
                 .commit();
-        }
+//        }
     }
 
 

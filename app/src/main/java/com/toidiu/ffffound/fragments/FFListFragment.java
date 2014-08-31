@@ -54,7 +54,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        mListData = new FFData();
+        mListData = FFData.getInstance();
         mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
 
         URL = getArguments().getCharSequence(LIST_URL).toString();
@@ -108,8 +108,8 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), FFDetailActivity.class);
 //        intent.putExtra(FFDetailFragment.ITEM_EXTRA, position);
-        FFFFItem item = mListData.getItems(position);
-        intent.putExtra(FFDetailFragment.ITEM_EXTRA, item);
+//        FFFFItem item = mListData.getItems(position);
+//        intent.putExtra(FFDetailFragment.ITEM_EXTRA, item);
         startActivityForResult(intent, FFDetailFragment.DETAIL_REQUEST);
     }
 
