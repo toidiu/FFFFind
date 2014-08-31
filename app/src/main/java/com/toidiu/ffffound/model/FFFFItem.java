@@ -59,7 +59,7 @@ public class FFFFItem implements Parcelable{
     }
 
 
-    //URL
+    //mURL
     public String getUrl() {
         return getMedUrl();
     }

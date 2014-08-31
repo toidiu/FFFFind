@@ -1,11 +1,13 @@
 package com.toidiu.ffffound.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -14,10 +16,11 @@ import com.toidiu.ffffound.R;
 import com.toidiu.ffffound.fragments.FFDetailFragment;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
+import com.toidiu.ffffound.utils.FetchItemsAsync;
 
 import java.util.ArrayList;
 
-public class FFDetailActivity extends ActionBarActivity{
+public class FFDetailActivity extends ActionBarActivity implements FetchItemsAsync.OnAsyncComplete{
     private static final String TAG = "DetailView";
     public static final String ITEM_POS = "com.toidiu.detail_item_position";
 
@@ -27,6 +30,8 @@ public class FFDetailActivity extends ActionBarActivity{
     private ViewPager mViewPager;
     private ArrayList<FFFFItem> mItemList;
     private FFFFItem mItem;
+    private String mURL;
+    private FragmentStatePagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,7 @@ public class FFDetailActivity extends ActionBarActivity{
         mItem = mItemList.get(pos);
 
         mFragManager = getSupportFragmentManager();
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(mFragManager) {
+        adapter = new FragmentStatePagerAdapter(mFragManager) {
             @Override
             public Fragment getItem(int position) {
                 mItem = mItemList.get(position);
@@ -52,13 +57,17 @@ public class FFDetailActivity extends ActionBarActivity{
             public int getCount() {
                 return mItemList.size();
             }
-        });
-        mViewPager.setCurrentItem(pos);
+        };
 
+
+        mViewPager.setAdapter(adapter);
+        mViewPager.setCurrentItem(pos);
         pageChangeListener();
     }
 
     private void pageChangeListener() {
+        final FFDetailActivity detailActivity = this;
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -67,6 +76,10 @@ public class FFDetailActivity extends ActionBarActivity{
 
             @Override
             public void onPageSelected(int position) {
+                if (mItemList.size()-5 == position){
+                    mURL = FFData.getInstance().getNextUrl();
+                    new FetchItemsAsync(mURL, detailActivity).execute();
+                }
                 setTitle( mItem.getArtist() );
             }
 
@@ -118,4 +131,11 @@ public class FFDetailActivity extends ActionBarActivity{
         setResult(FFDetailFragment.DETAIL_BACK);
         finish();
     }
+
+    @Override
+    public void onAsyncComplete(ArrayList<FFFFItem> itemList) {
+        FFData.getInstance().addItems(itemList);
+        adapter.notifyDataSetChanged();
+    }
+
 }

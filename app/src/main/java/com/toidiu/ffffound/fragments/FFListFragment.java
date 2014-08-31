@@ -39,7 +39,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     public static final String USER_URL_END = "/found/feed";
     public static final String EXPLORE_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
 
-    public static String URL;
+    public static String mURL;
     private boolean itemsShowing = false;
     private StaggeredGridView mSGView;
     private FFGalleryAdapter mGalleryAdapter;
@@ -55,7 +55,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         mListData = FFData.getInstance();
         mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
 
-        URL = getArguments().getCharSequence(LIST_URL).toString();
+        mURL = getArguments().getCharSequence(LIST_URL).toString();
         showFavs = getArguments().getBoolean(SHOW_FAV, false);
         if (showFavs) {
             mListData.addItems(FFFavData.getInstance().getFav());
@@ -95,7 +95,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         if (showFavs) {
             return;
         }
-        URL = mListData.getNextUrl();
+        mURL = mListData.getNextUrl();
         loadItems();
     }
     @Override
@@ -138,7 +138,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         if ( Stuff.isConnected(getActivity()) ) {
             networkTxt.setVisibility(View.INVISIBLE);
             retryBtn.setVisibility(View.INVISIBLE);
-            new FetchItemsAsync(URL, this).execute();
+            new FetchItemsAsync(mURL, this).execute();
         } else {
             if (itemsShowing) {
                 networkTxt.setVisibility(View.INVISIBLE);
@@ -165,15 +165,15 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         });
     }
     public static String getURL(){
-        if (URL == null){
+        if (mURL == null){
             return "";
         }
-        return URL;
+        return mURL;
     }
 
     @Override
-    public void onAsyncComplete(ArrayList<FFFFItem> galleryItems) {
-        mListData.addItems(galleryItems);
+    public void onAsyncComplete(ArrayList<FFFFItem> itemList) {
+        mListData.addItems(itemList);
         setUpAdapter();
     }
 

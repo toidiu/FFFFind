@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
             final ArrayList<FFFFItem> list = slh.loadData();
             FFFavData.getInstance().setFav(list);
 
-            //pass Everyone URL
+            //pass Everyone mURL
             MAIN_URL = FFListFragment.EVERYONE_URL;
             bundle = new Bundle();
             bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
@@ -107,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
 
             IS_MAIN_LIST = true;
             setTitle(getResources().getString(R.string.app_name));
-            //pass Everyone URL
+            //pass Everyone mURL
             bundle = new Bundle();
             bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
 
@@ -142,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
                 Log.d(TAG, url);
                 setTitle("Explore");
 
-                //set URL
+                //set mURL
                 bundle = new Bundle();
                 bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
@@ -184,7 +184,7 @@ public class MainActivity extends ActionBarActivity {
 
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 setTitle("Favorites");
-                //set URL
+                //set mURL
                 bundle = new Bundle();
                 bundle.putCharSequence(FFListFragment.LIST_URL, "");
                 bundle.putBoolean(FFListFragment.SHOW_FAV, true);
@@ -264,7 +264,7 @@ public class MainActivity extends ActionBarActivity {
 
             Toast.makeText(this, "Detail Favorites", Toast.LENGTH_SHORT).show();
             setTitle("Favorites");
-            //set URL
+            //set mURL
             bundle = new Bundle();
             bundle.putCharSequence(FFListFragment.LIST_URL, "");
             bundle.putBoolean(FFListFragment.SHOW_FAV, true);
