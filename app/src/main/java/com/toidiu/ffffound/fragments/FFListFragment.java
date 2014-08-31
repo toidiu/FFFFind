@@ -44,7 +44,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     private StaggeredGridView mSGView;
     private FFGalleryAdapter mGalleryAdapter;
     public FFData mListData;
-    private FFFeedParser ffFeedParser;
     private boolean showFavs;
 
     @Override
@@ -53,12 +52,14 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         setRetainInstance(true);
 
         mListData = FFData.getInstance();
+        mListData.clearList();
         mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
 
         mURL = getArguments().getCharSequence(LIST_URL).toString();
         showFavs = getArguments().getBoolean(SHOW_FAV, false);
         if (showFavs) {
             mListData.addItems(FFFavData.getInstance().getFav());
+            FFData.getInstance().setNextUrl("");
         }
 
         loadItems();
@@ -77,6 +78,8 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         if(resultCode == FFDetailFragment.DETAIL_TAB){
             //handle
             Log.d(TAG, "detail_tab");
+        }else if(resultCode == FFDetailFragment.DETAIL_BACK) {
+            Log.d(TAG, "detail back" + mSGView.getDistanceToTop());
         }
     }
 
