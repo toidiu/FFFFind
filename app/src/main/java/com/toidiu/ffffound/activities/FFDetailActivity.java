@@ -42,7 +42,7 @@ public class FFDetailActivity extends ActionBarActivity{
         getMenuInflater().inflate(R.menu.main_menu, menu);
         menu.findItem(R.id.clear_fav).setVisible(false);
         menu.findItem(R.id.explore).setVisible(false);
-        menu.findItem(R.id.randomUser).setVisible(true);
+//        menu.findItem(R.id.randomUser).setVisible(true);
         menu.findItem(R.id.favorite).setVisible(true);
 //        getActionBar().setHomeButtonEnabled(true);
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,11 +53,11 @@ public class FFDetailActivity extends ActionBarActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.randomUser:
-                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
-                setResult(FFDetailFragment.DETAIL_RAND_USER_LIST);
-                finish();
-                break;
+//            case R.id.randomUser:
+//                Toast.makeText(this, "Random user", Toast.LENGTH_SHORT).show();
+//                setResult(FFDetailFragment.DETAIL_RAND_USER_LIST);
+//                finish();
+//                break;
             case R.id.favorite:
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 setResult(FFDetailFragment.DETAIL_FAV_LIST);

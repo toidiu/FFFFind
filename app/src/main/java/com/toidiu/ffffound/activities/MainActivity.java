@@ -156,29 +156,29 @@ public class MainActivity extends ActionBarActivity {
                         .add(R.id.frag_container, mMainFragment)
                         .commit();
                 break;
-            case R.id.randomUser:
-                Toast.makeText(this, "Random User", Toast.LENGTH_SHORT).show();
-                String[] randUserList = FFFavData.getInstance().getUsers();
-                int rand = new Random().nextInt(randUserList.length);
-                String randUser = randUserList[rand];
-
-                url = FFListFragment.USER_URL_BASE + randUser + FFListFragment.USER_URL_END;
-                Log.d(TAG, url);
-                setTitle(randUser);
-
-                bundle = new Bundle();
-                bundle.putCharSequence(FFListFragment.LIST_URL, url);
-
-                mFragManager = getSupportFragmentManager();
-                mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
-                if (mMainFragment == null) {
-                    mMainFragment = new FFListFragment();
-                }
-                mMainFragment.setArguments(bundle);
-                mFragManager.beginTransaction()
-                        .add(R.id.frag_container, mMainFragment)
-                        .commit();
-                break;
+//            case R.id.randomUser:
+//                Toast.makeText(this, "Random User", Toast.LENGTH_SHORT).show();
+//                String[] randUserList = FFFavData.getInstance().getUsers();
+//                int rand = new Random().nextInt(randUserList.length);
+//                String randUser = randUserList[rand];
+//
+//                url = FFListFragment.USER_URL_BASE + randUser + FFListFragment.USER_URL_END;
+//                Log.d(TAG, url);
+//                setTitle(randUser);
+//
+//                bundle = new Bundle();
+//                bundle.putCharSequence(FFListFragment.LIST_URL, url);
+//
+//                mFragManager = getSupportFragmentManager();
+//                mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+//                if (mMainFragment == null) {
+//                    mMainFragment = new FFListFragment();
+//                }
+//                mMainFragment.setArguments(bundle);
+//                mFragManager.beginTransaction()
+//                        .add(R.id.frag_container, mMainFragment)
+//                        .commit();
+//                break;
             case R.id.favorite:
                 configMenu(true, true, false, true);
 
@@ -315,7 +315,7 @@ public class MainActivity extends ActionBarActivity {
     private void configMenu(boolean randOff, boolean randUser, boolean fav, boolean clearFav){
         if (mMenu != null) {
             mMenu.findItem(R.id.explore).setVisible(randOff);
-            mMenu.findItem(R.id.randomUser).setVisible(randUser);
+//            mMenu.findItem(R.id.randomUser).setVisible(randUser);
             mMenu.findItem(R.id.favorite).setVisible(fav);
             mMenu.findItem(R.id.clear_fav).setVisible(clearFav);
         }
