@@ -34,7 +34,6 @@ import java.util.Calendar;
 
 public class FFDetailFragment extends Fragment {
     public static final String ITEM_EXTRA = "com.toidiu.itemExtra";
-    public static final int DETAIL_REQUEST = 0;
     public static final int DETAIL_TAB = 1;
     public static final int DETAIL_USER_LIST = 2;
     public static final int DETAIL_FAV_LIST = 3;
@@ -55,8 +54,7 @@ public class FFDetailFragment extends Fragment {
 
         item = getArguments().getParcelable(ITEM_EXTRA);
 
-//        Intent intent = getActivity().getIntent();
-//        item = intent.getParcelableExtra(ITEM_EXTRA);
+
         FFFFItem getFav = FFFavData.getInstance().getFav(item.getMedUrl());
         item = getFav != null ? getFav : item;
         getActivity().setTitle(item.getArtist());

@@ -107,10 +107,10 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), FFDetailActivity.class);
-//        intent.putExtra(FFDetailFragment.ITEM_EXTRA, position);
+        intent.putExtra(FFDetailActivity.ITEM_POS, position);
 //        FFFFItem item = mListData.getItems(position);
 //        intent.putExtra(FFDetailFragment.ITEM_EXTRA, item);
-        startActivityForResult(intent, FFDetailFragment.DETAIL_REQUEST);
+        startActivityForResult(intent, 0);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.toidiu.ffffound.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +15,7 @@ import com.toidiu.ffffound.model.FFFFItem;
 
 public class FFDetailActivity extends ActionBarActivity{
     private static final String TAG = "DetailView";
+    public static final String ITEM_POS = "com.toidiu.detail_item_position";
 
 
     private FragmentManager mFragManager;
@@ -23,11 +25,13 @@ public class FFDetailActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_fragment);
 
+
+        Intent intent = getIntent();
+        int pos = intent.getIntExtra(ITEM_POS, 0);
+        FFFFItem item = FFData.getInstance().getItems(pos);
         mFragManager = getSupportFragmentManager();
-        FFFFItem item = FFData.getInstance().getItems(0);
         mFragment = FFDetailFragment.newInstance(item);
 
 
