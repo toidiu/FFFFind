@@ -1,8 +1,10 @@
 package com.toidiu.ffffound.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,8 @@ import com.toidiu.ffffound.fragments.FFDetailFragment;
 import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 
+import java.util.ArrayList;
+
 public class FFDetailActivity extends ActionBarActivity{
     private static final String TAG = "DetailView";
     public static final String ITEM_POS = "com.toidiu.detail_item_position";
@@ -20,29 +24,59 @@ public class FFDetailActivity extends ActionBarActivity{
 
     private FragmentManager mFragManager;
     private FFDetailFragment mFragment;
-
+    private ViewPager mViewPager;
+    private ArrayList<FFFFItem> mItemList;
+    private FFFFItem mItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        mViewPager = new ViewPager(this);
+        mViewPager.setId(R.id.view_pager);
+        setContentView(mViewPager);
 
 
-        Intent intent = getIntent();
-        int pos = intent.getIntExtra(ITEM_POS, 0);
-        FFFFItem item = FFData.getInstance().getItems(pos);
+        int pos = getIntent().getIntExtra(ITEM_POS, 0);
+
+        mItemList = FFData.getInstance().getItems();
+        mItem = mItemList.get(pos);
+
         mFragManager = getSupportFragmentManager();
-        mFragment = FFDetailFragment.newInstance(item);
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(mFragManager) {
+            @Override
+            public Fragment getItem(int position) {
+                mItem = mItemList.get(position);
+                mFragment = FFDetailFragment.newInstance(mItem);
+                return mFragment;
+            }
 
+            @Override
+            public int getCount() {
+                return mItemList.size();
+            }
+        });
+        mViewPager.setCurrentItem(pos);
 
-//        mFragment = (FFDetailFragment) mFragManager.findFragmentById(R.id.frag_container);
-//        if(mFragment == null){
-//            mFragment = new FFDetailFragment();
+        pageChangeListener();
+    }
 
-            mFragManager.beginTransaction()
-                .add(R.id.frag_container, mFragment)
-                .commit();
-//        }
+    private void pageChangeListener() {
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setTitle(mItemList.get(position).getArtist());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
