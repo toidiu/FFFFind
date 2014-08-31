@@ -17,7 +17,6 @@ public class FFFeedParser {
     String mXmlFeed;
     FFFFItem mffffItem;
     ArrayList<FFFFItem> retVal;
-    private FFData mFFData;
 
     enum modeEnum {
         TITLE,
@@ -30,10 +29,9 @@ public class FFFeedParser {
     modeEnum ItemMode;
     Boolean itemCreated = false;
 
-    public FFFeedParser(String xmlFeed, FFData data) {
+    public FFFeedParser(String xmlFeed) {
         mXmlFeed = xmlFeed;
         retVal = new ArrayList<FFFFItem>();
-        mFFData = data;
     }
 
     public ArrayList<FFFFItem> parse() {
@@ -93,7 +91,7 @@ public class FFFeedParser {
         else if ( name.equals("link") &&
                 xpp.getAttributeCount() >= 2 ){
             String nextUrl = xpp.getAttributeValue(null, "href");
-            mFFData.setNextUrl(nextUrl);
+            FFData.getInstance().setNextUrl(nextUrl);
         }
     }
 

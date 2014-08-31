@@ -2,7 +2,6 @@ package com.toidiu.ffffound.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,15 +22,14 @@ import com.toidiu.ffffound.model.FFData;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.FFFeedParser;
-import com.toidiu.ffffound.utils.FFHttpRequest;
+import com.toidiu.ffffound.utils.FetchItemsAsync;
 import com.toidiu.ffffound.utils.Stuff;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface,
-        AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
+        AbsListView.OnScrollListener, AbsListView.OnItemClickListener, FetchItemsAsync.OnAsyncComplete {
     private static final String TAG = "FFListFragment";
 
     public static final String LIST_URL = "com.toidiu.list_url";
@@ -140,7 +138,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         if ( Stuff.isConnected(getActivity()) ) {
             networkTxt.setVisibility(View.INVISIBLE);
             retryBtn.setVisibility(View.INVISIBLE);
-            new FetchItemsAsync(URL).execute();
+            new FetchItemsAsync(URL, this).execute();
         } else {
             if (itemsShowing) {
                 networkTxt.setVisibility(View.INVISIBLE);
@@ -173,31 +171,10 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         return URL;
     }
 
-    //--------------------------------------PRIVATE CLASS---------------
-    class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
-        private String mUrl;
-
-        private FetchItemsAsync(String url) {
-            mUrl = url;
-        }
-        @Override
-        protected ArrayList<FFFFItem> doInBackground(Void... params) {
-            try{
-                Log.d(TAG, mUrl);
-                String result = new FFHttpRequest().getUrl(mUrl);
-                ffFeedParser = new FFFeedParser(result, mListData);
-                ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
-                return ffGalleryItems;
-            } catch (IOException e) { Log.d(TAG, "Failed to get xml feed"); }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
-            if (galleryItems!=null){
-                mListData.addItems(galleryItems);
-                setUpAdapter();
-            }
-        }
+    @Override
+    public void onAsyncComplete(ArrayList<FFFFItem> galleryItems) {
+        mListData.addItems(galleryItems);
+        setUpAdapter();
     }
 
 }
