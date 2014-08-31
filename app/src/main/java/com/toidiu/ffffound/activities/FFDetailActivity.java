@@ -35,10 +35,8 @@ public class FFDetailActivity extends ActionBarActivity{
         mViewPager.setId(R.id.view_pager);
         setContentView(mViewPager);
 
-
-        int pos = getIntent().getIntExtra(ITEM_POS, 0);
-
         mItemList = FFData.getInstance().getItems();
+        int pos = getIntent().getIntExtra(ITEM_POS, 0);
         mItem = mItemList.get(pos);
 
         mFragManager = getSupportFragmentManager();
@@ -69,7 +67,7 @@ public class FFDetailActivity extends ActionBarActivity{
 
             @Override
             public void onPageSelected(int position) {
-                setTitle(mItemList.get(position).getArtist());
+                setTitle( mItem.getArtist() );
             }
 
             @Override
