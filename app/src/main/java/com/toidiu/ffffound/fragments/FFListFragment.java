@@ -79,6 +79,14 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
             //handle
             Log.d(TAG, "detail_tab");
         }else if(resultCode == FFDetailFragment.DETAIL_BACK) {
+            mListData.clearList();
+
+//            if (showFavs) {
+//                mListData.addItems(FFFavData.getInstance().getFav());
+//            }else {
+                mListData.addItems( FFData.getInstance().getItems() );
+//            }
+            mGalleryAdapter.notifyDataSetChanged();
             Log.d(TAG, "detail back" + mSGView.getDistanceToTop());
         }
     }
