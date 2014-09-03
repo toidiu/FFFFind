@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.ListActivity;
+import com.toidiu.ffffound.activities.FFListActivity;
 import com.toidiu.ffffound.model.FFFFItem;
 import com.toidiu.ffffound.model.FFFavData;
 import com.toidiu.ffffound.utils.Stuff;
@@ -117,9 +117,9 @@ public class FFDetailFragment extends Fragment {
                 String url = FFListFragment.USER_URL_BASE + item.getArtist() + FFListFragment.USER_URL_END;
                 Log.d(TAG, url);
 
-                Intent intent = new Intent(getActivity(), ListActivity.class);
+                Intent intent = new Intent(getActivity(), FFListActivity.class);
                 intent.putExtra(FFListFragment.LIST_URL, url);
-                intent.putExtra(ListActivity.LIST_TITLE, item.getArtist());
+                intent.putExtra(FFListActivity.LIST_TITLE, item.getArtist());
                 returnResult(DETAIL_USER_LIST, intent);
             }
         });

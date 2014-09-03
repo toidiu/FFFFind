@@ -26,7 +26,9 @@
             android:layout_height="@dimen/grid_size"
             android:layout_margin="@dimen/grid_margin"
             android:layout_weight="1"
-            android:text="1"
+
+            android:background="@drawable/ffffound"
+            android:text="recent"
             />
 
         <Button
@@ -35,7 +37,9 @@
             android:layout_height="@dimen/grid_size"
             android:layout_margin="@dimen/grid_margin"
             android:layout_weight="1"
-            android:text="2"
+
+            android:background="@drawable/fav_list"
+            android:text="favorite"
             />
 
     </LinearLayout>
@@ -55,7 +59,9 @@
             android:layout_height="@dimen/grid_size"
             android:layout_margin="@dimen/grid_margin"
             android:layout_weight="1"
-            android:text="3"
+
+            android:background="@drawable/random"
+            android:text="explore"
             />
 
         <Button
