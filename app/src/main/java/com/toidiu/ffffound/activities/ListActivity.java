@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class MainActivity extends ActionBarActivity {
+public class ListActivity extends ActionBarActivity {
     private static final String TAG = "Main Activity";
     public static final String LIST_TITLE = "com.toidiu.artist_name";
     private static final String MAIN_LIST = "com.toidiu.main_list";
@@ -241,7 +241,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
             Toast.makeText(this, "Detail User", Toast.LENGTH_SHORT).show();
-            String title = data.getStringExtra(MainActivity.LIST_TITLE);
+            String title = data.getStringExtra(ListActivity.LIST_TITLE);
             url = data.getStringExtra(FFListFragment.LIST_URL);
             setTitle(title);
 

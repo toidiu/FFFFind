@@ -25,4 +25,5 @@ dependencies {
     compile 'com.etsy.android.grid:library:1.0.5'
     compile 'com.squareup.picasso:picasso:2.3.3'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:gridlayout-v7:18.0.+'
 }
