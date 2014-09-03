@@ -71,14 +71,10 @@ public class FFListActivity extends ActionBarActivity {
             //pass Everyone mURL
             MAIN_URL = FFListFragment.EVERYONE_URL;
 
-            mFragManager = getSupportFragmentManager();
-            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
-            if (mMainFragment == null) {
-                mMainFragment = FFListFragment.newInstance(MAIN_URL, false);
-                mFragManager.beginTransaction()
-                        .add(R.id.frag_container, mMainFragment)
-                        .commit();
-            }
+            mMainFragment = FFListFragment.newInstance(MAIN_URL, false);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frag_container, mMainFragment)
+                    .commit();
         }
     }
 

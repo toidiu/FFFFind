@@ -27,6 +27,7 @@
             android:layout_margin="@dimen/grid_margin"
             android:layout_weight="1"
 
+
             android:background="@drawable/ffffound"
             android:text="recent"
             />
@@ -49,7 +50,6 @@
         android:layout_width="fill_parent"
         app:layout_row="1"
         app:layout_column="0"
-
         android:weightSum="2"
         app:layout_gravity="fill">
 
