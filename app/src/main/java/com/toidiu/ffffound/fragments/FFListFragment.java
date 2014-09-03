@@ -52,10 +52,8 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         setRetainInstance(true);
 
         mListData = FFData.getInstance();
-        mListData.clearList();
         mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
 
-        mURL = getArguments().getCharSequence(LIST_URL).toString();
         showFavs = getArguments().getBoolean(SHOW_FAV, false);
         if (showFavs) {
             mListData.addItems(FFFavData.getInstance().getFav());
@@ -65,6 +63,18 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         loadItems();
         setRetryListener();
     }
+    public static FFListFragment newInstance(String url, boolean fav){
+        FFData.getInstance().clearList();
+
+        mURL = url;
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(SHOW_FAV, fav);
+
+        FFListFragment fragment = new FFListFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);

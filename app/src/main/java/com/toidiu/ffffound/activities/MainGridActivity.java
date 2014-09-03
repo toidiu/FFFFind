@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import com.toidiu.ffffound.R;
 
-public class SplashGridActivity extends ActionBarActivity {
+public class MainGridActivity extends ActionBarActivity {
     private static final String TAG = "SplashGrid";
     private static final String MAIN_LIST = "com.toidiu.main_list";
 
@@ -77,24 +77,25 @@ public class SplashGridActivity extends ActionBarActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        // Inflate the menu
-        mMenu = menu;
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        configMenu(true, true, true, false);
-//        getActionBar().setHomeButtonEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
-        return super.onCreateOptionsMenu(mMenu);
-    }
 
-    private void configMenu(boolean randOff, boolean randUser, boolean fav, boolean clearFav){
-        if (mMenu != null) {
-            mMenu.findItem(R.id.explore).setVisible(randOff);
-//            mMenu.findItem(R.id.randomUser).setVisible(randUser);
-            mMenu.findItem(R.id.favorite).setVisible(fav);
-            mMenu.findItem(R.id.clear_fav).setVisible(clearFav);
-        }
-    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(final Menu menu) {
+//        // Inflate the menu
+//        mMenu = menu;
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        configMenu(true, true, true, false);
+////        getActionBar().setHomeButtonEnabled(true);
+////        getActionBar().setHomeButtonEnabled(true);
+//        return super.onCreateOptionsMenu(mMenu);
+//    }
+//    private void configMenu(boolean randOff, boolean randUser, boolean fav, boolean clearFav){
+//        if (mMenu != null) {
+//            mMenu.findItem(R.id.explore).setVisible(randOff);
+////            mMenu.findItem(R.id.randomUser).setVisible(randUser);
+//            mMenu.findItem(R.id.favorite).setVisible(fav);
+//            mMenu.findItem(R.id.clear_fav).setVisible(clearFav);
+//        }
+//    }
 
 }

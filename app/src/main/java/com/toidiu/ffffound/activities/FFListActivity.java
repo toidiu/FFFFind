@@ -70,14 +70,11 @@ public class FFListActivity extends ActionBarActivity {
 
             //pass Everyone mURL
             MAIN_URL = FFListFragment.EVERYONE_URL;
-            bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
 
             mFragManager = getSupportFragmentManager();
             mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
             if (mMainFragment == null) {
-                mMainFragment = new FFListFragment();
-                mMainFragment.setArguments(bundle);
+                mMainFragment = FFListFragment.newInstance(MAIN_URL, false);
                 mFragManager.beginTransaction()
                         .add(R.id.frag_container, mMainFragment)
                         .commit();
