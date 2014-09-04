@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FFFFound</string>
+    <string name="app_name">FFFFind</string>
     <string name="expore">Explore</string>
     <string name="no_wifi">No Wifi. Please connect to the internet.</string>
     <string name="lostWifi">you LLLLOST the internet!</string>
