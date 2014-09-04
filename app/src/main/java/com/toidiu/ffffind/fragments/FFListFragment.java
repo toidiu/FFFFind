@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.fragments;
+package com.toidiu.ffffind.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,15 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.FFDetailActivity;
-import com.toidiu.ffffound.adapter.FFGalleryAdapter;
-import com.toidiu.ffffound.model.FFData;
-import com.toidiu.ffffound.model.FFFFItem;
-import com.toidiu.ffffound.model.FFFavData;
-import com.toidiu.ffffound.utils.FFFeedParser;
-import com.toidiu.ffffound.utils.FFHttpRequest;
-import com.toidiu.ffffound.utils.Stuff;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.activities.FFDetailActivity;
+import com.toidiu.ffffind.adapter.FFGalleryAdapter;
+import com.toidiu.ffffind.model.FFData;
+import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.utils.FFFeedParser;
+import com.toidiu.ffffind.utils.FFHttpRequest;
+import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.IOException;
 import java.util.ArrayList;

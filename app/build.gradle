@@ -5,7 +5,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.toidiu.ffffound"
+        applicationId "com.toidiu.ffffind"
         minSdkVersion 10
         targetSdkVersion 20
         versionCode 1

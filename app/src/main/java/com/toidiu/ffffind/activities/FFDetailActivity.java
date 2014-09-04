@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.activities;
+package com.toidiu.ffffind.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,8 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.fragments.FFDetailFragment;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.fragments.FFDetailFragment;
 
 public class FFDetailActivity extends ActionBarActivity{
     private static final String TAG = "DetailView";

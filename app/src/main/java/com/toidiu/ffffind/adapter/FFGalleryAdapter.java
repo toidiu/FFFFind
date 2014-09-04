@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.adapter;
+package com.toidiu.ffffind.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,13 +10,13 @@ import android.widget.ArrayAdapter;
 
 import com.etsy.android.grid.util.DynamicHeightImageView;
 import com.squareup.picasso.Picasso;
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.model.FFData;
-import com.toidiu.ffffound.model.FFFFItem;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.model.FFData;
+import com.toidiu.ffffind.model.FFFFItem;
 
 import java.util.Random;
 
-import static com.toidiu.ffffound.utils.Stuff.generateRandomColor;
+import static com.toidiu.ffffind.utils.Stuff.generateRandomColor;
 
 
 public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {

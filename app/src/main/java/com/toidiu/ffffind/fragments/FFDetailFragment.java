@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.fragments;
+package com.toidiu.ffffind.fragments;
 
 
 import android.content.Intent;
@@ -20,11 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.MainActivity;
-import com.toidiu.ffffound.model.FFFFItem;
-import com.toidiu.ffffound.model.FFFavData;
-import com.toidiu.ffffound.utils.Stuff;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.activities.MainActivity;
+import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.File;
 import java.io.FileNotFoundException;

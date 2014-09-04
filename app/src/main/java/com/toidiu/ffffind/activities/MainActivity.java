@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.activities;
+package com.toidiu.ffffind.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,12 +14,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.fragments.FFDetailFragment;
-import com.toidiu.ffffound.fragments.FFListFragment;
-import com.toidiu.ffffound.model.FFFFItem;
-import com.toidiu.ffffound.model.FFFavData;
-import com.toidiu.ffffound.utils.SaveLoadHandler;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.fragments.FFDetailFragment;
+import com.toidiu.ffffind.fragments.FFListFragment;
+import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.utils.SaveLoadHandler;
 
 import java.io.File;
 import java.lang.reflect.Type;

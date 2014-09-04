@@ -1,8 +1,8 @@
-package com.toidiu.ffffound.utils;
+package com.toidiu.ffffind.utils;
 
 
-import com.toidiu.ffffound.model.FFData;
-import com.toidiu.ffffound.model.FFFFItem;
+import com.toidiu.ffffind.model.FFData;
+import com.toidiu.ffffind.model.FFFFItem;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

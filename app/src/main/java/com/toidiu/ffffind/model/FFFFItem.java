@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.model;
+package com.toidiu.ffffind.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
