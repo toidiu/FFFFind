@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.fragments;
+package com.toidiu.ffffind.fragments;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,15 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.FFDetailActivity;
-import com.toidiu.ffffound.adapter.FFGalleryAdapter;
-import com.toidiu.ffffound.model.FFData;
-import com.toidiu.ffffound.model.FFFFItem;
-import com.toidiu.ffffound.model.FFFavData;
-import com.toidiu.ffffound.utils.FFFeedParser;
-import com.toidiu.ffffound.utils.FetchItemsAsync;
-import com.toidiu.ffffound.utils.Stuff;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.activities.FFDetailActivity;
+import com.toidiu.ffffind.adapter.FFGalleryAdapter;
+import com.toidiu.ffffind.model.FFData;
+import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.utils.FetchItemsAsync;
+import com.toidiu.ffffind.utils.Stuff;
 
 import java.util.ArrayList;
 
@@ -46,6 +45,19 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     public FFData mListData;
     private boolean showFavs;
 
+    public static FFListFragment newInstance(String url, boolean fav){
+        FFData.getInstance().clearList();
+        mURL = url;
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(SHOW_FAV, fav);
+
+        FFListFragment fragment = new FFListFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,17 +74,6 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
         loadItems();
         setRetryListener();
-    }
-    public static FFListFragment newInstance(String url, boolean fav){
-        FFData.getInstance().clearList();
-
-        mURL = url;
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(SHOW_FAV, fav);
-
-        FFListFragment fragment = new FFListFragment();
-        fragment.setArguments(bundle);
-        return fragment;
     }
 
     @Override

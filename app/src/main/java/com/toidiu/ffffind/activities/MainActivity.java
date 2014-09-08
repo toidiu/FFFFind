@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.activities;
+package com.toidiu.ffffind.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,12 +14,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.fragments.FFDetailFragment;
-import com.toidiu.ffffound.fragments.FFListFragment;
-import com.toidiu.ffffound.model.FFFFItem;
-import com.toidiu.ffffound.model.FFFavData;
-import com.toidiu.ffffound.utils.SaveLoadHandler;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.fragments.FFDetailFragment;
+import com.toidiu.ffffind.fragments.FFListFragment;
+import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.utils.SaveLoadHandler;
 
 import java.io.File;
 import java.lang.reflect.Type;
@@ -27,16 +27,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class FFListActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity {
     private static final String TAG = "Main Activity";
     public static final String LIST_TITLE = "com.toidiu.artist_name";
     private static final String MAIN_LIST = "com.toidiu.main_list";
-
-    public static final String LIST_TYPE = "com.toidiu.list_type";
-    public static final int EXPLORE = 1;
-    public static final int RECENT = 2;
-    public static final int FAV = 3;
-
     private static String MAIN_URL;
 
     private FragmentManager mFragManager;
@@ -68,13 +62,20 @@ public class FFListActivity extends ActionBarActivity {
             final ArrayList<FFFFItem> list = slh.loadData();
             FFFavData.getInstance().setFav(list);
 
-            //pass Everyone mURL
+            //pass Everyone URL
             MAIN_URL = FFListFragment.EVERYONE_URL;
+            bundle = new Bundle();
+            bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
 
-            mMainFragment = FFListFragment.newInstance(MAIN_URL, false);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frag_container, mMainFragment)
-                    .commit();
+            mFragManager = getSupportFragmentManager();
+            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+            if (mMainFragment == null) {
+                mMainFragment = new FFListFragment();
+                mMainFragment.setArguments(bundle);
+                mFragManager.beginTransaction()
+                        .add(R.id.frag_container, mMainFragment)
+                        .commit();
+            }
         }
     }
 
@@ -106,7 +107,7 @@ public class FFListActivity extends ActionBarActivity {
 
             IS_MAIN_LIST = true;
             setTitle(getResources().getString(R.string.app_name));
-            //pass Everyone mURL
+            //pass Everyone URL
             bundle = new Bundle();
             bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
 
@@ -141,7 +142,7 @@ public class FFListActivity extends ActionBarActivity {
                 Log.d(TAG, url);
                 setTitle("Explore");
 
-                //set mURL
+                //set URL
                 bundle = new Bundle();
                 bundle.putCharSequence(FFListFragment.LIST_URL, url);
 
@@ -183,7 +184,7 @@ public class FFListActivity extends ActionBarActivity {
 
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 setTitle("Favorites");
-                //set mURL
+                //set URL
                 bundle = new Bundle();
                 bundle.putCharSequence(FFListFragment.LIST_URL, "");
                 bundle.putBoolean(FFListFragment.SHOW_FAV, true);
@@ -240,7 +241,7 @@ public class FFListActivity extends ActionBarActivity {
 
         if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
             Toast.makeText(this, "Detail User", Toast.LENGTH_SHORT).show();
-            String title = data.getStringExtra(FFListActivity.LIST_TITLE);
+            String title = data.getStringExtra(MainActivity.LIST_TITLE);
             url = data.getStringExtra(FFListFragment.LIST_URL);
             setTitle(title);
 
@@ -263,7 +264,7 @@ public class FFListActivity extends ActionBarActivity {
 
             Toast.makeText(this, "Detail Favorites", Toast.LENGTH_SHORT).show();
             setTitle("Favorites");
-            //set mURL
+            //set URL
             bundle = new Bundle();
             bundle.putCharSequence(FFListFragment.LIST_URL, "");
             bundle.putBoolean(FFListFragment.SHOW_FAV, true);

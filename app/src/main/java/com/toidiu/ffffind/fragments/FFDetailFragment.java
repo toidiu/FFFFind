@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.fragments;
+package com.toidiu.ffffind.fragments;
 
 
 import android.content.Intent;
@@ -20,11 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.activities.FFListActivity;
-import com.toidiu.ffffound.model.FFFFItem;
-import com.toidiu.ffffound.model.FFFavData;
-import com.toidiu.ffffound.utils.Stuff;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.activities.FFListActivity;
+import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +46,15 @@ public class FFDetailFragment extends Fragment {
     private ImageView downView;
     private ImageView starView;
 
+    public static FFDetailFragment newInstance(FFFFItem item) {
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ITEM_EXTRA, item);
+
+        FFDetailFragment fragment = new FFDetailFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,17 +70,6 @@ public class FFDetailFragment extends Fragment {
 
         setHasOptionsMenu(true);
     }
-
-    public static FFDetailFragment newInstance(FFFFItem item) {
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ITEM_EXTRA, item);
-
-        FFDetailFragment fragment = new FFDetailFragment();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

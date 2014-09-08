@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.model;
+package com.toidiu.ffffind.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,10 +1,10 @@
-package com.toidiu.ffffound.utils;
+package com.toidiu.ffffind.utils;
+
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.toidiu.ffffound.model.FFData;
-import com.toidiu.ffffound.model.FFFFItem;
+import com.toidiu.ffffind.model.FFFFItem;
 
 import java.io.IOException;
 import java.util.ArrayList;

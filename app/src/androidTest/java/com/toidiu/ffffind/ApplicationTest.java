@@ -1,4 +1,4 @@
-package com.toidiu.ffffound;
+package com.toidiu.ffffind;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

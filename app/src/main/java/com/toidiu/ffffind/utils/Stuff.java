@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.utils;
+package com.toidiu.ffffind.utils;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -21,7 +21,7 @@
         >
 
         <Button
-            android:id="@+id/grid_recent"
+            android:id="@+id/splash_grid_recent"
             android:layout_width="@dimen/grid_size"
             android:layout_height="@dimen/grid_size"
             android:layout_margin="@dimen/grid_margin"
@@ -33,7 +33,7 @@
             />
 
         <Button
-            android:id="@+id/grid_fav"
+            android:id="@+id/splash_grid_fav"
             android:layout_width="@dimen/grid_size"
             android:layout_height="@dimen/grid_size"
             android:layout_margin="@dimen/grid_margin"
@@ -54,13 +54,13 @@
         app:layout_gravity="fill">
 
         <Button
-            android:id="@+id/grid_explore"
+            android:id="@+id/splash_grid_explore"
             android:layout_width="@dimen/grid_size"
             android:layout_height="@dimen/grid_size"
             android:layout_margin="@dimen/grid_margin"
             android:layout_weight="1"
 
-            android:background="@drawable/random"
+            android:background="@drawable/explore"
             android:text="explore"
             />
 

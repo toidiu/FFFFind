@@ -5,7 +5,7 @@
 
     <item android:id="@+id/explore"
         android:title="@string/expore"
-        android:icon="@drawable/random"
+        android:icon="@drawable/explore"
         android:orderInCategory="100"
         app:showAsAction="always" />
     <!--<item android:id="@+id/randomUser"-->

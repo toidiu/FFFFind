@@ -1,22 +1,20 @@
-package com.toidiu.ffffound.activities;
+package com.toidiu.ffffind.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.toidiu.ffffound.R;
-import com.toidiu.ffffound.fragments.FFDetailFragment;
-import com.toidiu.ffffound.model.FFData;
-import com.toidiu.ffffound.model.FFFFItem;
-import com.toidiu.ffffound.utils.FetchItemsAsync;
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.fragments.FFDetailFragment;
+import com.toidiu.ffffind.model.FFData;
+import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.utils.FetchItemsAsync;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.toidiu.ffffound.utils;
+package com.toidiu.ffffind.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
