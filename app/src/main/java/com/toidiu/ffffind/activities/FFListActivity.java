@@ -69,8 +69,9 @@ public class FFListActivity extends ActionBarActivity {
             final ArrayList<FFFFItem> list = slh.loadData();
             FFFavData.getInstance().setFav(list);
 
-            //pass Everyone mURL
-            MAIN_URL = FFListFragment.EVERYONE_URL;
+            //get random url
+            int mOffset = new Random().nextInt(getResources().getInteger(R.integer.rand_cnt));
+            MAIN_URL = FFListFragment.EXPLORE_URL_BASE + mOffset;
 
             mMainFragment = FFListFragment.newInstance(MAIN_URL, false);
             getSupportFragmentManager().beginTransaction()
@@ -93,8 +94,6 @@ public class FFListActivity extends ActionBarActivity {
         mMenu = menu;
         getMenuInflater().inflate(R.menu.main_menu, menu);
         configMenu(true, true, true, false);
-//        getActionBar().setHomeButtonEnabled(true);
-//        getActionBar().setHomeButtonEnabled(true);
         return super.onCreateOptionsMenu(mMenu);
     }
 
