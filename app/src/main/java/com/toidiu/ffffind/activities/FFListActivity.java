@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.reflect.TypeToken;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.fragments.FFDetailFragment;
@@ -28,15 +29,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class FFListActivity extends ActionBarActivity {
+public class FFListActivity extends GenralFragmentActivity {
     private static final String TAG = "Main Activity";
     public static final String LIST_TITLE = "com.toidiu.artist_name";
     private static final String MAIN_LIST = "com.toidiu.main_list";
-
-    public static final String LIST_TYPE = "com.toidiu.list_type";
-    public static final int EXPLORE = 1;
-    public static final int RECENT = 2;
-    public static final int FAV = 3;
 
     private static String MAIN_URL;
 
@@ -55,12 +51,7 @@ public class FFListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            //orientation change so just set view
-            setContentView(R.layout.activity_fragment);
-        } else {
-            setContentView(R.layout.activity_fragment);
-
+        if (savedInstanceState == null) {
             //Save/Load handler
             FILE = new File(this.getFilesDir() + File.separator + SAVE_FILE);
             Type type = new TypeToken<ArrayList<FFFFItem>>() {
@@ -69,15 +60,17 @@ public class FFListActivity extends ActionBarActivity {
             final ArrayList<FFFFItem> list = slh.loadData();
             FFFavData.getInstance().setFav(list);
 
-            //get random url
-            int mOffset = new Random().nextInt(getResources().getInteger(R.integer.rand_cnt));
-            MAIN_URL = FFListFragment.EXPLORE_URL_BASE + mOffset;
 
-            mMainFragment = FFListFragment.newInstance(MAIN_URL, false);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frag_container, mMainFragment)
-                    .commit();
         }
+    }
+
+    @Override
+    protected Fragment createFragment() {
+        //get random url
+        int mOffset = new Random().nextInt(getResources().getInteger(R.integer.rand_cnt));
+        MAIN_URL = FFListFragment.EXPLORE_URL_BASE + mOffset;
+
+        return FFListFragment.newInstance(MAIN_URL, false);
     }
 
     @Override
@@ -183,15 +176,15 @@ public class FFListActivity extends ActionBarActivity {
                 bundle.putCharSequence(FFListFragment.LIST_URL, "");
                 bundle.putBoolean(FFListFragment.SHOW_FAV, true);
 
-                mFragManager = getSupportFragmentManager();
                 mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
                 if (mMainFragment == null) {
                     mMainFragment = new FFListFragment();
                 }
                 mMainFragment.setArguments(bundle);
-                mFragManager.beginTransaction()
-                        .add(R.id.frag_container, mMainFragment)
-                        .commit();
+
+
+                switchFragment(mMainFragment);
+
                 break;
             case R.id.clear_fav:
                 Toast.makeText(this, "Favorites Cleared!", Toast.LENGTH_SHORT).show();
