@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class FFHttpRequest {
+public class HttpRequest {
 
     private static final String TAG = "FFHttpRequest";
 

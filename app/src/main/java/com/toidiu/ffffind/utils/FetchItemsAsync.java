@@ -4,13 +4,14 @@ package com.toidiu.ffffind.utils;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFItem;
+import com.toidiu.ffffind.model.FItemBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
-    FFFeedParser ffFeedParser;
+public class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFItem>> {
+    FItemBuilder fItemBuilder;
 
     private static final String TAG = "test tag";
     private String mUrl;
@@ -21,18 +22,18 @@ public class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
         mListener = listener;
     }
     @Override
-    protected ArrayList<FFFFItem> doInBackground(Void... params) {
+    protected ArrayList<FFItem> doInBackground(Void... params) {
         try{
             Log.d(TAG, mUrl);
-            String result = new FFHttpRequest().getUrl(mUrl);
-            ffFeedParser = new FFFeedParser(result);
-            ArrayList<FFFFItem> ffGalleryItems = ffFeedParser.parse();
+            String result = new HttpRequest().getUrl(mUrl);
+            fItemBuilder = new FItemBuilder(result);
+            ArrayList<FFItem> ffGalleryItems = fItemBuilder.parse();
             return ffGalleryItems;
         } catch (IOException e) { Log.d(TAG, "Failed to get xml feed"); }
         return null;
     }
     @Override
-    protected void onPostExecute(ArrayList<FFFFItem> galleryItems) {
+    protected void onPostExecute(ArrayList<FFItem> galleryItems) {
         if (galleryItems!=null){
             mListener.onAsyncComplete(galleryItems);
         }
@@ -41,7 +42,7 @@ public class FetchItemsAsync extends AsyncTask<Void,Void,ArrayList<FFFFItem>> {
 
     //--------------------------------------PRIVATE INTERFACE---------------
     public interface OnAsyncComplete{
-        void onAsyncComplete(ArrayList<FFFFItem> itemList);
+        void onAsyncComplete(ArrayList<FFItem> itemList);
     }
 
 }

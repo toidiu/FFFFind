@@ -3,7 +3,7 @@ package com.toidiu.ffffind.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class FFFFItem implements Parcelable{
+public class FFItem implements Parcelable{
     private String Artist;
     private String Title;
     private String SmallUrl;
@@ -14,7 +14,7 @@ public class FFFFItem implements Parcelable{
     private boolean Favorite;
     private boolean Download;
 
-    public FFFFItem(){
+    public FFItem(){
         SmallUrl = "";
         MedUrl = "";
         BigUrl = "";
@@ -23,7 +23,7 @@ public class FFFFItem implements Parcelable{
         Favorite = false;
         Download = false;
     }
-    public FFFFItem(Parcel parcel){
+    public FFItem(Parcel parcel){
         Artist = parcel.readString();
         Title = parcel.readString();
         SmallUrl = parcel.readString();
@@ -43,7 +43,7 @@ public class FFFFItem implements Parcelable{
     }
     public void setArtist(String user) {
         this.Artist = user;
-        FFFavData.getInstance().addUser(user);
+        FavData.getInstance().addUser(user);
     }
     public String getTitle() {
         return Title;
@@ -118,8 +118,8 @@ public class FFFFItem implements Parcelable{
         boolean[] array = new boolean[]{Favorite, Download};
         parcel.writeBooleanArray(array);
     }
-    public static final Parcelable.Creator<FFFFItem> CREATOR = new Parcelable.Creator<FFFFItem>() {
-        public FFFFItem createFromParcel(Parcel in) { return new FFFFItem(in); }
-        public FFFFItem[] newArray(int size) { return new FFFFItem[size]; }
+    public static final Parcelable.Creator<FFItem> CREATOR = new Parcelable.Creator<FFItem>() {
+        public FFItem createFromParcel(Parcel in) { return new FFItem(in); }
+        public FFItem[] newArray(int size) { return new FFItem[size]; }
     };
 }

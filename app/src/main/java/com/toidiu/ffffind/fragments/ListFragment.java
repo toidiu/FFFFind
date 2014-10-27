@@ -16,18 +16,18 @@ import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.activities.FFDetailActivity;
-import com.toidiu.ffffind.adapter.FFGalleryAdapter;
+import com.toidiu.ffffind.activities.DetailActivity;
+import com.toidiu.ffffind.adapter.GalleryAdapter;
 import com.toidiu.ffffind.model.FFData;
-import com.toidiu.ffffind.model.FFFFItem;
-import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.model.FFItem;
+import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.utils.FetchItemsAsync;
 import com.toidiu.ffffind.utils.Stuff;
 
 import java.util.ArrayList;
 
 
-public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetcherInterface,
+public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener, FetchItemsAsync.OnAsyncComplete {
     private static final String TAG = "FFListFragment";
 
@@ -41,18 +41,18 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     public static String mURL;
     private boolean itemsShowing = false;
     private StaggeredGridView mSGView;
-    private FFGalleryAdapter mGalleryAdapter;
+    private GalleryAdapter mGalleryAdapter;
     public FFData mListData;
     private boolean showFavs;
 
-    public static FFListFragment newInstance(String url, boolean fav){
+    public static ListFragment newInstance(String url, boolean fav){
         FFData.getInstance().clearList();
         mURL = url;
 
         Bundle bundle = new Bundle();
         bundle.putBoolean(SHOW_FAV, fav);
 
-        FFListFragment fragment = new FFListFragment();
+        ListFragment fragment = new ListFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -64,11 +64,11 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         setRetainInstance(true);
 
         mListData = FFData.getInstance();
-        mGalleryAdapter = new FFGalleryAdapter(getActivity(), this, mListData);
+        mGalleryAdapter = new GalleryAdapter(getActivity(), this, mListData);
 
         showFavs = getArguments().getBoolean(SHOW_FAV, false);
         if (showFavs) {
-            mListData.addItems(FFFavData.getInstance().getFav());
+            mListData.addItems(FavData.getInstance().getFav());
             FFData.getInstance().setNextUrl("");
         }
 
@@ -86,10 +86,10 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == FFDetailFragment.DETAIL_TAB){
+        if(resultCode == DetailFragment.DETAIL_TAB){
             //handle
             Log.d(TAG, "detail_tab");
-        }else if(resultCode == FFDetailFragment.DETAIL_BACK) {
+        }else if(resultCode == DetailFragment.DETAIL_BACK) {
 //            mListData.clearList();
 
 //            if (showFavs) {
@@ -107,7 +107,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
         super.onResume();
         if (showFavs) {
             mListData.clearList();
-            mListData.addItems(FFFavData.getInstance().getFav());
+            mListData.addItems(FavData.getInstance().getFav());
         }
         mGalleryAdapter.notifyDataSetChanged();
     }
@@ -126,8 +126,8 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), FFDetailActivity.class);
-        intent.putExtra(FFDetailActivity.ITEM_POS, position);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.ITEM_POS, position);
 //        FFFFItem item = mListData.getItems(position);
 //        intent.putExtra(FFDetailFragment.ITEM_EXTRA, item);
         startActivityForResult(intent, 0);
@@ -140,7 +140,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
 
     public void setUpAdapter(){
         if(getActivity() == null || mSGView == null) return;
-        ArrayList<FFFFItem> items = mListData.getItems();
+        ArrayList<FFItem> items = mListData.getItems();
 
         if (items != null && mSGView.getAdapter() == null){
             mSGView.setAdapter(mGalleryAdapter);
@@ -194,7 +194,7 @@ public class FFListFragment extends Fragment implements FFGalleryAdapter.FFFetch
     }
 
     @Override
-    public void onAsyncComplete(ArrayList<FFFFItem> itemList) {
+    public void onAsyncComplete(ArrayList<FFItem> itemList) {
         mListData.addItems(itemList);
         setUpAdapter();
     }

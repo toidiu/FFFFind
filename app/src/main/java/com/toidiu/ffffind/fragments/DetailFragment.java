@@ -21,9 +21,9 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.activities.FFListActivity;
-import com.toidiu.ffffind.model.FFFFItem;
-import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.activities.ListActivity;
+import com.toidiu.ffffind.model.FFItem;
+import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.File;
@@ -32,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class FFDetailFragment extends Fragment {
+public class DetailFragment extends Fragment {
     public static final String ITEM_EXTRA = "com.toidiu.itemExtra";
     public static final int DETAIL_TAB = 1;
     public static final int DETAIL_USER_LIST = 2;
@@ -41,17 +41,17 @@ public class FFDetailFragment extends Fragment {
     public static final int DETAIL_BACK = 5;
 
     private static final String TAG = "FFDetailFragment";
-    private FFFFItem item;
+    private FFItem item;
     private ImageView imgView;
     private ImageView downView;
     private ImageView starView;
 
-    public static FFDetailFragment newInstance(FFFFItem item) {
+    public static DetailFragment newInstance(FFItem item) {
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(ITEM_EXTRA, item);
 
-        FFDetailFragment fragment = new FFDetailFragment();
+        DetailFragment fragment = new DetailFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -64,7 +64,7 @@ public class FFDetailFragment extends Fragment {
         item = getArguments().getParcelable(ITEM_EXTRA);
 
 
-        FFFFItem getFav = FFFavData.getInstance().getFav(item.getMedUrl());
+        FFItem getFav = FavData.getInstance().getFav(item.getMedUrl());
         item = getFav != null ? getFav : item;
         getActivity().setTitle(item.getArtist());
 
@@ -112,12 +112,12 @@ public class FFDetailFragment extends Fragment {
         artist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = FFListFragment.USER_URL_BASE + item.getArtist() + FFListFragment.USER_URL_END;
+                String url = ListFragment.USER_URL_BASE + item.getArtist() + ListFragment.USER_URL_END;
                 Log.d(TAG, url);
 
-                Intent intent = new Intent(getActivity(), FFListActivity.class);
-                intent.putExtra(FFListFragment.LIST_URL, url);
-                intent.putExtra(FFListActivity.LIST_TITLE, item.getArtist());
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra(ListFragment.LIST_URL, url);
+                intent.putExtra(ListActivity.LIST_TITLE, item.getArtist());
                 returnResult(DETAIL_USER_LIST, intent);
             }
         });
@@ -131,7 +131,7 @@ public class FFDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 item.setDownload(true);
-                FFFavData.getInstance().updateFav(item);
+                FavData.getInstance().updateFav(item);
                 new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
             }
         });
@@ -161,10 +161,10 @@ public class FFDetailFragment extends Fragment {
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
         if (isFav) {
             star.setImageDrawable(getResources().getDrawable(R.drawable.fav));
-            FFFavData.getInstance().addFav(item);
+            FavData.getInstance().addFav(item);
         }else {
             star.setImageDrawable(getResources().getDrawable(R.drawable.fav_add));
-            FFFavData.getInstance().removeFav(item);
+            FavData.getInstance().removeFav(item);
         }
     }
 

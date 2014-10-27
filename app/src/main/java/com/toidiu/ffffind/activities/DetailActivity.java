@@ -11,23 +11,23 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.fragments.FFDetailFragment;
+import com.toidiu.ffffind.fragments.DetailFragment;
 import com.toidiu.ffffind.model.FFData;
-import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.utils.FetchItemsAsync;
 
 import java.util.ArrayList;
 
-public class FFDetailActivity extends ActionBarActivity implements FetchItemsAsync.OnAsyncComplete{
+public class DetailActivity extends ActionBarActivity implements FetchItemsAsync.OnAsyncComplete{
     private static final String TAG = "DetailView";
     public static final String ITEM_POS = "com.toidiu.detail_item_position";
 
 
     private FragmentManager mFragManager;
-    private FFDetailFragment mFragment;
+    private DetailFragment mFragment;
     private ViewPager mViewPager;
-    private ArrayList<FFFFItem> mItemList;
-    private FFFFItem mItem;
+    private ArrayList<FFItem> mItemList;
+    private FFItem mItem;
     private String mURL;
     private FragmentStatePagerAdapter adapter;
 
@@ -47,7 +47,7 @@ public class FFDetailActivity extends ActionBarActivity implements FetchItemsAsy
             @Override
             public Fragment getItem(int position) {
                 mItem = mItemList.get(position);
-                mFragment = FFDetailFragment.newInstance(mItem);
+                mFragment = DetailFragment.newInstance(mItem);
                 return mFragment;
             }
 
@@ -64,7 +64,7 @@ public class FFDetailActivity extends ActionBarActivity implements FetchItemsAsy
     }
 
     private void pageChangeListener() {
-        final FFDetailActivity detailActivity = this;
+        final DetailActivity detailActivity = this;
 
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -113,7 +113,7 @@ public class FFDetailActivity extends ActionBarActivity implements FetchItemsAsy
 //                break;
             case R.id.favorite:
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
-                setResult(FFDetailFragment.DETAIL_FAV_LIST);
+                setResult(DetailFragment.DETAIL_FAV_LIST);
                 finish();
                 break;
             default:
@@ -126,12 +126,12 @@ public class FFDetailActivity extends ActionBarActivity implements FetchItemsAsy
 
     @Override
     public void onBackPressed() {
-        setResult(FFDetailFragment.DETAIL_BACK);
+        setResult(DetailFragment.DETAIL_BACK);
         finish();
     }
 
     @Override
-    public void onAsyncComplete(ArrayList<FFFFItem> itemList) {
+    public void onAsyncComplete(ArrayList<FFItem> itemList) {
         FFData.getInstance().addItems(itemList);
         adapter.notifyDataSetChanged();
     }

@@ -61,7 +61,7 @@ public class ThumbDownloader<Token> extends HandlerThread{
             if (url == null)
                 return;
 
-            byte[] bitmapBytes = new FFHttpRequest().getUrlBytes(url);
+            byte[] bitmapBytes = new HttpRequest().getUrlBytes(url);
             final Bitmap bitmap = BitmapFactory
                     .decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
 

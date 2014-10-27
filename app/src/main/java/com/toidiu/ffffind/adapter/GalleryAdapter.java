@@ -12,14 +12,14 @@ import com.etsy.android.grid.util.DynamicHeightImageView;
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.model.FFData;
-import com.toidiu.ffffind.model.FFFFItem;
+import com.toidiu.ffffind.model.FFItem;
 
 import java.util.Random;
 
 import static com.toidiu.ffffind.utils.Stuff.generateRandomColor;
 
 
-public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
+public class GalleryAdapter extends ArrayAdapter<FFItem> {
     private static final String TAG = "FFGalleryAdapter";
 
     private Activity mActivity;
@@ -28,7 +28,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
     private static final SparseArray<Double> sPositionHeightRatios = new SparseArray<Double>();
     private FFData mData;
 
-    public FFGalleryAdapter(Context ctx, FFFetcherInterface listener, FFData data) {
+    public GalleryAdapter(Context ctx, FFFetcherInterface listener, FFData data) {
         super( ctx, 0, data.getItems());
 
         mData = data;
@@ -44,7 +44,7 @@ public class FFGalleryAdapter extends ArrayAdapter<FFFFItem> {
                 .inflate(R.layout.gallery_item, parent, false);
         }
 
-        FFFFItem item = getItem(position);
+        FFItem item = getItem(position);
 
         DynamicHeightImageView imgView = (DynamicHeightImageView) convertView.findViewById(R.id.imgView);
         double positionHeight = getPositionRatio(position);

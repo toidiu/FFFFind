@@ -9,14 +9,14 @@
 
 
     <application
-        android:name=".FFFFApplication"
+        android:name=".FFApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light" >
 
         <activity
-            android:name=".activities.FFListActivity"
+            android:name=".activities.ListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name="com.toidiu.ffffind.activities.FFDetailActivity"
+            android:name=".activities.DetailActivity"
             android:label="@string/app_name" >
         </activity>
         <meta-data android:name="com.crashlytics.ApiKey" android:value="7236614ff6bf64f85117dfe87b1029b7115ceb90"/>

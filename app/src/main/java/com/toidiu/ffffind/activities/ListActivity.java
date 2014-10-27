@@ -7,20 +7,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 
-import com.crashlytics.android.Crashlytics;
 import com.google.gson.reflect.TypeToken;
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.fragments.FFDetailFragment;
-import com.toidiu.ffffind.fragments.FFListFragment;
-import com.toidiu.ffffind.model.FFFFItem;
-import com.toidiu.ffffind.model.FFFavData;
+import com.toidiu.ffffind.fragments.DetailFragment;
+import com.toidiu.ffffind.fragments.ListFragment;
+import com.toidiu.ffffind.model.FFItem;
+import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.utils.SaveLoadHandler;
 
 import java.io.File;
@@ -29,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class FFListActivity extends GenralFragmentActivity {
+public class ListActivity extends GenralFragmentActivity {
     private static final String TAG = "Main Activity";
     public static final String LIST_TITLE = "com.toidiu.artist_name";
     private static final String MAIN_LIST = "com.toidiu.main_list";
@@ -43,7 +41,7 @@ public class FFListActivity extends GenralFragmentActivity {
     private Menu mMenu;
 
     private static boolean IS_MAIN_LIST = true;
-    private static SaveLoadHandler<ArrayList<FFFFItem>> slh;
+    private static SaveLoadHandler<ArrayList<FFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
     public File FILE;
 
@@ -54,11 +52,11 @@ public class FFListActivity extends GenralFragmentActivity {
         if (savedInstanceState == null) {
             //Save/Load handler
             FILE = new File(this.getFilesDir() + File.separator + SAVE_FILE);
-            Type type = new TypeToken<ArrayList<FFFFItem>>() {
+            Type type = new TypeToken<ArrayList<FFItem>>() {
             }.getType();
             slh = new SaveLoadHandler(type, FILE);
-            final ArrayList<FFFFItem> list = slh.loadData();
-            FFFavData.getInstance().setFav(list);
+            final ArrayList<FFItem> list = slh.loadData();
+            FavData.getInstance().setFav(list);
 
 
         }
@@ -68,16 +66,16 @@ public class FFListActivity extends GenralFragmentActivity {
     protected Fragment createFragment() {
         //get random url
         int mOffset = new Random().nextInt(getResources().getInteger(R.integer.rand_cnt));
-        MAIN_URL = FFListFragment.EXPLORE_URL_BASE + mOffset;
+        MAIN_URL = ListFragment.EXPLORE_URL_BASE + mOffset;
 
-        return FFListFragment.newInstance(MAIN_URL, false);
+        return ListFragment.newInstance(MAIN_URL, false);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         if (isFinishing()) {
-            slh.saveData(FFFavData.getInstance().getFav());
+            slh.saveData(FavData.getInstance().getFav());
         }
     }
 
@@ -92,34 +90,34 @@ public class FFListActivity extends GenralFragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if (IS_MAIN_LIST) {
             super.onBackPressed();
-        }else {
-            configMenu(true, true, true, false);
-
-            IS_MAIN_LIST = true;
-            setTitle(getResources().getString(R.string.app_name));
-            //pass Everyone mURL
-            bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
-
-            mFragManager = getSupportFragmentManager();
-            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
-            if(mMainFragment == null){
-                mMainFragment = new FFListFragment();
-                mMainFragment.setArguments(bundle);
-                mFragManager.beginTransaction()
-                        .add(R.id.frag_container, mMainFragment)
-                        .commit();
-            }
-        }
+//        if (IS_MAIN_LIST) {
+//        }else {
+//            configMenu(true, true, true, false);
+//
+//            IS_MAIN_LIST = true;
+//            setTitle(getResources().getString(R.string.app_name));
+//            //pass Everyone mURL
+//            bundle = new Bundle();
+//            bundle.putCharSequence(FFListFragment.LIST_URL, MAIN_URL);
+//
+//            mFragManager = getSupportFragmentManager();
+//            mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
+//            if(mMainFragment == null){
+//                mMainFragment = new FFListFragment();
+//                mMainFragment.setArguments(bundle);
+//                mFragManager.beginTransaction()
+//                        .add(R.id.frag_container, mMainFragment)
+//                        .commit();
+//            }
+//        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int mOffset;
-        if (IS_MAIN_LIST && FFListFragment.getURL() != ""){
-            MAIN_URL = FFListFragment.getURL();
+        if (IS_MAIN_LIST && ListFragment.getURL() != ""){
+            MAIN_URL = ListFragment.getURL();
         }
 
         IS_MAIN_LIST = false;
@@ -130,15 +128,15 @@ public class FFListActivity extends GenralFragmentActivity {
             case R.id.explore:
                 Toast.makeText(this, "Explore", Toast.LENGTH_SHORT).show();
                 mOffset = new Random().nextInt(getResources().getInteger(R.integer.rand_cnt));
-                url = FFListFragment.EXPLORE_URL_BASE + mOffset;
+                url = ListFragment.EXPLORE_URL_BASE + mOffset;
                 Log.d(TAG, url);
                 setTitle("Explore");
 
                 //set mURL
                 bundle = new Bundle();
-                bundle.putCharSequence(FFListFragment.LIST_URL, url);
+                bundle.putCharSequence(ListFragment.LIST_URL, url);
 
-                mMainFragment = FFListFragment.newInstance(url, false);
+                mMainFragment = ListFragment.newInstance(url, false);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.frag_container, mMainFragment)
                         .commit();
@@ -173,12 +171,12 @@ public class FFListActivity extends GenralFragmentActivity {
                 setTitle("Favorites");
                 //set mURL
                 bundle = new Bundle();
-                bundle.putCharSequence(FFListFragment.LIST_URL, "");
-                bundle.putBoolean(FFListFragment.SHOW_FAV, true);
+                bundle.putCharSequence(ListFragment.LIST_URL, "");
+                bundle.putBoolean(ListFragment.SHOW_FAV, true);
 
                 mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
                 if (mMainFragment == null) {
-                    mMainFragment = new FFListFragment();
+                    mMainFragment = new ListFragment();
                 }
                 mMainFragment.setArguments(bundle);
 
@@ -202,7 +200,7 @@ public class FFListActivity extends GenralFragmentActivity {
                     })
                     .setPositiveButton("Clear", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            FFFavData.getInstance().clearFav();
+                            FavData.getInstance().clearFav();
                         }
                     });
                 // create alert dialog
@@ -222,23 +220,23 @@ public class FFListActivity extends GenralFragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         configMenu(true, true, true, false);
-        if (IS_MAIN_LIST && FFListFragment.getURL() != ""){
-            MAIN_URL = FFListFragment.getURL();
+        if (IS_MAIN_LIST && ListFragment.getURL() != ""){
+            MAIN_URL = ListFragment.getURL();
         }
 
-        if (resultCode == FFDetailFragment.DETAIL_USER_LIST) {
+        if (resultCode == DetailFragment.DETAIL_USER_LIST) {
             Toast.makeText(this, "Detail User", Toast.LENGTH_SHORT).show();
-            String title = data.getStringExtra(FFListActivity.LIST_TITLE);
-            url = data.getStringExtra(FFListFragment.LIST_URL);
+            String title = data.getStringExtra(ListActivity.LIST_TITLE);
+            url = data.getStringExtra(ListFragment.LIST_URL);
             setTitle(title);
 
             bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, url);
+            bundle.putCharSequence(ListFragment.LIST_URL, url);
 
             mFragManager = getSupportFragmentManager();
             mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
             if (mMainFragment == null) {
-                mMainFragment = new FFListFragment();
+                mMainFragment = new ListFragment();
             }
             mMainFragment.setArguments(bundle);
             mFragManager.beginTransaction()
@@ -246,20 +244,20 @@ public class FFListActivity extends GenralFragmentActivity {
                     .commitAllowingStateLoss();
             IS_MAIN_LIST = false;
 
-        }else if(resultCode == FFDetailFragment.DETAIL_FAV_LIST){
+        }else if(resultCode == DetailFragment.DETAIL_FAV_LIST){
             configMenu(true, true, false, true);
 
             Toast.makeText(this, "Detail Favorites", Toast.LENGTH_SHORT).show();
             setTitle("Favorites");
             //set mURL
             bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, "");
-            bundle.putBoolean(FFListFragment.SHOW_FAV, true);
+            bundle.putCharSequence(ListFragment.LIST_URL, "");
+            bundle.putBoolean(ListFragment.SHOW_FAV, true);
 
             mFragManager = getSupportFragmentManager();
             mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
             if (mMainFragment == null) {
-                mMainFragment = new FFListFragment();
+                mMainFragment = new ListFragment();
             }
             mMainFragment.setArguments(bundle);
             mFragManager.beginTransaction()
@@ -267,23 +265,23 @@ public class FFListActivity extends GenralFragmentActivity {
                     .commitAllowingStateLoss();
             IS_MAIN_LIST = false;
 
-        }else if(resultCode == FFDetailFragment.DETAIL_RAND_USER_LIST){
+        }else if(resultCode == DetailFragment.DETAIL_RAND_USER_LIST){
             Toast.makeText(this, "Detail Rand User", Toast.LENGTH_SHORT).show();
-            String[] randUserList = FFFavData.getInstance().getUsers();
+            String[] randUserList = FavData.getInstance().getUsers();
             int rand = new Random().nextInt(randUserList.length);
             String randUser = randUserList[rand];
 
-            url = FFListFragment.USER_URL_BASE + randUser + FFListFragment.USER_URL_END;
+            url = ListFragment.USER_URL_BASE + randUser + ListFragment.USER_URL_END;
             Log.d(TAG, url);
             setTitle(randUser);
 
             bundle = new Bundle();
-            bundle.putCharSequence(FFListFragment.LIST_URL, url);
+            bundle.putCharSequence(ListFragment.LIST_URL, url);
 
             mFragManager = getSupportFragmentManager();
             mMainFragment = mFragManager.findFragmentByTag(MAIN_LIST);
             if (mMainFragment == null) {
-                mMainFragment = new FFListFragment();
+                mMainFragment = new ListFragment();
             }
             mMainFragment.setArguments(bundle);
             mFragManager.beginTransaction()
@@ -291,7 +289,7 @@ public class FFListActivity extends GenralFragmentActivity {
                     .commitAllowingStateLoss();
             IS_MAIN_LIST = false;
 
-        }else if(resultCode == FFDetailFragment.DETAIL_BACK){
+        }else if(resultCode == DetailFragment.DETAIL_BACK){
             super.onActivityResult(requestCode, resultCode, data);
         }else {
             IS_MAIN_LIST = true;

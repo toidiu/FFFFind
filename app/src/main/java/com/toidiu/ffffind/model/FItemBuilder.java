@@ -1,8 +1,5 @@
-package com.toidiu.ffffind.utils;
+package com.toidiu.ffffind.model;
 
-
-import com.toidiu.ffffind.model.FFData;
-import com.toidiu.ffffind.model.FFFFItem;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -12,11 +9,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-public class FFFeedParser {
+public class FItemBuilder {
     private static final String TAG = "PARSER";
     String mXmlFeed;
-    FFFFItem mffffItem;
-    ArrayList<FFFFItem> retVal;
+    FFItem mffffItem;
+    ArrayList<FFItem> retVal;
 
     enum modeEnum {
         TITLE,
@@ -29,12 +26,12 @@ public class FFFeedParser {
     modeEnum ItemMode;
     Boolean itemCreated = false;
 
-    public FFFeedParser(String xmlFeed) {
+    public FItemBuilder(String xmlFeed) {
         mXmlFeed = xmlFeed;
-        retVal = new ArrayList<FFFFItem>();
+        retVal = new ArrayList<FFItem>();
     }
 
-    public ArrayList<FFFFItem> parse() {
+    public ArrayList<FFItem> parse() {
 
         XmlPullParserFactory factory = null;
         try {
@@ -99,7 +96,7 @@ public class FFFeedParser {
     private void CreateItem(){
 //        Log.d("TAG","Start tag:------------- ");
         itemCreated = true;
-        mffffItem = new FFFFItem();
+        mffffItem = new FFItem();
     }
     private void CloseItem(){
         itemCreated = false;

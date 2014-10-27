@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class FFData {
     private static FFData mFFData;
 
-    private ArrayList<FFFFItem> mFFItemsList;
+    private ArrayList<FFItem> mFFItemsList;
     private String nextUrl;
     private String prevUrl;
 
     //----------Instance
     public FFData() {
-        mFFItemsList = new ArrayList<FFFFItem>();
+        mFFItemsList = new ArrayList<FFItem>();
     }
     public static FFData getInstance() {
         if (mFFData == null) {
@@ -21,14 +21,14 @@ public class FFData {
     }
 
     //------------------Item List
-    public void addItems(ArrayList<FFFFItem> ffArray) {
+    public void addItems(ArrayList<FFItem> ffArray) {
         if (mFFItemsList == null) {
             mFFItemsList = ffArray;
         }else {
             mFFItemsList.addAll(ffArray);
         }
     }
-    public void addItems(FFFFItem item) {
+    public void addItems(FFItem item) {
         mFFItemsList.add(item);
     }
     public void setPrevUrl(String prevUrl) {
@@ -39,10 +39,10 @@ public class FFData {
     }
     public void clearList(){ mFFItemsList.clear(); }
 
-    public FFFFItem getItems(int idx) {
+    public FFItem getItems(int idx) {
         return mFFItemsList.get(idx);
     }
-    public ArrayList<FFFFItem> getItems() {
+    public ArrayList<FFItem> getItems() {
         return mFFItemsList;
     }
     public String getPrevUrl() {
@@ -52,7 +52,7 @@ public class FFData {
         return nextUrl;
     }
     public int getSize() { return mFFItemsList.size(); }
-    public int getIdx(FFFFItem item){
+    public int getIdx(FFItem item){
         return mFFItemsList.indexOf(item);
     }
 

@@ -8,7 +8,7 @@ import com.crashlytics.android.Crashlytics;
 /**
  * Created by toidiu on 10/26/14.
  */
-public class FFFFApplication extends Application {
+public class FFApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
