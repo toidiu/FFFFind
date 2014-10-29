@@ -7,7 +7,7 @@
         android:title="@string/expore"
         android:icon="@drawable/explore"
         android:orderInCategory="100"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
     <!--<item android:id="@+id/randomUser"-->
         <!--android:title="Random User"-->
         <!--android:icon="@drawable/random_user"-->
@@ -17,9 +17,9 @@
         android:title="Favorite"
         android:icon="@drawable/fav_list"
         android:orderInCategory="120"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
     <item android:id="@+id/clear_fav"
         android:title="Clear Favorites"
         android:orderInCategory="130"
-        app:showAsAction="never" />
+        android:showAsAction="never" />
 </menu>

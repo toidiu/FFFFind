@@ -25,8 +25,6 @@ import java.util.Random;
 public class ListActivity extends GenralFragmentActivity {
     public static final String LIST_TITLE = "com.toidiu.artist_name";
 
-    private Fragment listFragment;
-
     private static SaveLoadHandler<ArrayList<FFItem>> slh;
     private final static String SAVE_FILE = "fav.json";
     public File FILE;
@@ -43,7 +41,6 @@ public class ListActivity extends GenralFragmentActivity {
             slh = new SaveLoadHandler(type, FILE);
             final ArrayList<FFItem> list = slh.loadData();
             FavData.getInstance().setFav(list);
-
 
         }
     }
@@ -71,7 +68,7 @@ public class ListActivity extends GenralFragmentActivity {
                 Toast.makeText(this, "Explore", Toast.LENGTH_SHORT).show();
 
                 String url = Stuff.getRandUrl();
-                listFragment = ListFragment.newInstance(url, false);
+                ListFragment listFragment = ListFragment.newInstance(url, false);
                 switchFragment(listFragment);
 
                 break;
