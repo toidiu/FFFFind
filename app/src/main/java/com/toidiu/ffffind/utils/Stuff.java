@@ -5,9 +5,14 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.fragments.ListFragment;
+
 import java.util.Random;
 
 public  class Stuff {
+
+    private static final int MAX_RAND_OFFSET = 135000;
 
     public static int generateRandomColor(int mix) {
         Random random = new Random();
@@ -24,6 +29,11 @@ public  class Stuff {
 
         int color = Color.argb(255, red, green, blue);
         return color;
+    }
+
+    public static String getRandUrl(){
+        int randOffset = new Random().nextInt(MAX_RAND_OFFSET);
+        return ListFragment.EXPLORE_URL_BASE + randOffset;
     }
 
     public static boolean isConnected(Context ctx){
