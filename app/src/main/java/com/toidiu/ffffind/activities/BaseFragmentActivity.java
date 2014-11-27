@@ -12,7 +12,7 @@ import com.toidiu.ffffind.R;
 /**
  * Created by toidiu on 10/26/14.
  */
-public abstract class GenralFragmentActivity extends FragmentActivity {
+public abstract class BaseFragmentActivity extends FragmentActivity {
 
     private Menu mMenu;
 

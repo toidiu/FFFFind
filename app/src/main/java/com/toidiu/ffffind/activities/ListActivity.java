@@ -2,8 +2,6 @@ package com.toidiu.ffffind.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,10 +17,10 @@ import com.toidiu.ffffind.utils.Stuff;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Random;
 
 
-public class ListActivity extends GenralFragmentActivity {
+public class ListActivity extends BaseFragmentActivity
+{
     public static final String LIST_TITLE = "com.toidiu.artist_name";
 
     private static SaveLoadHandler<ArrayList<FFItem>> slh;
@@ -62,7 +60,6 @@ public class ListActivity extends GenralFragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.explore:
                 Toast.makeText(this, "Explore", Toast.LENGTH_SHORT).show();
