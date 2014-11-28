@@ -31,26 +31,26 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener, FetchItemsAsync.OnAsyncComplete {
     private static final String TAG = "FFListFragment";
 
-    public static final String LIST_URL = "com.toidiu.list_url";
-    public static final String SHOW_FAV = "com.toidiu.show_fav";
-    public static final String EVERYONE_URL = "http://ffffound.com/feed";
-    public static final String USER_URL_BASE = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
-    public static final String USER_URL_END = "/found/feed";
+    public static final String SHOW_FAV_EXTRA = "com.toidiu.show_fav";
+    public static final String LIST_URL_EXTRA = "com.toidiu.list_url";
+
+    public static final String EVERYONE_URL     = "http://ffffound.com/feed";
+    public static final String USER_URL_BASE    = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
+    public static final String USER_URL_END     = "/found/feed";
     public static final String EXPLORE_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
 
-    public static String mURL;
+    public String mURL;
     private boolean itemsShowing = false;
     private StaggeredGridView mSGView;
-    private GalleryAdapter mGalleryAdapter;
-    public FFData mListData;
-    private boolean showFavs;
+    private GalleryAdapter    mGalleryAdapter;
+    public  FFData            mListData;
+    private boolean           showFavs;
 
-    public static ListFragment newInstance(String url, boolean fav){
-        FFData.getInstance().clearList();
-        mURL = url;
-
+    public static ListFragment newInstance(String url, boolean fav)
+    {
         Bundle bundle = new Bundle();
-        bundle.putBoolean(SHOW_FAV, fav);
+        bundle.putBoolean(SHOW_FAV_EXTRA, fav);
+        bundle.putString(LIST_URL_EXTRA, url);
 
         ListFragment fragment = new ListFragment();
         fragment.setArguments(bundle);
@@ -58,15 +58,18 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
         mListData = FFData.getInstance();
         mGalleryAdapter = new GalleryAdapter(getActivity(), this, mListData);
 
-        showFavs = getArguments().getBoolean(SHOW_FAV, false);
-        if (showFavs) {
+        mURL = getArguments().getString(LIST_URL_EXTRA, null);
+        showFavs = getArguments().getBoolean(SHOW_FAV_EXTRA, false);
+        if(showFavs)
+        {
             mListData.addItems(FavData.getInstance().getFav());
             FFData.getInstance().setNextUrl("");
         }
@@ -76,7 +79,8 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);
         mSGView = (StaggeredGridView) v.findViewById(R.id.grid_view);
         setUpAdapter();
@@ -185,12 +189,12 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
             }
         });
     }
-    public static String getURL(){
-        if (mURL == null){
-            return "";
-        }
-        return mURL;
-    }
+//    public static String getURL(){
+//        if (mURL == null){
+//            return "";
+//        }
+//        return mURL;
+//    }
 
     @Override
     public void onAsyncComplete(ArrayList<FFItem> itemList) {

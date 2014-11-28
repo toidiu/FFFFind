@@ -116,7 +116,7 @@ public class DetailFragment extends Fragment {
                 Log.d(TAG, url);
 
                 Intent intent = new Intent(getActivity(), ListActivity.class);
-                intent.putExtra(ListFragment.LIST_URL, url);
+                intent.putExtra(ListFragment.LIST_URL_EXTRA, url);
                 intent.putExtra(ListActivity.LIST_TITLE, item.getArtist());
                 returnResult(DETAIL_USER_LIST, intent);
             }
