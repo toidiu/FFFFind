@@ -39,7 +39,6 @@ public class ListActivity extends BaseFragmentActivity
             slh = new SaveLoadHandler(type, FILE);
             final ArrayList<FFItem> list = slh.loadData();
             FavData.getInstance().setFav(list);
-
         }
     }
 
@@ -64,9 +63,9 @@ public class ListActivity extends BaseFragmentActivity
             case R.id.explore:
                 Toast.makeText(this, "Explore", Toast.LENGTH_SHORT).show();
 
-                String url = Stuff.getRandUrl();
-                ListFragment listFragment = ListFragment.newInstance(url, false);
-                switchFragment(listFragment);
+//                String url = Stuff.getRandUrl();
+//                ListFragment listFragment = ListFragment.newInstance(url, false);
+//                switchFragment(listFragment);
 
                 break;
             default:

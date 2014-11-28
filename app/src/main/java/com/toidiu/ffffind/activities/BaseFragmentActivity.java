@@ -12,37 +12,29 @@ import com.toidiu.ffffind.R;
 /**
  * Created by toidiu on 10/26/14.
  */
-public abstract class BaseFragmentActivity extends FragmentActivity {
+public abstract class BaseFragmentActivity extends FragmentActivity
+{
 
+    public static final String LIST_FRAGMENT_TAG = "LIST_FRAGMENT_TAG";
     private Menu mMenu;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_fragment);
 
         getSupportFragmentManager().beginTransaction()
-                .addToBackStack(null)
-                .add(R.id.frag_container, createFragment())
-                .commit();
-    }
+                .add(R.id.frag_container, createFragment(), LIST_FRAGMENT_TAG).commit();
 
+    }
 
     protected abstract Fragment createFragment();
 
-
-    public void switchFragment(Fragment fragment){
-        FragmentManager mFragManager = getSupportFragmentManager();
-
-        mFragManager.beginTransaction()
-                .add(R.id.frag_container, fragment)
-                .commit();
-
-    }
-
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu)
+    {
         // Inflate the menu
         mMenu = menu;
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -50,10 +42,12 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
         return super.onCreateOptionsMenu(mMenu);
     }
 
-    protected void configMenu(boolean explore, boolean randUser, boolean fav, boolean clearFav){
-        if (mMenu != null) {
+    protected void configMenu(boolean explore, boolean randUser, boolean fav, boolean clearFav)
+    {
+        if(mMenu != null)
+        {
             mMenu.findItem(R.id.explore).setVisible(explore);
-//            mMenu.findItem(R.id.randomUser).setVisible(randUser);
+            //            mMenu.findItem(R.id.randomUser).setVisible(randUser);
             mMenu.findItem(R.id.favorite).setVisible(fav);
             mMenu.findItem(R.id.clear_fav).setVisible(clearFav);
         }

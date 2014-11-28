@@ -57,7 +57,6 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

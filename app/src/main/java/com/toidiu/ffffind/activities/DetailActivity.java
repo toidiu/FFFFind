@@ -2,6 +2,7 @@ package com.toidiu.ffffind.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,7 +19,7 @@ import com.toidiu.ffffind.utils.FetchItemsAsync;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends ActionBarActivity implements FetchItemsAsync.OnAsyncComplete{
+public class DetailActivity extends FragmentActivity implements FetchItemsAsync.OnAsyncComplete{
     private static final String TAG = "DetailView";
     public static final String ITEM_POS = "com.toidiu.detail_item_position";
 
