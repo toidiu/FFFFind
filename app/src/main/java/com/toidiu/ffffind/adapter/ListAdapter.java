@@ -19,7 +19,7 @@ import java.util.Random;
 import static com.toidiu.ffffind.utils.Stuff.generateRandomColor;
 
 
-public class GalleryAdapter extends ArrayAdapter<FFItem> {
+public class ListAdapter extends ArrayAdapter<FFItem> {
     private static final String TAG = "FFGalleryAdapter";
 
     private Activity mActivity;
@@ -28,7 +28,7 @@ public class GalleryAdapter extends ArrayAdapter<FFItem> {
     private static final SparseArray<Double> sPositionHeightRatios = new SparseArray<Double>();
     private FFData mData;
 
-    public GalleryAdapter(Context ctx, FFFetcherInterface listener, FFData data) {
+    public ListAdapter(Context ctx, FFFetcherInterface listener, FFData data) {
         super( ctx, 0, data.getItems());
 
         mData = data;

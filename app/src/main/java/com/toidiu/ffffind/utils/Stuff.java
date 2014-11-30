@@ -31,9 +31,10 @@ public  class Stuff {
         return color;
     }
 
-    public static String getRandUrl(){
+    public static int getRandOffset(){
         int randOffset = new Random().nextInt(MAX_RAND_OFFSET);
-        return ListFragment.EXPLORE_URL_BASE + randOffset;
+        return randOffset;
+//        return ListFragment.EXPLORE_URL_BASE + randOffset;
     }
 
     public static boolean isConnected(Context ctx){

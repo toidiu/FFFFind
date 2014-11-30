@@ -45,7 +45,8 @@ public class ListActivity extends BaseFragmentActivity
     @Override
     protected Fragment createFragment() {
         //get random url
-        String url = Stuff.getRandUrl();
+//        String url = Stuff.getRandOffset();
+        String url = "";
         return ListFragment.newInstance(url, false);
     }
 
@@ -63,7 +64,7 @@ public class ListActivity extends BaseFragmentActivity
             case R.id.explore:
                 Toast.makeText(this, "Explore", Toast.LENGTH_SHORT).show();
 
-//                String url = Stuff.getRandUrl();
+//                String url = Stuff.getRandOffset();
 //                ListFragment listFragment = ListFragment.newInstance(url, false);
 //                switchFragment(listFragment);
 

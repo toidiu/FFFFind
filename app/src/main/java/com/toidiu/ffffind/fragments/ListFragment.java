@@ -1,7 +1,6 @@
 package com.toidiu.ffffind.fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,24 +9,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.activities.DetailActivity;
-import com.toidiu.ffffind.adapter.GalleryAdapter;
+import com.toidiu.ffffind.adapter.ListAdapter;
+import com.toidiu.ffffind.events.TestEvent;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
+import com.toidiu.ffffind.network.FoundApi;
+import com.toidiu.ffffind.network.FoundRestHelper;
 import com.toidiu.ffffind.utils.FetchItemsAsync;
 import com.toidiu.ffffind.utils.Stuff;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
+import retrofit.client.Response;
+import retrofit.mime.TypedInput;
 
-public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherInterface,
+
+public class ListFragment extends Fragment implements ListAdapter.FFFetcherInterface,
         AbsListView.OnScrollListener, AbsListView.OnItemClickListener, FetchItemsAsync.OnAsyncComplete {
     private static final String TAG = "FFListFragment";
 
@@ -39,10 +43,10 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
     public static final String USER_URL_END     = "/found/feed";
     public static final String EXPLORE_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
 
-    public String mURL;
+    private String mURL;
     private boolean itemsShowing = false;
     private StaggeredGridView mSGView;
-    private GalleryAdapter    mGalleryAdapter;
+    private ListAdapter       mListAdapter;
     public  FFData            mListData;
     private boolean           showFavs;
 
@@ -63,8 +67,10 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
+        EventBus.getDefault().register(this);
+
         mListData = FFData.getInstance();
-        mGalleryAdapter = new GalleryAdapter(getActivity(), this, mListData);
+        mListAdapter = new ListAdapter(getActivity(), this, mListData);
 
         mURL = getArguments().getString(LIST_URL_EXTRA, null);
         showFavs = getArguments().getBoolean(SHOW_FAV_EXTRA, false);
@@ -75,7 +81,7 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
         }
 
         loadItems();
-        setRetryListener();
+//        setRetryListener();
     }
 
     @Override
@@ -100,7 +106,7 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
 //            }else {
                 mListData.addItems( FFData.getInstance().getItems() );
 //            }
-            mGalleryAdapter.notifyDataSetChanged();
+            mListAdapter.notifyDataSetChanged();
             Log.d(TAG, "detail back" + mSGView.getDistanceToTop());
         }
     }
@@ -108,11 +114,11 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
     @Override
     public void onResume() {
         super.onResume();
-        if (showFavs) {
-            mListData.clearList();
-            mListData.addItems(FavData.getInstance().getFav());
-        }
-        mGalleryAdapter.notifyDataSetChanged();
+//        if (showFavs) {
+//            mListData.clearList();
+//            mListData.addItems(FavData.getInstance().getFav());
+//        }
+        mListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -146,49 +152,63 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
         ArrayList<FFItem> items = mListData.getItems();
 
         if (items != null && mSGView.getAdapter() == null){
-            mSGView.setAdapter(mGalleryAdapter);
+            mSGView.setAdapter(mListAdapter);
             mSGView.setOnScrollListener(this);
             mSGView.setOnItemClickListener(this);
         }else if (items != null){
-            mGalleryAdapter.notifyDataSetChanged();
+            mListAdapter.notifyDataSetChanged();
             itemsShowing = true;
         }else{
             mSGView.setAdapter(null);
         }
     }
+
     private void loadItems() {
-        TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
-        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
+//        TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
+//        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
 
         if ( Stuff.isConnected(getActivity()) ) {
-            networkTxt.setVisibility(View.INVISIBLE);
-            retryBtn.setVisibility(View.INVISIBLE);
-            new FetchItemsAsync(mURL, this).execute();
+
+            new Thread(new Runnable() {
+                public void run() {
+                    Response response = FoundRestHelper.makeRequest().create(FoundApi.class)
+                            .offsetFeed(Stuff.getRandOffset());
+                    EventBus.getDefault().post(new TestEvent(response));
+                }
+            }).start();
+
+
+            //            new FetchItemsAsync(mURL, this).execute();
         } else {
             if (itemsShowing) {
-                networkTxt.setVisibility(View.INVISIBLE);
-                retryBtn.setVisibility(View.INVISIBLE);
+//                networkTxt.setVisibility(View.INVISIBLE);
+//                retryBtn.setVisibility(View.INVISIBLE);
                 Toast noWifi = Toast.makeText(getActivity(),
                         getResources().getString(R.string.no_wifi), Toast.LENGTH_LONG);
                 noWifi.show();
             }else {
-                retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
-                networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
-                networkTxt.setVisibility(View.VISIBLE);
-                retryBtn.setVisibility(View.VISIBLE);
-                networkTxt.setText(getResources().getString(R.string.lostWifi));
+                Toast noWifi = Toast.makeText(getActivity(),
+                        getResources().getString(R.string.no_wifi), Toast.LENGTH_LONG);
+
+                        //                retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
+//                networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
+//                networkTxt.setVisibility(View.VISIBLE);
+//                retryBtn.setVisibility(View.VISIBLE);
+//                networkTxt.setText(getResources().getString(R.string.lostWifi));
             }
         }
     }
-    private void setRetryListener() {
-        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
-        retryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadItems();
-            }
-        });
-    }
+
+//    private void setRetryListener() {
+//        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
+//        retryBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                loadItems();
+//            }
+//        });
+//    }
+
 //    public static String getURL(){
 //        if (mURL == null){
 //            return "";
@@ -200,6 +220,11 @@ public class ListFragment extends Fragment implements GalleryAdapter.FFFetcherIn
     public void onAsyncComplete(ArrayList<FFItem> itemList) {
         mListData.addItems(itemList);
         setUpAdapter();
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void onEventMainThread(TestEvent event){
+        Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
     }
 
 }
