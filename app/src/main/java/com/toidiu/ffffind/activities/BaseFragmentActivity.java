@@ -3,7 +3,6 @@ package com.toidiu.ffffind.activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 
 import com.toidiu.ffffind.R;

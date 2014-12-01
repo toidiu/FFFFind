@@ -16,6 +16,7 @@ import com.toidiu.ffffind.model.FFItem;
 
 import java.util.Random;
 
+
 import static com.toidiu.ffffind.utils.Stuff.generateRandomColor;
 
 

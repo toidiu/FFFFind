@@ -5,14 +5,12 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-
 import com.google.gson.reflect.TypeToken;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.fragments.ListFragment;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.utils.SaveLoadHandler;
-import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.File;
 import java.lang.reflect.Type;

@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.activities.DetailActivity;
+import com.toidiu.ffffind.activities.tasks.TestTask;
 import com.toidiu.ffffind.adapter.ListAdapter;
-import com.toidiu.ffffind.events.TestEvent;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
@@ -28,11 +28,10 @@ import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
-import retrofit.mime.TypedInput;
 
 
 public class ListFragment extends Fragment implements ListAdapter.FFFetcherInterface,
-        AbsListView.OnScrollListener, AbsListView.OnItemClickListener, FetchItemsAsync.OnAsyncComplete {
+        AbsListView.OnScrollListener, AbsListView.OnItemClickListener {
     private static final String TAG = "FFListFragment";
 
     public static final String SHOW_FAV_EXTRA = "com.toidiu.show_fav";
@@ -81,7 +80,6 @@ public class ListFragment extends Fragment implements ListAdapter.FFFetcherInter
         }
 
         loadItems();
-//        setRetryListener();
     }
 
     @Override
@@ -99,13 +97,7 @@ public class ListFragment extends Fragment implements ListAdapter.FFFetcherInter
             //handle
             Log.d(TAG, "detail_tab");
         }else if(resultCode == DetailFragment.DETAIL_BACK) {
-//            mListData.clearList();
-
-//            if (showFavs) {
-//                mListData.addItems(FFFavData.getInstance().getFav());
-//            }else {
-                mListData.addItems( FFData.getInstance().getItems() );
-//            }
+            mListData.addItems( FFData.getInstance().getItems() );
             mListAdapter.notifyDataSetChanged();
             Log.d(TAG, "detail back" + mSGView.getDistanceToTop());
         }
@@ -114,10 +106,6 @@ public class ListFragment extends Fragment implements ListAdapter.FFFetcherInter
     @Override
     public void onResume() {
         super.onResume();
-//        if (showFavs) {
-//            mListData.clearList();
-//            mListData.addItems(FavData.getInstance().getFav());
-//        }
         mListAdapter.notifyDataSetChanged();
     }
 
@@ -164,8 +152,6 @@ public class ListFragment extends Fragment implements ListAdapter.FFFetcherInter
     }
 
     private void loadItems() {
-//        TextView networkTxt = (TextView) getActivity().findViewById(R.id.network_state);
-//        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
 
         if ( Stuff.isConnected(getActivity()) ) {
 
@@ -173,16 +159,14 @@ public class ListFragment extends Fragment implements ListAdapter.FFFetcherInter
                 public void run() {
                     Response response = FoundRestHelper.makeRequest().create(FoundApi.class)
                             .offsetFeed(Stuff.getRandOffset());
-                    EventBus.getDefault().post(new TestEvent(response));
+                    EventBus.getDefault().post(new TestTask(response));
                 }
             }).start();
 
 
-            //            new FetchItemsAsync(mURL, this).execute();
+//                        new FetchItemsAsync(mURL, this).execute();
         } else {
             if (itemsShowing) {
-//                networkTxt.setVisibility(View.INVISIBLE);
-//                retryBtn.setVisibility(View.INVISIBLE);
                 Toast noWifi = Toast.makeText(getActivity(),
                         getResources().getString(R.string.no_wifi), Toast.LENGTH_LONG);
                 noWifi.show();
@@ -190,41 +174,18 @@ public class ListFragment extends Fragment implements ListAdapter.FFFetcherInter
                 Toast noWifi = Toast.makeText(getActivity(),
                         getResources().getString(R.string.no_wifi), Toast.LENGTH_LONG);
 
-                        //                retryBtn.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
-//                networkTxt.setTextColor(Stuff.generateRandomColor(Color.DKGRAY));
-//                networkTxt.setVisibility(View.VISIBLE);
-//                retryBtn.setVisibility(View.VISIBLE);
-//                networkTxt.setText(getResources().getString(R.string.lostWifi));
             }
         }
     }
 
-//    private void setRetryListener() {
-//        Button retryBtn = (Button) getActivity().findViewById(R.id.retry);
-//        retryBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                loadItems();
-//            }
-//        });
-//    }
-
-//    public static String getURL(){
-//        if (mURL == null){
-//            return "";
-//        }
-//        return mURL;
-//    }
-
-    @Override
-    public void onAsyncComplete(ArrayList<FFItem> itemList) {
-        mListData.addItems(itemList);
-        setUpAdapter();
-    }
-
     @SuppressWarnings("UnusedDeclaration")
-    public void onEventMainThread(TestEvent event){
+    public void onEventMainThread(TestTask event){
         Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
+
+        if (event.items!=null){
+            mListData.addItems(event.items);
+            setUpAdapter();
+        }
     }
 
 }

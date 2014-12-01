@@ -5,9 +5,6 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.fragments.ListFragment;
-
 import java.util.Random;
 
 public  class Stuff {

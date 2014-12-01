@@ -1,12 +1,6 @@
 package com.toidiu.ffffind.network;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import retrofit.RestAdapter;
 import retrofit.android.AndroidLog;
-import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
-import retrofit.http.Path;
 
 /**
  * Created by toidiu on 11/29/14.
