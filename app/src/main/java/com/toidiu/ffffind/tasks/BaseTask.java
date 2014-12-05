@@ -1,4 +1,4 @@
-package com.toidiu.ffffind.activities.tasks;
+package com.toidiu.ffffind.tasks;
 /**
  * Created by toidiu on 12/1/14.
  */

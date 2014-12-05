@@ -14,18 +14,15 @@ import android.widget.Toast;
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.activities.DetailActivity;
-import com.toidiu.ffffind.activities.tasks.BuildFItemsEvent;
+import com.toidiu.ffffind.tasks.LoadNextItemListEvent;
 import com.toidiu.ffffind.adapter.ListAdapter;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
-import com.toidiu.ffffind.network.FoundApi;
-import com.toidiu.ffffind.network.FoundRestHelper;
 import com.toidiu.ffffind.utils.Stuff;
 
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
-import retrofit.client.Response;
 
 
 public class ListFragment extends Fragment implements AbsListView.OnScrollListener, AbsListView.OnItemClickListener
@@ -116,10 +113,6 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         if(trois - un <= 10 && trois > 0 && running == false)
         {
             running = true;
-            //            if(showFavs)
-            //            {
-            //                return;
-            //            }
             nextOffset = mListData.getNextOffset();
             loadItems();
         }
@@ -170,14 +163,10 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
             {
                 public void run()
                 {
-                    Response response = FoundRestHelper.makeRequest().create(FoundApi.class)
-                            .offsetFeed(nextOffset);
-                    EventBus.getDefault().post(new BuildFItemsEvent(response));
+                    new LoadNextItemListEvent(nextOffset);
+//                    EventBus.getDefault().post(new LoadNextItemListEvent(nextOffset));
                 }
             }).start();
-
-
-            //                        new FetchItemsAsync(mURL, this).execute();
         }
         else
         {
@@ -197,7 +186,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
     //----------------EVENTBUS----------------
     @SuppressWarnings("UnusedDeclaration")
-    public void onEventMainThread(BuildFItemsEvent event)
+    public void onEventMainThread(LoadNextItemListEvent event)
     {
         Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
 
