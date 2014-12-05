@@ -11,16 +11,16 @@ public interface FoundApi
 {
     @GET("/feed")
     Response mainFeed();
-//    public static final String EVERYONE_URL     = "http://ffffound.com/feed";
+    //    public static final String EVERYONE_URL     = "http://ffffound.com/feed";
 
 
     @GET("/home/{user}/found/feed")
-    Response userFeed( @Path("user") String user);
-//    public static final String USER_URL_BASE    = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
+    Response userFeed(@Path("user") String user);
+    //    public static final String USER_URL_BASE    = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
 
 
     @GET("/feed")
-    Response offsetFeed( @Query("offset") int offset);
-//    public static final String EXPLORE_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
+    Response offsetFeed(@Query("offset") int offset);
+    //    public static final String EXPLORE_URL_BASE = "http://ffffound.com/feed?offset="; //+ number
 
 }

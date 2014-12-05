@@ -1,5 +1,6 @@
 package com.toidiu.ffffind.interfaces;
 
-public interface OnBackInterface {
+public interface OnBackInterface
+{
     void onBack();
 }

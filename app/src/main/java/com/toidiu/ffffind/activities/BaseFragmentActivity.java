@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.toidiu.ffffind.R;
 
@@ -24,9 +26,13 @@ public abstract class BaseFragmentActivity extends FragmentActivity
 
         setContentView(R.layout.activity_fragment);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.frag_container, createFragment(), LIST_FRAGMENT_TAG).commit();
+        switchFragment(createFragment());
+    }
 
+    public void switchFragment(Fragment fragment)
+    {
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.frag_container, fragment, LIST_FRAGMENT_TAG).commit();
     }
 
     protected abstract Fragment createFragment();
@@ -46,9 +52,10 @@ public abstract class BaseFragmentActivity extends FragmentActivity
         if(mMenu != null)
         {
             mMenu.findItem(R.id.explore).setVisible(explore);
-            //            mMenu.findItem(R.id.randomUser).setVisible(randUser);
+//                    mMenu.findItem(R.id.randomUser).setVisible(randUser);
             mMenu.findItem(R.id.favorite).setVisible(fav);
             mMenu.findItem(R.id.clear_fav).setVisible(clearFav);
         }
     }
+
 }
