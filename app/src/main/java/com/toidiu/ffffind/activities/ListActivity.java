@@ -1,9 +1,7 @@
 package com.toidiu.ffffind.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.google.gson.reflect.TypeToken;
@@ -47,7 +45,7 @@ public class ListActivity extends BaseFragmentActivity
     @Override
     protected Fragment createFragment()
     {
-        return ListFragment.newInstance(Stuff.getRandOffset(), false);
+        return ListFragment.newInstance(0, false);
     }
 
     @Override
@@ -67,6 +65,7 @@ public class ListActivity extends BaseFragmentActivity
         {
             case R.id.explore:
                 ListFragment.injectNewList(ListActivity.this, Stuff.getRandOffset());
+
                 break;
             default:
                 break;

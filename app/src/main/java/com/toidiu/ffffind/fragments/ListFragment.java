@@ -1,10 +1,10 @@
 package com.toidiu.ffffind.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.activities.BaseFragmentActivity;
@@ -65,7 +66,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         }
         else
         {
-
+            Crashlytics.log(Log.ERROR, "Log this error", "bad stuff happened!");
         }
     }
 
