@@ -26,13 +26,11 @@ public class ListAdapter extends ArrayAdapter<FFItem>
     private static final SparseArray<Double> sPositionHeightRatios = new SparseArray<Double>();
     private final Random             mRandom;
     private       Activity           mActivity;
-    private FFData mData;
 
-    public ListAdapter(Context ctx, FFData data)
+    public ListAdapter(Context ctx)
     {
-        super(ctx, 0, data.getItems());
+        super(ctx, 0, FFData.getInstance().getItems());
 
-        mData = data;
         mActivity = (Activity) getContext();
         mRandom = new Random();
     }

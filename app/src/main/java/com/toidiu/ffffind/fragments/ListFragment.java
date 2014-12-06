@@ -1,9 +1,10 @@
 package com.toidiu.ffffind.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.activities.BaseFragmentActivity;
 import com.toidiu.ffffind.activities.DetailActivity;
 import com.toidiu.ffffind.adapter.ListAdapter;
 import com.toidiu.ffffind.model.FFData;
@@ -37,7 +39,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
     //------------Fields
     private Integer nextOffset;
-    private boolean           running;
+    private boolean running;
 
     public static ListFragment newInstance(Integer offset, boolean fav)
     {
@@ -48,6 +50,23 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         ListFragment fragment = new ListFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public static void injectNewList(FragmentActivity activity, Integer offset)
+    {
+        ListFragment fragment = (ListFragment) activity.getSupportFragmentManager()
+                                         .findFragmentByTag(BaseFragmentActivity.LIST_FRAGMENT_TAG);
+        if(fragment != null)
+        {
+            fragment.nextOffset = offset;
+            FFData.getInstance().clearList();
+            fragment.mListAdapter.notifyDataSetInvalidated();
+            fragment.loadItems();
+        }
+        else
+        {
+
+        }
     }
 
     @Override
@@ -66,12 +85,11 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
         EventBus.getDefault().register(this);
 
-        mListAdapter = new ListAdapter(getActivity(), FFData.getInstance());
+        mListAdapter = new ListAdapter(getActivity());
 
-        nextOffset = getArguments().getInt(LIST_OFFSET_EXTRA, 0);
-        if(nextOffset != 0)
+        if(getArguments().containsKey(LIST_OFFSET_EXTRA))
         {
-            nextOffset = Stuff.getRandOffset();
+            nextOffset = getArguments().getInt(LIST_OFFSET_EXTRA, 0);
             loadItems();
         }
     }
@@ -151,8 +169,8 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         }
         else
         {
-                Toast.makeText(getActivity(), getResources().getString(R.string.no_wifi),
-                               Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_wifi),
+                           Toast.LENGTH_LONG).show();
         }
     }
 
