@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/frag_container"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent"
-    >
+             android:layout_height="fill_parent"
+             android:layout_width="fill_parent">
+
+    <FrameLayout
+        android:id="@+id/frag_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    </FrameLayout>
 
     <TextView
         android:id="@+id/network_state"
@@ -12,7 +17,7 @@
         android:layout_height="wrap_content"
         android:hint="no WIFI"
         android:layout_gravity="center"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
 
     <Button
@@ -24,6 +29,24 @@
         android:text="FFFFind"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="40dp"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
+
+
+    <RelativeLayout
+        android:id="@+id/progress_bar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"
+        >
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Inverse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
 </FrameLayout>

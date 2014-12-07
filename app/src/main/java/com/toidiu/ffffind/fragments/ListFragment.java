@@ -17,6 +17,7 @@ import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.activities.BaseFragmentActivity;
 import com.toidiu.ffffind.activities.DetailActivity;
+import com.toidiu.ffffind.activities.ListActivity;
 import com.toidiu.ffffind.adapter.ListAdapter;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
@@ -35,8 +36,8 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     public static final String LIST_OFFSET_EXTRA = "com.toidiu.list_offset";
 
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View/Adapter
-    private StaggeredGridView mSGView;
-    private ListAdapter       mListAdapter;
+    StaggeredGridView staggeredGridView;
+    private ListAdapter adapter;
 
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Fields
     private Integer nextOffset;
@@ -56,25 +57,19 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     public static void injectNewList(FragmentActivity activity, Integer offset)
     {
         ListFragment fragment = (ListFragment) activity.getSupportFragmentManager()
-                                         .findFragmentByTag(BaseFragmentActivity.LIST_FRAGMENT_TAG);
+                                                       .findFragmentByTag(
+                                                               BaseFragmentActivity.LIST_FRAGMENT_TAG);
         if(fragment != null)
         {
             fragment.nextOffset = offset;
             FFData.getInstance().clearList();
-            fragment.mListAdapter.notifyDataSetInvalidated();
+            fragment.adapter.notifyDataSetInvalidated();
             fragment.loadItems();
         }
         else
         {
             Crashlytics.log(Log.ERROR, "Log this error", "bad stuff happened!");
         }
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -85,20 +80,28 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
         EventBus.getDefault().register(this);
 
-        mListAdapter = new ListAdapter(getActivity());
+        adapter = new ListAdapter(getActivity());
 
         if(getArguments().containsKey(LIST_OFFSET_EXTRA))
         {
             nextOffset = getArguments().getInt(LIST_OFFSET_EXTRA, 0);
             loadItems();
         }
+
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);
-        mSGView = (StaggeredGridView) v.findViewById(R.id.grid_view);
+        staggeredGridView = (StaggeredGridView) v.findViewById(R.id.list_view);
         setUpAdapter();
         return v;
     }
@@ -107,7 +110,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     public void onResume()
     {
         super.onResume();
-        mListAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -138,33 +141,34 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
     public void setUpAdapter()
     {
-        if(getActivity() == null || mSGView == null)
+        if(getActivity() == null || staggeredGridView == null)
         {
             return;
         }
         ArrayList<FFItem> items = FFData.getInstance().getItems();
 
-        if(items != null && mSGView.getAdapter() == null)
+        if(items != null && staggeredGridView.getAdapter() == null)
         {
-            mSGView.setAdapter(mListAdapter);
-            mSGView.setOnScrollListener(this);
-            mSGView.setOnItemClickListener(this);
+            staggeredGridView.setAdapter(adapter);
+            staggeredGridView.setOnScrollListener(this);
+            staggeredGridView.setOnItemClickListener(this);
         }
         else if(items != null)
         {
-            mListAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
         else
         {
-            mSGView.setAdapter(null);
+            staggeredGridView.setAdapter(null);
         }
     }
 
     private void loadItems()
     {
-
         if(Stuff.isConnected(getActivity()))
         {
+            ((ListActivity) getActivity()).enableProgressBar();
+
             new LoadNextItemListEvent(nextOffset);
         }
         else
@@ -179,13 +183,15 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     public void onEventMainThread(LoadNextItemListEvent event)
     {
         Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
-
         running = false;
         if(event.items != null)
         {
             FFData.getInstance().addItems(event.items);
             setUpAdapter();
         }
+
+        ((ListActivity) getActivity()).disableProgressBar();
+
     }
 
 }

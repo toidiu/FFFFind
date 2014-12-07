@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ListActivity extends BaseFragmentActivity
 {
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
-    private final static String SAVE_FILE  = "fav.json";
+    private final static String SAVE_FILE = "fav.json";
 
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Fields
     private static SaveLoadHandler<ArrayList<FFItem>> slh;
@@ -41,6 +41,7 @@ public class ListActivity extends BaseFragmentActivity
             final ArrayList<FFItem> list = slh.loadData();
             FavData.getInstance().setFav(list);
         }
+
     }
 
     @Override

@@ -22,29 +22,23 @@ import static com.toidiu.ffffind.utils.Stuff.generateRandomColor;
 
 public class ListAdapter extends ArrayAdapter<FFItem>
 {
-    private static final String TAG = "FFGalleryAdapter";
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View
     private static final SparseArray<Double> sPositionHeightRatios = new SparseArray<Double>();
-    private final Random             mRandom;
-    private       Activity           mActivity;
 
     public ListAdapter(Context ctx)
     {
         super(ctx, 0, FFData.getInstance().getItems());
-
-        mActivity = (Activity) getContext();
-        mRandom = new Random();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        Activity activity = (Activity) getContext();
         if(convertView == null)
         {
-            convertView = mActivity.getLayoutInflater()
-                    .inflate(R.layout.gallery_item, parent, false);
+            convertView = activity.getLayoutInflater()
+                                  .inflate(R.layout.gallery_item, parent, false);
         }
-
-        FFItem item = getItem(position);
 
         DynamicHeightImageView imgView = (DynamicHeightImageView) convertView
                 .findViewById(R.id.imgView);
@@ -52,10 +46,7 @@ public class ListAdapter extends ArrayAdapter<FFItem>
         imgView.setHeightRatio(positionHeight);
         imgView.setBackgroundColor(generateRandomColor(Color.LTGRAY));
 
-
-        String url = item.getMedUrl();
-        //        Log.d(TAG, url);
-        Picasso.with(mActivity).load(url).into(imgView);
+        Picasso.with(activity).load(getItem(position).getMedUrl()).into(imgView);
 
         return convertView;
     }
@@ -74,8 +65,7 @@ public class ListAdapter extends ArrayAdapter<FFItem>
 
     private double getRandomHeightRatio()
     {
-        return (mRandom.nextDouble() / 1.5) + 1.0; // height will be 1.0 - 1.5
-        // the width
+        return (new Random().nextDouble() / 1.5) + 1.0; // height will be 1.0 - 1.66
     }
 
 }

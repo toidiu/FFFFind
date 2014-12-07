@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/grid_frame"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="horizontal"
-    android:background="#000">
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:descendantFocusability="blocksDescendants"
+             android:orientation="horizontal"
+             android:background="#000">
 
     <com.etsy.android.grid.util.DynamicHeightImageView
         android:id="@+id/imgView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"/>
 
 
 </FrameLayout>

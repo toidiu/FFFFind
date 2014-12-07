@@ -9,18 +9,15 @@ public class FoundRestHelper
 {
     public static RestAdapter makeRequest()
     {
-
         return getBuilder().build();
     }
 
     private static RestAdapter.Builder getBuilder()
     {
-
         RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL).setLog(new AndroidLog("FoundRESTApi"))
+                .setLogLevel(RestAdapter.LogLevel.BASIC)
+                .setLog(new AndroidLog("FoundRESTApi"))
                 .setEndpoint("http://ffffound.com");
-
-
         return builder;
     }
 
