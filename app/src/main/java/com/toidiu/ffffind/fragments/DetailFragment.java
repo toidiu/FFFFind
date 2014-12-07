@@ -34,6 +34,9 @@ import java.util.Calendar;
 
 public class DetailFragment extends Fragment
 {
+
+    public static final  String LIST_TITLE = "com.toidiu.artist_name";
+
     public static final String ITEM_EXTRA            = "com.toidiu.itemExtra";
     public static final int    DETAIL_TAB            = 1;
     public static final int    DETAIL_USER_LIST      = 2;
@@ -133,7 +136,7 @@ public class DetailFragment extends Fragment
 
                 Intent intent = new Intent(getActivity(), ListActivity.class);
                 intent.putExtra(ListFragment.LIST_OFFSET_EXTRA, url);
-                intent.putExtra(ListActivity.LIST_TITLE, item.getArtist());
+                intent.putExtra(LIST_TITLE, item.getArtist());
                 returnResult(DETAIL_USER_LIST, intent);
             }
         });

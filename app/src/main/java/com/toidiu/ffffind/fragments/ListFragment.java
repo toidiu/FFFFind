@@ -30,15 +30,15 @@ import de.greenrobot.event.EventBus;
 
 public class ListFragment extends Fragment implements AbsListView.OnScrollListener, AbsListView.OnItemClickListener
 {
-    //------------Extra
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
     public static final String SHOW_FAV_EXTRA    = "com.toidiu.show_fav";
     public static final String LIST_OFFSET_EXTRA = "com.toidiu.list_offset";
 
-    //------------View/Adapter
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View/Adapter
     private StaggeredGridView mSGView;
     private ListAdapter       mListAdapter;
 
-    //------------Fields
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Fields
     private Integer nextOffset;
     private boolean running;
 
@@ -74,7 +74,6 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     public void onDestroy()
     {
         super.onDestroy();
-
         EventBus.getDefault().unregister(this);
     }
 

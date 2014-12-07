@@ -13,8 +13,10 @@ import com.toidiu.ffffind.R;
  */
 public abstract class BaseFragmentActivity extends FragmentActivity
 {
-
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
     public static final String LIST_FRAGMENT_TAG = "LIST_FRAGMENT_TAG";
+
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Field
     private Menu mMenu;
 
     @Override

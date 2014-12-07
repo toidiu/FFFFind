@@ -19,10 +19,11 @@ import java.util.ArrayList;
 
 public class ListActivity extends BaseFragmentActivity
 {
-    public static final  String LIST_TITLE = "com.toidiu.artist_name";
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
     private final static String SAVE_FILE  = "fav.json";
+
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Fields
     private static SaveLoadHandler<ArrayList<FFItem>> slh;
-    public         File                               FILE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,11 +33,11 @@ public class ListActivity extends BaseFragmentActivity
         if(savedInstanceState == null)
         {
             //Save/Load handler
-            FILE = new File(this.getFilesDir() + File.separator + SAVE_FILE);
+            File saveFile = new File(this.getFilesDir() + File.separator + SAVE_FILE);
             Type type = new TypeToken<ArrayList<FFItem>>()
             {
             }.getType();
-            slh = new SaveLoadHandler(type, FILE);
+            slh = new SaveLoadHandler(type, saveFile);
             final ArrayList<FFItem> list = slh.loadData();
             FavData.getInstance().setFav(list);
         }
@@ -65,7 +66,6 @@ public class ListActivity extends BaseFragmentActivity
         {
             case R.id.explore:
                 ListFragment.injectNewList(ListActivity.this, Stuff.getRandOffset());
-
                 break;
             default:
                 break;
