@@ -134,9 +134,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
     {
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(DetailActivity.ITEM_POS, position);
-        startActivityForResult(intent, 0);
+        DetailActivity.callMe(getActivity(), position);
     }
 
     public void setUpAdapter()

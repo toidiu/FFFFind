@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -33,20 +34,18 @@ public class ListAdapter extends ArrayAdapter<FFItem>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        Activity activity = (Activity) getContext();
         if(convertView == null)
         {
-            convertView = activity.getLayoutInflater()
-                                  .inflate(R.layout.gallery_item, parent, false);
+            LayoutInflater li = (LayoutInflater) getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = li.inflate(R.layout.gallery_item, parent, false);
         }
 
         DynamicHeightImageView imgView = (DynamicHeightImageView) convertView
                 .findViewById(R.id.imgView);
-        double positionHeight = getPositionRatio(position);
-        imgView.setHeightRatio(positionHeight);
+        imgView.setHeightRatio(getPositionRatio(position));
         imgView.setBackgroundColor(generateRandomColor(Color.LTGRAY));
-
-        Picasso.with(activity).load(getItem(position).getMedUrl()).into(imgView);
+        Picasso.with(getContext()).load(getItem(position).getMedUrl()).into(imgView);
 
         return convertView;
     }
