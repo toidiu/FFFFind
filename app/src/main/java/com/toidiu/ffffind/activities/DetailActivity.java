@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.adapter.DetailPagerAdapter;
 import com.toidiu.ffffind.fragments.DetailFragment;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
@@ -39,21 +40,7 @@ public class DetailActivity extends FragmentActivity implements FetchItemsAsync.
         viewPager.setId(R.id.view_pager);
         setContentView(viewPager);
 
-        adapter = new FragmentStatePagerAdapter(getSupportFragmentManager())
-        {
-            @Override
-            public Fragment getItem(int position)
-            {
-                return DetailFragment.newInstance(FFData.getInstance().getItems(position));
-            }
-
-            @Override
-            public int getCount()
-            {
-                return FFData.getInstance().getSize();
-            }
-        };
-
+        adapter = new DetailPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(getIntent().getIntExtra(ITEM_POS, 0));
     }
