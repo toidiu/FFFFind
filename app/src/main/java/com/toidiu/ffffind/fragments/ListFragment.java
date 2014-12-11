@@ -64,6 +64,8 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
             fragment.nextOffset = offset;
             FFData.getInstance().clearList();
             fragment.adapter.notifyDataSetInvalidated();
+
+            Log.e("-inject-----------","");
             fragment.loadItems();
         }
         else
@@ -85,15 +87,25 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         if(getArguments().containsKey(LIST_OFFSET_EXTRA))
         {
             nextOffset = getArguments().getInt(LIST_OFFSET_EXTRA, 0);
+            Log.e("-create-----------","");
             loadItems();
         }
 
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("-0pause-----------","");
+    }
+
+    @Override
     public void onDestroy()
     {
+        Log.e("-destroy-----------","");
+
         super.onDestroy();
+        FFData.getInstance().clearList();
         EventBus.getDefault().unregister(this);
     }
 
@@ -127,6 +139,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         {
             running = true;
             nextOffset = FFData.getInstance().getNextOffset();
+            Log.e("-scroll-----------","");
             loadItems();
         }
     }

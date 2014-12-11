@@ -23,8 +23,8 @@ android {
         applicationId "com.toidiu.ffffind"
         minSdkVersion 17
         targetSdkVersion 21
-        versionCode 3
-        versionName "1.1"
+        versionCode 4
+        versionName "1.1.1"
     }
     buildTypes {
         release {
