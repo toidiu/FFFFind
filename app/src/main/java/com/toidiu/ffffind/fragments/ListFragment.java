@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.etsy.android.grid.StaggeredGridView;
+import com.toidiu.ffffind.BuildConfig;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.activities.BaseFragmentActivity;
 import com.toidiu.ffffind.activities.DetailActivity;
@@ -96,7 +97,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     @Override
     public void onPause() {
         super.onPause();
-        Log.e("-0pause-----------","");
+        Log.e("-0pause-----------", "");
     }
 
     @Override
@@ -193,7 +194,9 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     @SuppressWarnings("UnusedDeclaration")
     public void onEventMainThread(LoadNextItemListEvent event)
     {
-        Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
+        if (BuildConfig.DEBUG) {
+            Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
+        }
         running = false;
         if(event.items != null)
         {
