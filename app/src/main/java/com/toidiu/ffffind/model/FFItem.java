@@ -17,12 +17,12 @@ public class FFItem implements Parcelable
             return new FFItem[size];
         }
     };
-    private String Artist;
-    private String Title;
-    private String SmallUrl;
-    private String MedUrl;
-    private String BigUrl;
-    private String Descrip;
+    private String  Artist;
+    private String  Title;
+    private String  SmallUrl;
+    private String  MedUrl;
+    private String  BigUrl;
+    private String  Descrip;
     private boolean Favorite;
     private boolean Download;
 

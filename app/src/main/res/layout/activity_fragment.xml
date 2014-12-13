@@ -2,8 +2,8 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_height="fill_parent"
-             android:layout_width="fill_parent">
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent">
 
     <FrameLayout
         android:id="@+id/frag_container"
@@ -15,8 +15,8 @@
         android:id="@+id/network_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="no WIFI"
         android:layout_gravity="center"
+        android:hint="no WIFI"
         android:visibility="gone"
         />
 
@@ -25,21 +25,21 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
 
-        android:background="#efd"
-        android:text="FFFFind"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="40dp"
+        android:background="#efd"
+        android:text="FFFFind"
         android:visibility="gone"
         />
 
 
     <RelativeLayout
         android:id="@+id/progress_bar"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:clickable="true"
+        android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <ProgressBar

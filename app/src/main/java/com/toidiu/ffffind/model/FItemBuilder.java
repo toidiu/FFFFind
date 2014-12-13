@@ -15,8 +15,9 @@ public class FItemBuilder
     String            mXmlFeed;
     FFItem            mffffItem;
     ArrayList<FFItem> retVal;
-    modeEnum ItemMode;
+    modeEnum          ItemMode;
     Boolean itemCreated = false;
+
     public FItemBuilder(String xmlFeed)
     {
         mXmlFeed = xmlFeed;

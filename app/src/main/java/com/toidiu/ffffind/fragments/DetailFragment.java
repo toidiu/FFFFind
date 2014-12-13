@@ -1,7 +1,6 @@
 package com.toidiu.ffffind.fragments;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.activities.ListActivity;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.utils.Stuff;
@@ -35,28 +32,20 @@ import java.util.Calendar;
 public class DetailFragment extends Fragment
 {
 
-    public static final  String LIST_TITLE = "com.toidiu.artist_name";
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
+    public static final String FITEM_EXTRA = "com.toidiu.itemExtra";
 
-    public static final String ITEM_EXTRA            = "com.toidiu.itemExtra";
-    public static final int    DETAIL_TAB            = 1;
-    public static final int    DETAIL_USER_LIST      = 2;
-    public static final int    DETAIL_FAV_LIST       = 3;
-    public static final int    DETAIL_RAND_USER_LIST = 4;
-    public static final int    DETAIL_BACK           = 5;
-
-    public static final  String USER_URL_BASE    = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
-    public static final  String USER_URL_END     = "/found/feed";
-    private static final String TAG = "FFDetailFragment";
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View
     private FFItem    item;
     private ImageView imgView;
     private ImageView downView;
-    private ImageView starView;
+    private ImageView heartView;
 
     public static DetailFragment newInstance(FFItem item)
     {
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ITEM_EXTRA, item);
+        bundle.putParcelable(FITEM_EXTRA, item);
 
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(bundle);
@@ -69,7 +58,7 @@ public class DetailFragment extends Fragment
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
 
-        item = getArguments().getParcelable(ITEM_EXTRA);
+        item = getArguments().getParcelable(FITEM_EXTRA);
 
 
         FFItem getFav = FavData.getInstance().getFav(item.getMedUrl());
@@ -85,7 +74,6 @@ public class DetailFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.detail_item, container, false);
-        artistClick(v);
 
         TextView artist = (TextView) v.findViewById(R.id.artist_name);
         artist.setText(item.getArtist());
@@ -93,15 +81,15 @@ public class DetailFragment extends Fragment
         RelativeLayout rl = (RelativeLayout) v.findViewById(R.id.detail_back);
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
-        starView = (ImageView) v.findViewById(R.id.favorite);
-        setFavStarListener(starView);
+        heartView = (ImageView) v.findViewById(R.id.favorite);
+        setFavStarListener(heartView);
         if(item.isFavorite())
         {
-            starView.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
+            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
         }
         else
         {
-            starView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
+            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
         }
 
         downView = (ImageView) v.findViewById(R.id.download);
@@ -110,33 +98,6 @@ public class DetailFragment extends Fragment
         new AttachDetailImg().execute(item.getMedUrl());
 
         return v;
-    }
-
-    private void returnResult(int code, Intent intent)
-    {
-        getActivity().setResult(code, intent);
-        getActivity().finish();
-    }
-
-    private void artistClick(View v)
-    {
-        TextView artist = (TextView) v.findViewById(R.id.artist_name);
-
-        artist.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                String url = USER_URL_BASE + item
-                        .getArtist() + USER_URL_END;
-                Log.d(TAG, url);
-
-                Intent intent = new Intent(getActivity(), ListActivity.class);
-                intent.putExtra(ListFragment.LIST_OFFSET_EXTRA, url);
-                intent.putExtra(LIST_TITLE, item.getArtist());
-                returnResult(DETAIL_USER_LIST, intent);
-            }
-        });
     }
 
     private void downloadImgListener(View v1, View v2)

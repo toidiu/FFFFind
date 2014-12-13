@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/detail_back"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<RelativeLayout android:id="@+id/detail_back"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <!--IMAGE-->
     <ImageView
@@ -25,7 +25,7 @@
         android:padding="10dp"
         android:textColor="#ffc20020"
         android:textSize="20sp"
-        tools:hint="artist" />
+        tools:hint="artist"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -42,18 +42,18 @@
             android:layout_alignParentEnd="true"
             android:background="#00ffffff"
             android:scaleType="centerInside"
-            android:src="@drawable/heart" />
+            android:src="@drawable/heart"/>
 
         <ImageButton
             android:id="@+id/download"
             android:layout_width="@dimen/detal_icon_size"
             android:layout_height="@dimen/detal_icon_size"
 
-            android:layout_toLeftOf="@id/favorite"
             android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/favorite"
             android:background="#00ffffff"
             android:scaleType="centerInside"
-            android:src="@drawable/save" />
+            android:src="@drawable/save"/>
     </RelativeLayout>
 
 

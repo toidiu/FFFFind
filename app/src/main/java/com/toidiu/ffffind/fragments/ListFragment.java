@@ -1,6 +1,5 @@
 package com.toidiu.ffffind.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -66,7 +65,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
             FFData.getInstance().clearList();
             fragment.adapter.notifyDataSetInvalidated();
 
-            Log.e("-inject-----------","");
+            Log.e("-inject-----------", "");
             fragment.loadItems();
         }
         else
@@ -88,26 +87,10 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         if(getArguments().containsKey(LIST_OFFSET_EXTRA))
         {
             nextOffset = getArguments().getInt(LIST_OFFSET_EXTRA, 0);
-            Log.e("-create-----------","");
+            Log.e("-create-----------", "");
             loadItems();
         }
 
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.e("-0pause-----------", "");
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        Log.e("-destroy-----------","");
-
-        super.onDestroy();
-        FFData.getInstance().clearList();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -127,6 +110,23 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     }
 
     @Override
+    public void onPause()
+    {
+        super.onPause();
+        Log.e("-0pause-----------", "");
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.e("-destroy-----------", "");
+
+        super.onDestroy();
+        FFData.getInstance().clearList();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onScrollStateChanged(final AbsListView view, final int scrollState)
     {
         //                Log.d(TAG, "onScrollStateChanged:" + scrollState);
@@ -140,7 +140,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         {
             running = true;
             nextOffset = FFData.getInstance().getNextOffset();
-            Log.e("-scroll-----------","");
+            Log.e("-scroll-----------", "");
             loadItems();
         }
     }
@@ -194,7 +194,8 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     @SuppressWarnings("UnusedDeclaration")
     public void onEventMainThread(LoadNextItemListEvent event)
     {
-        if (BuildConfig.DEBUG) {
+        if(BuildConfig.DEBUG)
+        {
             Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
         }
         running = false;

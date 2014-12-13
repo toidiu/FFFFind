@@ -34,7 +34,7 @@ android {
     }
 
     //RELEASE CONFIG
-    if(project.hasProperty("MyProject.signing")
+    if (project.hasProperty("MyProject.signing")
             && new File(project.property("MyProject.signing") + "signing.gradle").exists()) {
         apply from: project.property("MyProject.signing") + "signing.gradle";
     }

@@ -3,14 +3,12 @@ package com.toidiu.ffffind.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.adapter.DetailPagerAdapter;
-import com.toidiu.ffffind.fragments.DetailFragment;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.utils.FetchItemsAsync;
@@ -43,13 +41,6 @@ public class DetailActivity extends FragmentActivity implements FetchItemsAsync.
         adapter = new DetailPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(getIntent().getIntExtra(ITEM_POS, 0));
-    }
-
-    @Override
-    public void onBackPressed()
-    {
-        setResult(DetailFragment.DETAIL_BACK);
-        finish();
     }
 
     @Override
