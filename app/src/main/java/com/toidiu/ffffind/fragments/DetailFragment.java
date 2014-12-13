@@ -3,8 +3,6 @@ package com.toidiu.ffffind.fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +19,8 @@ import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
+import com.toidiu.ffffind.tasks.LoadDetailImageTask;
+import com.toidiu.ffffind.tasks.LoadNextItemListEvent;
 import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.File;
@@ -28,6 +28,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+
+import de.greenrobot.event.EventBus;
 
 public class DetailFragment extends Fragment
 {
@@ -37,13 +39,10 @@ public class DetailFragment extends Fragment
 
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View
     private FFItem    item;
-    private ImageView imgView;
-    private ImageView downView;
-    private ImageView heartView;
+    private ImageView detailImage;
 
     public static DetailFragment newInstance(FFItem item)
     {
-
         Bundle bundle = new Bundle();
         bundle.putParcelable(FITEM_EXTRA, item);
 
@@ -56,18 +55,23 @@ public class DetailFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
 
+        EventBus.getDefault().register(this);
         item = getArguments().getParcelable(FITEM_EXTRA);
-
-
         FFItem getFav = FavData.getInstance().getFav(item.getMedUrl());
         item = getFav != null
                 ? getFav
                 : item;
-        getActivity().setTitle(item.getArtist());
 
+        getActivity().setTitle(item.getArtist());
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     @Override
@@ -81,7 +85,7 @@ public class DetailFragment extends Fragment
         RelativeLayout rl = (RelativeLayout) v.findViewById(R.id.detail_back);
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
-        heartView = (ImageView) v.findViewById(R.id.favorite);
+        ImageView heartView = (ImageView) v.findViewById(R.id.favorite);
         setFavStarListener(heartView);
         if(item.isFavorite())
         {
@@ -92,20 +96,16 @@ public class DetailFragment extends Fragment
             heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
         }
 
-        downView = (ImageView) v.findViewById(R.id.download);
-        imgView = (ImageView) v.findViewById(R.id.detail_img);
-        downloadImgListener(imgView, downView);
-        new AttachDetailImg().execute(item.getMedUrl());
-
+        detailImage = (ImageView) v.findViewById(R.id.detail_img);
+        ImageView download = (ImageView) v.findViewById(R.id.download);
+        downloadImgListener(detailImage, download);
+        new LoadDetailImageTask(getActivity(), item.getMedUrl());
         return v;
     }
 
-    private void downloadImgListener(View v1, View v2)
+    private void downloadImgListener(ImageView detailImage, ImageView download)
     {
-        imgView = (ImageView) v1.findViewById(R.id.detail_img);
-        downView = (ImageView) v2.findViewById(R.id.download);
-
-        downView.setOnClickListener(new View.OnClickListener()
+        download.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -116,7 +116,7 @@ public class DetailFragment extends Fragment
             }
         });
 
-        imgView.setOnLongClickListener(new View.OnLongClickListener()
+        detailImage.setOnLongClickListener(new View.OnLongClickListener()
         {
             @Override
             public boolean onLongClick(View view)
@@ -158,36 +158,6 @@ public class DetailFragment extends Fragment
     }
 
     //--------------------------------------PRIVATE CLASS---------------
-    private class AttachDetailImg extends AsyncTask<String, Void, Bitmap>
-    {
-        protected Bitmap doInBackground(String... urls)
-        {
-            Bitmap bitmap = null;
-            try
-            {
-                bitmap = Picasso.with(getActivity()).load(urls[0]).get();
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                return bitmap;
-            }
-        }
-
-        protected void onPostExecute(Bitmap result)
-        {
-            Drawable d = getResources().getDrawable(R.drawable.ffffound);
-            if(result != null)
-            {
-                d = new BitmapDrawable(getResources(), result);
-            }
-            Picasso.with(getActivity()).load(item.getBigUrl()).placeholder(d).into(imgView);
-        }
-    }
-
     private class DownloadImg extends AsyncTask<String, Void, Bitmap>
     {
         protected Bitmap doInBackground(String... urls)
@@ -254,4 +224,19 @@ public class DetailFragment extends Fragment
 
     }
 
+    //----------------EVENTBUS----------------
+    @SuppressWarnings("UnusedDeclaration")
+    public void onEventMainThread(LoadDetailImageTask event)
+    {
+        if(event.bitmap == null)
+        {
+            Toast.makeText(getActivity(), "error loading image", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(event.url.equals(item.getMedUrl()))
+        {
+            detailImage.setImageBitmap(event.bitmap);
+        }
+    }
 }
