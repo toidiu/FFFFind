@@ -16,7 +16,7 @@
         <!--app:showAsAction="ifRoom" />-->
         <item android:id="@+id/favorite"
               android:title="Favorite"
-              android:icon="@drawable/fav_list"
+              android:icon="@drawable/heart_like"
               android:orderInCategory="120"
               android:showAsAction="always"/>
         <item android:id="@+id/clear_fav"

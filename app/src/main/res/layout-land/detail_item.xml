@@ -36,7 +36,7 @@
         android:layout_height="30dp"
 
         android:scaleType="centerCrop"
-        android:src="@drawable/fav_add"
+        android:src="@drawable/heart"
         android:background="#00ffffff"
         android:layout_above="@+id/artist_name"
         android:layout_alignParentEnd="true"

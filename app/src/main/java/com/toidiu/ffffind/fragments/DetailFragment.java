@@ -87,9 +87,6 @@ public class DetailFragment extends Fragment
         View v = inflater.inflate(R.layout.detail_item, container, false);
         artistClick(v);
 
-        TextView title = (TextView) v.findViewById(R.id.pic_title);
-        title.setText(item.getTitle());
-
         TextView artist = (TextView) v.findViewById(R.id.artist_name);
         artist.setText(item.getArtist());
 
@@ -100,11 +97,11 @@ public class DetailFragment extends Fragment
         setFavStarListener(starView);
         if(item.isFavorite())
         {
-            starView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
         }
         else
         {
-            starView.setImageDrawable(getResources().getDrawable(R.drawable.fav_add));
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
         }
 
         downView = (ImageView) v.findViewById(R.id.download);
@@ -189,12 +186,12 @@ public class DetailFragment extends Fragment
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
         if(isFav)
         {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+            star.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
             FavData.getInstance().addFav(item);
         }
         else
         {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.fav_add));
+            star.setImageDrawable(getResources().getDrawable(R.drawable.heart));
             FavData.getInstance().removeFav(item);
         }
     }

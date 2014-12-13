@@ -1,76 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detail_back"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-<!--TITLE/ARTIST-->
-    <TextView
-        android:id="@+id/pic_title"
+    <!--IMAGE-->
+    <ImageView
+        android:id="@+id/detail_img"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher" />
 
-        android:maxLines="2"
-        android:layout_marginTop="10dp"
-        android:textColor="#fff"
-        android:textSize="25sp"
-        android:ellipsize="end"
-        android:gravity="center_horizontal"
-        />
+    <!--ARTIST-->
     <TextView
         android:id="@+id/artist_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="artist"
-
-        android:paddingLeft="10dp"
-        android:textColor="#ffc20020"
-        android:textColorHint="#ffc20020"
-        android:textSize="20sp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:clickable="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp" />
+        android:padding="10dp"
+        android:textColor="#ffc20020"
+        android:textSize="20sp"
+        tools:hint="artist" />
 
-<!--FLAGS-->
-    <ImageButton android:id="@+id/favorite"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-
-        android:scaleType="centerCrop"
-        android:src="@drawable/fav_add"
-        android:background="#00ffffff"
-        android:layout_centerInParent="true"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/artist_name"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="5dp" />
-    <ImageButton android:id="@+id/download"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:padding="10dp">
 
-        android:scaleType="centerCrop"
-        android:src="@drawable/save"
-        android:background="#00ffffff"
-        android:layout_marginRight="25dp"
-        android:layout_below="@+id/detail_img"
-        android:layout_toLeftOf="@+id/favorite"
-        android:layout_toStartOf="@+id/favorite"
-        android:layout_marginBottom="5dp" />
+        <!--FLAGS-->
+        <ImageButton
+            android:id="@+id/favorite"
+            android:layout_width="@dimen/detal_icon_size"
+            android:layout_height="@dimen/detal_icon_size"
 
-<!--IMAGE-->
-    <ImageView
-        android:id="@+id/detail_img"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/pic_title"
-        android:layout_margin="10dp"
-        android:layout_above="@id/artist_name"
-        />
+            android:layout_alignParentEnd="true"
+            android:background="#00ffffff"
+            android:scaleType="centerInside"
+            android:src="@drawable/heart" />
+
+        <ImageButton
+            android:id="@+id/download"
+            android:layout_width="@dimen/detal_icon_size"
+            android:layout_height="@dimen/detal_icon_size"
+
+            android:layout_toLeftOf="@id/favorite"
+            android:layout_marginRight="20dp"
+            android:background="#00ffffff"
+            android:scaleType="centerInside"
+            android:src="@drawable/save" />
+    </RelativeLayout>
 
 
 </RelativeLayout>
