@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
+import com.toidiu.ffffind.tasks.DownloadImageTask;
 import com.toidiu.ffffind.tasks.LoadImageTask;
 import com.toidiu.ffffind.utils.Stuff;
 
@@ -111,7 +112,7 @@ public class DetailFragment extends Fragment
             {
                 item.setDownload(true);
                 FavData.getInstance().updateFav(item);
-                new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
+                new DownloadImageTask(getActivity(), item.getMedUrl(), item.getArtist());
             }
         });
 
@@ -122,7 +123,7 @@ public class DetailFragment extends Fragment
             {
                 item.setDownload(true);
                 setFavStar(true);
-                new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
+                new DownloadImageTask(getActivity(), item.getMedUrl(), item.getArtist());
                 return false;
             }
         });
@@ -156,73 +157,6 @@ public class DetailFragment extends Fragment
         }
     }
 
-    //--------------------------------------PRIVATE CLASS---------------
-    private class DownloadImg extends AsyncTask<String, Void, Bitmap>
-    {
-        protected Bitmap doInBackground(String... urls)
-        {
-            Bitmap bitmap = null;
-            try
-            {
-                bitmap = Picasso.with(getActivity()).load(urls[1]).get();
-
-            }
-            catch(IOException e)
-            {
-                e.printStackTrace();
-            }
-
-            return bitmap;
-        }
-
-        protected void onPostExecute(Bitmap image)
-        {
-            if(image != null)
-            {
-
-                Calendar c = Calendar.getInstance();
-                String m = String.valueOf(c.get(Calendar.MINUTE));
-                String s = String.valueOf(c.get(Calendar.SECOND));
-                String fileName = item.getArtist() + m + s + ".png";
-                File folder = null;
-                File output = null;
-
-
-                FileOutputStream fos = null;
-                try
-                {
-                    folder = new File(Environment.getExternalStorageDirectory(), "FFFFound");
-                    if(! folder.exists())
-                    {
-                        folder.mkdirs();
-                    }
-                    String file_path = folder.getPath();
-
-                    output = new File(file_path, fileName);
-
-                    // create outstream and write data
-                    fos = new FileOutputStream(output);
-                    image.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                    fos.close();
-
-                }
-                catch(FileNotFoundException e)
-                { // <10>
-                    e.printStackTrace();
-                }
-                catch(IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-
-                Toast.makeText(getActivity(), output.getAbsolutePath(), Toast.LENGTH_LONG).show();
-
-            }
-        }
-
-    }
-
     //----------------EVENTBUS----------------
     @SuppressWarnings("UnusedDeclaration")
     public void onEventMainThread(LoadImageTask event)
@@ -238,4 +172,5 @@ public class DetailFragment extends Fragment
             detailImage.setImageBitmap(event.bitmap);
         }
     }
+
 }

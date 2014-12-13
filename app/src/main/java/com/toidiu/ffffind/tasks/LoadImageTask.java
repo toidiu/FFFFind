@@ -16,12 +16,11 @@ import de.greenrobot.event.EventBus;
 public class LoadImageTask extends Task
 {
     public final  String  url;
-    private final Context context;
     public Bitmap bitmap;
 
     public LoadImageTask(Context context, String medUrl)
     {
-        this.context = context;
+        super(context);
         this.url = medUrl;
     }
 

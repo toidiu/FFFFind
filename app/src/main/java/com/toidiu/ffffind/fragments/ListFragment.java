@@ -181,7 +181,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         {
             ((ListActivity) getActivity()).enableProgressBar();
 
-            new LoadNextFItemListEvent(nextOffset);
+            new LoadNextFItemListEvent(getActivity(), nextOffset);
         }
         else
         {

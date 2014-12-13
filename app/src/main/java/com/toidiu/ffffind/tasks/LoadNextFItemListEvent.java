@@ -1,4 +1,6 @@
 package com.toidiu.ffffind.tasks;
+import android.content.Context;
+
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FItemBuilder;
 import com.toidiu.ffffind.network.FoundApi;
@@ -22,8 +24,9 @@ public class LoadNextFItemListEvent extends Task
     private final Integer           offset;
     public        ArrayList<FFItem> items;
 
-    public LoadNextFItemListEvent(final Integer offset)
+    public LoadNextFItemListEvent(Context context, final Integer offset)
     {
+        super(context);
         this.offset = offset;
     }
 

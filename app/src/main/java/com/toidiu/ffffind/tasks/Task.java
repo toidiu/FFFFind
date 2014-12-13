@@ -1,5 +1,9 @@
 package com.toidiu.ffffind.tasks;
+import android.content.Context;
 import android.os.Handler;
+
+
+import java.util.Objects;
 
 
 import static android.os.Looper.getMainLooper;
@@ -9,8 +13,12 @@ import static android.os.Looper.getMainLooper;
  */
 public abstract class Task
 {
-    public Task()
+    protected Context context;
+    public         boolean error;
+
+    public Task(Context context)
     {
+        this.context = context;
 
         new Thread(new Runnable()
         {
