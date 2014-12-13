@@ -17,12 +17,12 @@ import retrofit.mime.TypedInput;
 /**
  * Created by toidiu on 11/29/14.
  */
-public class LoadNextItemListEvent extends Task
+public class LoadNextFItemListEvent extends Task
 {
     private final Integer           offset;
     public        ArrayList<FFItem> items;
 
-    public LoadNextItemListEvent(final Integer offset)
+    public LoadNextFItemListEvent(final Integer offset)
     {
         this.offset = offset;
     }

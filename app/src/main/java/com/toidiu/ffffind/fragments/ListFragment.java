@@ -21,7 +21,7 @@ import com.toidiu.ffffind.activities.ListActivity;
 import com.toidiu.ffffind.adapter.ListAdapter;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
-import com.toidiu.ffffind.tasks.LoadNextItemListEvent;
+import com.toidiu.ffffind.tasks.LoadNextFItemListEvent;
 import com.toidiu.ffffind.utils.Stuff;
 
 import java.util.ArrayList;
@@ -181,7 +181,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         {
             ((ListActivity) getActivity()).enableProgressBar();
 
-            new LoadNextItemListEvent(nextOffset);
+            new LoadNextFItemListEvent(nextOffset);
         }
         else
         {
@@ -192,7 +192,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
     //----------------EVENTBUS----------------
     @SuppressWarnings("UnusedDeclaration")
-    public void onEventMainThread(LoadNextItemListEvent event)
+    public void onEventMainThread(LoadNextFItemListEvent event)
     {
         if(BuildConfig.DEBUG)
         {

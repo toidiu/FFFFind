@@ -13,13 +13,13 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by toidiu on 12/13/14.
  */
-public class LoadDetailImageTask extends Task
+public class LoadImageTask extends Task
 {
     public final  String  url;
     private final Context context;
     public Bitmap bitmap;
 
-    public LoadDetailImageTask(Context context, String medUrl)
+    public LoadImageTask(Context context, String medUrl)
     {
         this.context = context;
         this.url = medUrl;

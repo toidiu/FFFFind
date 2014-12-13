@@ -19,8 +19,7 @@ import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
-import com.toidiu.ffffind.tasks.LoadDetailImageTask;
-import com.toidiu.ffffind.tasks.LoadNextItemListEvent;
+import com.toidiu.ffffind.tasks.LoadImageTask;
 import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.File;
@@ -99,7 +98,7 @@ public class DetailFragment extends Fragment
         detailImage = (ImageView) v.findViewById(R.id.detail_img);
         ImageView download = (ImageView) v.findViewById(R.id.download);
         downloadImgListener(detailImage, download);
-        new LoadDetailImageTask(getActivity(), item.getMedUrl());
+        new LoadImageTask(getActivity(), item.getMedUrl());
         return v;
     }
 
@@ -226,7 +225,7 @@ public class DetailFragment extends Fragment
 
     //----------------EVENTBUS----------------
     @SuppressWarnings("UnusedDeclaration")
-    public void onEventMainThread(LoadDetailImageTask event)
+    public void onEventMainThread(LoadImageTask event)
     {
         if(event.bitmap == null)
         {
