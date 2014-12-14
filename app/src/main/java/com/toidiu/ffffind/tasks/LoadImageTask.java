@@ -1,7 +1,6 @@
 package com.toidiu.ffffind.tasks;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v4.app.FragmentActivity;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;

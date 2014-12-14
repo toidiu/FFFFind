@@ -13,8 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-import de.greenrobot.event.EventBus;
-
 /**
  * Created by toidiu on 12/13/14.
  */

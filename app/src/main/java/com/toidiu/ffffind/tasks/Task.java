@@ -3,9 +3,6 @@ import android.content.Context;
 import android.os.Handler;
 
 
-import java.util.Objects;
-
-
 import static android.os.Looper.getMainLooper;
 
 /**

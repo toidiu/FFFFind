@@ -9,13 +9,8 @@ import android.support.v4.view.ViewPager;
 
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.adapter.DetailPagerAdapter;
-import com.toidiu.ffffind.model.FFData;
-import com.toidiu.ffffind.model.FFItem;
-import com.toidiu.ffffind.utils.FetchItemsAsync;
 
-import java.util.ArrayList;
-
-public class DetailActivity extends FragmentActivity implements FetchItemsAsync.OnAsyncComplete
+public class DetailActivity extends FragmentActivity
 {
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
     public static final String ITEM_POS = "com.toidiu.detail_item_position";
@@ -43,11 +38,11 @@ public class DetailActivity extends FragmentActivity implements FetchItemsAsync.
         viewPager.setCurrentItem(getIntent().getIntExtra(ITEM_POS, 0));
     }
 
-    @Override
-    public void onAsyncComplete(ArrayList<FFItem> itemList)
-    {
-        FFData.getInstance().addItems(itemList);
-        adapter.notifyDataSetChanged();
-    }
+    //    @Override
+    //    public void onAsyncComplete(ArrayList<FFItem> itemList)
+    //    {
+    //        FFData.getInstance().addItems(itemList);
+    //        adapter.notifyDataSetChanged();
+    //    }
 
 }

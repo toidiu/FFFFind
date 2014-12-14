@@ -1,11 +1,8 @@
 package com.toidiu.ffffind.fragments;
 
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +12,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.tasks.DownloadImageTask;
 import com.toidiu.ffffind.tasks.LoadImageTask;
 import com.toidiu.ffffind.utils.Stuff;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Calendar;
 
 import de.greenrobot.event.EventBus;
 
