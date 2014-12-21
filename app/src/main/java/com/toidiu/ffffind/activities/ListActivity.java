@@ -2,11 +2,13 @@ package com.toidiu.ffffind.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.gson.reflect.TypeToken;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.fragments.ListFragment;
+import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.utils.SaveLoadHandler;
@@ -63,10 +65,33 @@ public class ListActivity extends BaseFragmentActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
+        ListFragment listFragment;
         switch(item.getItemId())
         {
             case R.id.explore:
-                ListFragment.injectNewList(ListActivity.this, Stuff.getRandOffset());
+                //                ListFragment.injectNewList(ListActivity.this, Stuff.getRandOffset());
+
+                listFragment = ListFragment.newInstance(Stuff.getRandOffset(), false);
+                FFData.getInstance().clearList();
+                switchFragment(listFragment);
+
+//                if(fragment != null)
+//                {
+//                    fragment.nextOffset = offset;
+//                    FFData.getInstance().clearList();
+//                    fragment.adapter.notifyDataSetInvalidated();
+//
+//                    Log.e("-inject-----------", "");
+//                    fragment.loadItems();
+//                }
+
+
+                break;
+            case R.id.favorite:
+                listFragment = ListFragment.newInstance(0, true);
+                FFData.getInstance().clearList();
+                switchFragment(listFragment);
+
                 break;
             default:
                 break;

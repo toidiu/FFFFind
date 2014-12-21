@@ -43,7 +43,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity
     public void switchFragment(Fragment fragment)
     {
         getSupportFragmentManager().beginTransaction()
-                                   .add(R.id.frag_container, fragment, LIST_FRAGMENT_TAG).commit();
+                                   .replace(R.id.frag_container, fragment, LIST_FRAGMENT_TAG).commit();
     }
 
     protected abstract Fragment createFragment();
@@ -54,7 +54,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity
         // Inflate the menu
         this.menu = menu;
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        configMenu(true, false, false, false);
+        configMenu(true, false, true, false);
         return super.onCreateOptionsMenu(this.menu);
     }
 
