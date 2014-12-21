@@ -65,7 +65,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         if(fav == true)
         {
             nextOffset = null;
-            adapter = new ListAdapter(getActivity(), FavData.getInstance().getFav());
+            adapter = new ListAdapter(getActivity(), FavData.getInstance().getFavs());
         }
         else
         {

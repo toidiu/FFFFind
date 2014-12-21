@@ -57,7 +57,7 @@ public class ListActivity extends BaseFragmentActivity
         super.onPause();
         if(isFinishing())
         {
-            slh.saveData(FavData.getInstance().getFav());
+            slh.saveData(FavData.getInstance().getFavs());
         }
     }
 
@@ -73,7 +73,7 @@ public class ListActivity extends BaseFragmentActivity
                 switchFragment(listFragment);
                 break;
             case R.id.favorite:
-                if(FavData.getInstance().getFavSize() > 0)
+                if(FavData.getInstance().getFavs().size() > 0)
                 {
                     listFragment = ListFragment.newInstance(0, true);
                     FFData.getInstance().clearList();

@@ -42,7 +42,7 @@ public class DetailActivity extends FragmentActivity
 
         boolean fav = getIntent().getBooleanExtra(FAV_DATA_EXTRA, false);
         ArrayList<FFItem> items = fav
-                ? FavData.getInstance().getFav()
+                ? FavData.getInstance().getFavs()
                 : FFData.getInstance().getItems();
         adapter = new DetailPagerAdapter(getSupportFragmentManager(), items);
         viewPager.setAdapter(adapter);

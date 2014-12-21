@@ -45,7 +45,7 @@ public class DetailFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         item = getArguments().getParcelable(FITEM_EXTRA);
-        FFItem getFav = FavData.getInstance().getFav(item.getMedUrl());
+        FFItem getFav = FavData.getInstance().getFavs(item.getMedUrl());
         item = getFav != null
                 ? getFav
                 : item;
@@ -70,7 +70,8 @@ public class DetailFragment extends Fragment
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
         setFavStarListener(heartView);
-        if(item.isFavorite())
+
+        if(FavData.getInstance().hasFav(item))
         {
             heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
         }
@@ -121,7 +122,7 @@ public class DetailFragment extends Fragment
             public void onClick(View view)
             {
                 Log.w("---------dd-d-", "favStar");
-                setFavStar(item.toggleFavorite());
+                setFavStar(FavData.getInstance().toggleFav(item));
             }
         });
     }
