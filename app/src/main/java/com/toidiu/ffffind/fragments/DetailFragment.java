@@ -58,15 +58,17 @@ public class DetailFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.detail_item, container, false);
+        View view = inflater.inflate(R.layout.detail_item, container, false);
 
-        TextView artist = (TextView) v.findViewById(R.id.artist_name);
+        TextView artist = (TextView) view.findViewById(R.id.artist_name);
+        RelativeLayout rl = (RelativeLayout) view.findViewById(R.id.detail_back);
+        ImageView heartView = (ImageView) view.findViewById(R.id.favorite);
+        detailImage = (ImageView) view.findViewById(R.id.detail_img);
+        ImageView download = (ImageView) view.findViewById(R.id.download);
+
         artist.setText(item.getArtist());
-
-        RelativeLayout rl = (RelativeLayout) v.findViewById(R.id.detail_back);
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
-        ImageView heartView = (ImageView) v.findViewById(R.id.favorite);
         setFavStarListener(heartView);
         if(item.isFavorite())
         {
@@ -77,13 +79,11 @@ public class DetailFragment extends Fragment
             heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
         }
 
-        detailImage = (ImageView) v.findViewById(R.id.detail_img);
-        ImageView download = (ImageView) v.findViewById(R.id.download);
         downloadImgListener(detailImage, download);
         Picasso.with(getActivity()).load(item.getMedUrl()).into(detailImage);
 
         Log.w("---------dd-d-", "view");
-        return v;
+        return view;
     }
 
     private void downloadImgListener(ImageView detailImage, ImageView download)
@@ -113,9 +113,9 @@ public class DetailFragment extends Fragment
         Log.w("---------dd-d-", "download");
     }
 
-    void setFavStarListener(View v)
+    void setFavStarListener(View heartView)
     {
-        v.setOnClickListener(new View.OnClickListener()
+        heartView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
