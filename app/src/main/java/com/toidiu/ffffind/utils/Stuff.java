@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -52,5 +53,10 @@ public class Stuff
         {
             return false;
         }
+    }
+
+    public static void ToastUtil(Context context, String text)
+    {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 }

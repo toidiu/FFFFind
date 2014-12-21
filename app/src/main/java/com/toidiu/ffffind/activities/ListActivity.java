@@ -2,7 +2,6 @@ package com.toidiu.ffffind.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.gson.reflect.TypeToken;
@@ -69,29 +68,21 @@ public class ListActivity extends BaseFragmentActivity
         switch(item.getItemId())
         {
             case R.id.explore:
-                //                ListFragment.injectNewList(ListActivity.this, Stuff.getRandOffset());
-
                 listFragment = ListFragment.newInstance(Stuff.getRandOffset(), false);
                 FFData.getInstance().clearList();
                 switchFragment(listFragment);
-
-//                if(fragment != null)
-//                {
-//                    fragment.nextOffset = offset;
-//                    FFData.getInstance().clearList();
-//                    fragment.adapter.notifyDataSetInvalidated();
-//
-//                    Log.e("-inject-----------", "");
-//                    fragment.loadItems();
-//                }
-
-
                 break;
             case R.id.favorite:
-                listFragment = ListFragment.newInstance(0, true);
-                FFData.getInstance().clearList();
-                switchFragment(listFragment);
-
+                if(FavData.getInstance().getFavSize() > 0)
+                {
+                    listFragment = ListFragment.newInstance(0, true);
+                    FFData.getInstance().clearList();
+                    switchFragment(listFragment);
+                }
+                else
+                {
+                    Stuff.ToastUtil(this, "No items saved as favorite.");
+                }
                 break;
             default:
                 break;

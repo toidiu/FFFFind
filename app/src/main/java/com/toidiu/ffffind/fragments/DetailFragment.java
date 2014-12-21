@@ -4,22 +4,20 @@ package com.toidiu.ffffind.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.tasks.DownloadImageTask;
-import com.toidiu.ffffind.tasks.LoadImageTask;
 import com.toidiu.ffffind.utils.Stuff;
-
-import de.greenrobot.event.EventBus;
 
 public class DetailFragment extends Fragment
 {
@@ -46,7 +44,6 @@ public class DetailFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        EventBus.getDefault().register(this);
         item = getArguments().getParcelable(FITEM_EXTRA);
         FFItem getFav = FavData.getInstance().getFav(item.getMedUrl());
         item = getFav != null
@@ -55,13 +52,7 @@ public class DetailFragment extends Fragment
 
         getActivity().setTitle(item.getArtist());
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onDestroy()
-    {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        Log.w("---------dd-d-", "create");
     }
 
     @Override
@@ -89,7 +80,9 @@ public class DetailFragment extends Fragment
         detailImage = (ImageView) v.findViewById(R.id.detail_img);
         ImageView download = (ImageView) v.findViewById(R.id.download);
         downloadImgListener(detailImage, download);
-        new LoadImageTask(getActivity(), item.getMedUrl());
+        Picasso.with(getActivity()).load(item.getMedUrl()).into(detailImage);
+
+        Log.w("---------dd-d-", "view");
         return v;
     }
 
@@ -117,7 +110,7 @@ public class DetailFragment extends Fragment
                 return false;
             }
         });
-
+        Log.w("---------dd-d-", "download");
     }
 
     void setFavStarListener(View v)
@@ -127,6 +120,7 @@ public class DetailFragment extends Fragment
             @Override
             public void onClick(View view)
             {
+                Log.w("---------dd-d-", "favStar");
                 setFavStar(item.toggleFavorite());
             }
         });
@@ -134,33 +128,19 @@ public class DetailFragment extends Fragment
 
     void setFavStar(boolean isFav)
     {
-        ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
+        ImageView heart = (ImageView) getActivity().findViewById(R.id.favorite);
         if(isFav)
         {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
+            heart.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
             FavData.getInstance().addFav(item);
         }
         else
         {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.heart));
+            heart.setImageDrawable(getResources().getDrawable(R.drawable.heart));
             FavData.getInstance().removeFav(item);
         }
-    }
+        Log.w("---------dd-d-", "setFav");
 
-    //----------------EVENTBUS----------------
-    @SuppressWarnings("UnusedDeclaration")
-    public void onEventMainThread(LoadImageTask event)
-    {
-        if(event.bitmap == null)
-        {
-            Toast.makeText(getActivity(), "error loading image", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(event.url.equals(item.getMedUrl()))
-        {
-            detailImage.setImageBitmap(event.bitmap);
-        }
     }
 
 }

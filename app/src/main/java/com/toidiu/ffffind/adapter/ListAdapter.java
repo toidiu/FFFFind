@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import com.etsy.android.grid.util.DynamicHeightImageView;
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
 
 import java.util.ArrayList;

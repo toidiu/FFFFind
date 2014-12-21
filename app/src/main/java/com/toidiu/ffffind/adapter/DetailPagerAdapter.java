@@ -4,7 +4,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.toidiu.ffffind.fragments.DetailFragment;
-import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
 
 import java.util.ArrayList;
