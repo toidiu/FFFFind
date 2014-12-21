@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.BuildConfig;
@@ -158,8 +157,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         }
         else
         {
-            Toast.makeText(getActivity(), getResources().getString(R.string.no_wifi),
-                           Toast.LENGTH_LONG).show();
+            Stuff.ToastUtil(getActivity(), getResources().getString(R.string.no_wifi));
         }
     }
 
@@ -169,7 +167,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     {
         if(BuildConfig.DEBUG)
         {
-            Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
+            Stuff.ToastUtil(getActivity(), "got response");
         }
         running = false;
         if(event.items != null)

@@ -2,10 +2,10 @@ package com.toidiu.ffffind.tasks;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
+import com.toidiu.ffffind.utils.Stuff;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -89,11 +89,11 @@ public class DownloadImageTask extends Task
     {
         if(error)
         {
-            Toast.makeText(context, "error downloading image", Toast.LENGTH_SHORT).show();
+            Stuff.ToastUtil(context, "error downloading image");
         }
         else
         {
-            Toast.makeText(context, absolutePath, Toast.LENGTH_LONG).show();
+            Stuff.ToastUtil(context, absolutePath);
         }
     }
 }

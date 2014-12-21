@@ -4,7 +4,6 @@ package com.toidiu.ffffind.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ public class DetailFragment extends Fragment
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View
     private FFItem    item;
     private ImageView detailImage;
+    private ImageView heartView;
 
     public static DetailFragment newInstance(FFItem item)
     {
@@ -52,7 +52,6 @@ public class DetailFragment extends Fragment
 
         getActivity().setTitle(item.getArtist());
         setHasOptionsMenu(true);
-        Log.w("---------dd-d-", "create");
     }
 
     @Override
@@ -62,28 +61,19 @@ public class DetailFragment extends Fragment
 
         TextView artist = (TextView) view.findViewById(R.id.artist_name);
         RelativeLayout rl = (RelativeLayout) view.findViewById(R.id.detail_back);
-        ImageView heartView = (ImageView) view.findViewById(R.id.favorite);
-        detailImage = (ImageView) view.findViewById(R.id.detail_img);
         ImageView download = (ImageView) view.findViewById(R.id.download);
+        heartView = (ImageView) view.findViewById(R.id.favorite);
+        detailImage = (ImageView) view.findViewById(R.id.detail_img);
 
         artist.setText(item.getArtist());
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
-        setFavStarListener(heartView);
-
-        if(FavData.getInstance().hasFav(item))
-        {
-            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
-        }
-        else
-        {
-            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
-        }
+        setFavStarListener();
+        updateHeartView();
 
         downloadImgListener(detailImage, download);
         Picasso.with(getActivity()).load(item.getMedUrl()).into(detailImage);
 
-        Log.w("---------dd-d-", "view");
         return view;
     }
 
@@ -111,20 +101,31 @@ public class DetailFragment extends Fragment
                 return false;
             }
         });
-        Log.w("---------dd-d-", "download");
     }
 
-    void setFavStarListener(View heartView)
+    void setFavStarListener()
     {
         heartView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                Log.w("---------dd-d-", "favStar");
                 setFavStar(FavData.getInstance().toggleFav(item));
+                updateHeartView();
             }
         });
+    }
+
+    private void updateHeartView()
+    {
+        if(FavData.getInstance().hasFav(item))
+        {
+            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
+        }
+        else
+        {
+            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
+        }
     }
 
     void setFavStar(boolean isFav)
@@ -140,7 +141,6 @@ public class DetailFragment extends Fragment
             heart.setImageDrawable(getResources().getDrawable(R.drawable.heart));
             FavData.getInstance().removeFav(item);
         }
-        Log.w("---------dd-d-", "setFav");
 
     }
 

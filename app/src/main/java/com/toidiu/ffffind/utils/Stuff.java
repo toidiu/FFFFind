@@ -36,7 +36,6 @@ public class Stuff
     {
         int randOffset = new Random().nextInt(MAX_RAND_OFFSET);
         return randOffset;
-        //        return ListFragment.EXPLORE_URL_BASE + randOffset;
     }
 
     public static boolean isConnected(Context ctx)
