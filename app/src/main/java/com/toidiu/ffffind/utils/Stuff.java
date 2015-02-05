@@ -4,19 +4,25 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import java.util.Random;
 
-public  class Stuff {
+public class Stuff
+{
 
-    public static int generateRandomColor(int mix) {
+    private static final int MAX_RAND_OFFSET = 135000;
+
+    public static int generateRandomColor(int mix)
+    {
         Random random = new Random();
         int red = random.nextInt(256);
         int green = random.nextInt(256);
         int blue = random.nextInt(256);
 
         // mix the color
-        if ( mix != 0 ) {
+        if(mix != 0)
+        {
             red = (red + Color.red(mix)) / 2;
             green = (green + Color.green(mix)) / 2;
             blue = (blue + Color.blue(mix)) / 2;
@@ -26,15 +32,30 @@ public  class Stuff {
         return color;
     }
 
-    public static boolean isConnected(Context ctx){
-        ConnectivityManager cm = (ConnectivityManager)
-                ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static int getRandOffset()
+    {
+        int randOffset = new Random().nextInt(MAX_RAND_OFFSET);
+        return randOffset;
+    }
+
+    public static boolean isConnected(Context ctx)
+    {
+        ConnectivityManager cm = (ConnectivityManager) ctx
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
-        if (networkInfo != null){
+        if(networkInfo != null)
+        {
             return true;
-        }else {
+        }
+        else
+        {
             return false;
         }
+    }
+
+    public static void ToastUtil(Context context, String text)
+    {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 }

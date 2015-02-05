@@ -5,4 +5,5 @@
     <dimen name="item_size">150dp</dimen>
     <dimen name="grid_size">100dp</dimen>
     <dimen name="grid_margin">10dp</dimen>
+    <dimen name="detal_icon_size">30dp</dimen>
 </resources>
