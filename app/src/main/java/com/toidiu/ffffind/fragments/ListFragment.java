@@ -2,25 +2,22 @@ package com.toidiu.ffffind.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.etsy.android.grid.StaggeredGridView;
 import com.toidiu.ffffind.BuildConfig;
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.activities.BaseFragmentActivity;
 import com.toidiu.ffffind.activities.DetailActivity;
 import com.toidiu.ffffind.activities.ListActivity;
 import com.toidiu.ffffind.adapter.ListAdapter;
 import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
+import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.tasks.LoadNextFItemListEvent;
 import com.toidiu.ffffind.utils.Stuff;
 
@@ -42,6 +39,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Fields
     private Integer nextOffset;
     private boolean running;
+    private boolean fav;
 
     public static ListFragment newInstance(Integer offset, boolean fav)
     {
@@ -54,26 +52,6 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         return fragment;
     }
 
-    public static void injectNewList(FragmentActivity activity, Integer offset)
-    {
-        ListFragment fragment = (ListFragment) activity.getSupportFragmentManager()
-                                                       .findFragmentByTag(
-                                                               BaseFragmentActivity.LIST_FRAGMENT_TAG);
-        if(fragment != null)
-        {
-            fragment.nextOffset = offset;
-            FFData.getInstance().clearList();
-            fragment.adapter.notifyDataSetInvalidated();
-
-            Log.e("-inject-----------", "");
-            fragment.loadItems();
-        }
-        else
-        {
-            Crashlytics.log(Log.ERROR, "Log this error", "bad stuff happened!");
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -82,12 +60,16 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
         EventBus.getDefault().register(this);
 
-        adapter = new ListAdapter(getActivity());
-
-        if(getArguments().containsKey(LIST_OFFSET_EXTRA))
+        fav = getArguments().getBoolean(SHOW_FAV_EXTRA, false);
+        if(fav == true)
         {
+            nextOffset = null;
+            adapter = new ListAdapter(getActivity(), FavData.getInstance().getFavs());
+        }
+        else
+        {
+            adapter = new ListAdapter(getActivity(), FFData.getInstance().getItems());
             nextOffset = getArguments().getInt(LIST_OFFSET_EXTRA, 0);
-            Log.e("-create-----------", "");
             loadItems();
         }
 
@@ -110,17 +92,8 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     }
 
     @Override
-    public void onPause()
-    {
-        super.onPause();
-        Log.e("-0pause-----------", "");
-    }
-
-    @Override
     public void onDestroy()
     {
-        Log.e("-destroy-----------", "");
-
         super.onDestroy();
         FFData.getInstance().clearList();
         EventBus.getDefault().unregister(this);
@@ -136,7 +109,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     public void onScroll(final AbsListView view, final int un, final int deux, final int trois)
     {
         //        Log.d(TAG, "onScroll firstVisibleItem:" + un + " visibleItemCount:" + deux + " totalItemCount:" + trois);
-        if(trois - un <= 10 && trois > 0 && running == false)
+        if(trois - un <= 10 && trois > 0 && running == false && !fav)
         {
             running = true;
             nextOffset = FFData.getInstance().getNextOffset();
@@ -148,7 +121,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
     {
-        DetailActivity.callMe(getActivity(), position);
+        DetailActivity.callMe(getActivity(), position, fav);
     }
 
     public void setUpAdapter()
@@ -180,13 +153,11 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         if(Stuff.isConnected(getActivity()))
         {
             ((ListActivity) getActivity()).enableProgressBar();
-
             new LoadNextFItemListEvent(getActivity(), nextOffset);
         }
         else
         {
-            Toast.makeText(getActivity(), getResources().getString(R.string.no_wifi),
-                           Toast.LENGTH_LONG).show();
+            Stuff.ToastUtil(getActivity(), getResources().getString(R.string.no_wifi));
         }
     }
 
@@ -196,7 +167,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
     {
         if(BuildConfig.DEBUG)
         {
-            Toast.makeText(getActivity(), "got response", Toast.LENGTH_SHORT).show();
+            Stuff.ToastUtil(getActivity(), "got response");
         }
         running = false;
         if(event.items != null)
@@ -206,7 +177,6 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
         }
 
         ((ListActivity) getActivity()).disableProgressBar();
-
     }
 
 }

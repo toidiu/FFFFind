@@ -23,7 +23,6 @@ public class FFItem implements Parcelable
     private String  MedUrl;
     private String  BigUrl;
     private String  Descrip;
-    private boolean Favorite;
     private boolean Download;
 
     public FFItem()
@@ -33,7 +32,6 @@ public class FFItem implements Parcelable
         BigUrl = "";
         Title = "";
         Artist = "";
-        Favorite = false;
         Download = false;
     }
 
@@ -49,8 +47,7 @@ public class FFItem implements Parcelable
 
         boolean[] array = new boolean[2];
         parcel.readBooleanArray(array);
-        Favorite = array[0];
-        Download = array[1];
+        Download = array[0];
     }
 
     public String getArtist()
@@ -120,22 +117,6 @@ public class FFItem implements Parcelable
         BigUrl = bigUrl;
     }
 
-    public boolean isFavorite()
-    {
-        return Favorite;
-    }
-
-    public void setFavorite(boolean favorite)
-    {
-        Favorite = favorite;
-    }
-
-    public boolean toggleFavorite()
-    {
-        Favorite = Favorite ^ true;
-        return Favorite;
-    }
-
     public boolean isDownload()
     {
         return Download;
@@ -163,7 +144,7 @@ public class FFItem implements Parcelable
         parcel.writeString(BigUrl);
         parcel.writeString(Descrip);
 
-        boolean[] array = new boolean[] {Favorite, Download};
+        boolean[] array = new boolean[] {Download};
         parcel.writeBooleanArray(array);
     }
 }

@@ -11,9 +11,9 @@ import android.widget.ArrayAdapter;
 import com.etsy.android.grid.util.DynamicHeightImageView;
 import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
-import com.toidiu.ffffind.model.FFData;
 import com.toidiu.ffffind.model.FFItem;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -25,9 +25,9 @@ public class ListAdapter extends ArrayAdapter<FFItem>
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View
     private static final SparseArray<Double> sPositionHeightRatios = new SparseArray<Double>();
 
-    public ListAdapter(Context ctx)
+    public ListAdapter(Context ctx, ArrayList<FFItem> items)
     {
-        super(ctx, 0, FFData.getInstance().getItems());
+        super(ctx, 0, items);
     }
 
     @Override

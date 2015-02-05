@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -35,7 +36,6 @@ public class Stuff
     {
         int randOffset = new Random().nextInt(MAX_RAND_OFFSET);
         return randOffset;
-        //        return ListFragment.EXPLORE_URL_BASE + randOffset;
     }
 
     public static boolean isConnected(Context ctx)
@@ -52,5 +52,10 @@ public class Stuff
         {
             return false;
         }
+    }
+
+    public static void ToastUtil(Context context, String text)
+    {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 }
