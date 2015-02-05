@@ -1,6 +1,7 @@
 package com.toidiu.ffffind.fragments;
 
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -72,7 +73,8 @@ public class DetailFragment extends Fragment
         updateHeartView();
 
         downloadImgListener(detailImage, download);
-        Picasso.with(getActivity()).load(item.getMedUrl()).into(detailImage);
+        Picasso.with(getActivity()).load(item.getMedUrl()).config(Bitmap.Config.RGB_565).into(
+                detailImage);
 
         return view;
     }

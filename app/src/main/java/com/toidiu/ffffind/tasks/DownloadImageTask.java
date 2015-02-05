@@ -37,7 +37,7 @@ public class DownloadImageTask extends Task
         Bitmap bitmap = null;
         try
         {
-            bitmap = Picasso.with(context).load(url).get();
+            bitmap = Picasso.with(context).load(url).config(Bitmap.Config.RGB_565).get();
         }
         catch(IOException e)
         {

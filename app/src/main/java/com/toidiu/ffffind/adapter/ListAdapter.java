@@ -1,6 +1,7 @@
 package com.toidiu.ffffind.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -44,7 +45,8 @@ public class ListAdapter extends ArrayAdapter<FFItem>
                 .findViewById(R.id.imgView);
         imgView.setHeightRatio(getPositionRatio(position));
         imgView.setBackgroundColor(generateRandomColor(Color.LTGRAY));
-        Picasso.with(getContext()).load(getItem(position).getMedUrl()).into(imgView);
+        Picasso.with(getContext()).load(getItem(position).getMedUrl()).config(Bitmap.Config.RGB_565)
+                .into(imgView);
 
         return convertView;
     }
