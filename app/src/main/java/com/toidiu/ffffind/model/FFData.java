@@ -2,57 +2,89 @@ package com.toidiu.ffffind.model;
 
 import java.util.ArrayList;
 
-public class FFData {
+public class FFData
+{
     private static FFData mFFData;
 
-    private ArrayList<FFFFItem> mFFItemsList;
-    private String nextUrl;
-    private String prevUrl;
+    private ArrayList<FFItem> mFFItemsList;
+    private Integer           nextOffset;
+    private Integer           prevOffset;
 
     //----------Instance
-    public FFData() {
-        mFFItemsList = new ArrayList<FFFFItem>();
+    public FFData()
+    {
+        mFFItemsList = new ArrayList<FFItem>();
     }
-    public static FFData getInstance() {
-        if (mFFData == null) {
+
+    public static FFData getInstance()
+    {
+        if(mFFData == null)
+        {
             mFFData = new FFData();
         }
         return mFFData;
     }
 
     //------------------Item List
-    public void addItems(ArrayList<FFFFItem> ffArray) {
-        if (mFFItemsList == null) {
+    public void addItems(ArrayList<FFItem> ffArray)
+    {
+        if(mFFItemsList == null)
+        {
             mFFItemsList = ffArray;
-        }else {
+        }
+        else
+        {
             mFFItemsList.addAll(ffArray);
         }
     }
-    public void addItems(FFFFItem item) {
+
+    public void addItems(FFItem item)
+    {
         mFFItemsList.add(item);
     }
-    public void setPrevUrl(String prevUrl) {
-        this.prevUrl = prevUrl;
-    }
-    public void setNextUrl(String nextUrl) {
-        this.nextUrl = nextUrl;
-    }
-    public void clearList(){ mFFItemsList.clear(); }
 
-    public FFFFItem getItems(int idx) {
+    public void clearList()
+    {
+        mFFItemsList.clear();
+    }
+
+    public FFItem getItems(int idx)
+    {
         return mFFItemsList.get(idx);
     }
-    public ArrayList<FFFFItem> getItems() {
+
+    public ArrayList<FFItem> getItems()
+    {
         return mFFItemsList;
     }
-    public String getPrevUrl() {
-        return prevUrl;
+
+    public Integer getPrevOffset()
+    {
+        return prevOffset;
     }
-    public String getNextUrl() {
-        return nextUrl;
+
+    public void setPrevOffset(Integer prevOffset)
+    {
+        this.prevOffset = prevOffset;
     }
-    public int getSize() { return mFFItemsList.size(); }
-    public int getIdx(FFFFItem item){
+
+    public Integer getNextOffset()
+    {
+        return nextOffset;
+    }
+
+    public void setNextOffset(Integer nextOffset)
+    {
+        this.nextOffset = nextOffset;
+    }
+
+    public int getSize()
+    {
+        return mFFItemsList.size();
+    }
+
+    public int getIdx(FFItem item)
+    {
         return mFFItemsList.indexOf(item);
     }
 

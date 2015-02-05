@@ -1,29 +1,56 @@
+buildscript {
+    repositories {
+        maven { url 'http://download.crashlytics.com/maven' }
+    }
+
+    dependencies {
+        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'crashlytics'
+
+repositories {
+    maven { url 'http://download.crashlytics.com/maven' }
+}
+
 
 android {
-    compileSdkVersion 20
+    compileSdkVersion 21
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "com.toidiu.ffffind"
-        minSdkVersion 10
-        targetSdkVersion 20
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 17
+        targetSdkVersion 21
+        versionCode 7
+        versionName "2.0.0"
     }
     buildTypes {
         release {
-            runProguard false
+//            runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    //RELEASE CONFIG
+    if (project.hasProperty("MyProject.signing")
+            && new File(project.property("MyProject.signing") + "signing.gradle").exists()) {
+        apply from: project.property("MyProject.signing") + "signing.gradle";
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.etsy.android.grid:library:1.0.5'
-    compile 'com.squareup.picasso:picasso:2.3.3'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.android.support:gridlayout-v7:18.0.+'
+
+    compile 'com.squareup.retrofit:retrofit:1.8.0'
+    compile 'com.jakewharton:butterknife:6.0.0'
+    compile 'com.etsy.android.grid:library:1.0.5'
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.crashlytics.android:crashlytics:1.+'
+//    compile 'com.google.guava:guava:18.0'
 }

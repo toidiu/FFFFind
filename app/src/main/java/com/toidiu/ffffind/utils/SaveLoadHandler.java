@@ -12,55 +12,67 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-public class SaveLoadHandler<T> {
+public class SaveLoadHandler <T>
+{
 
-    private final Type type;
-    private java.io.File File;
+    private final Type         type;
+    private       java.io.File File;
 
-    public SaveLoadHandler(Type type, File file){
+    public SaveLoadHandler(Type type, File file)
+    {
         this.type = type;
         this.File = file;
         //Log.d("------TYPE--------",           this.type.toString());
     }
 
-    public void saveData(T data){
+    public void saveData(T data)
+    {
         Gson gson = new Gson();
         String write = gson.toJson(data, this.type);
         Log.d("Write", write);
 
-//Log.d("TEST","WRITING TO FILE: " + file.getAbsolutePath());
+        //Log.d("TEST","WRITING TO FILE: " + file.getAbsolutePath());
         FileWriter fileWriter = null;
-        try {
+        try
+        {
             fileWriter = new FileWriter(File, false);
 
             BufferedWriter bw = new BufferedWriter(fileWriter);
             bw.write(write);
             bw.close();
-        } catch (IOException e) {
-            Log.e("TEST","EXCEPTION WHEN WRITING FILE");
+        }
+        catch(IOException e)
+        {
+            Log.e("TEST", "EXCEPTION WHEN WRITING FILE");
             e.printStackTrace();
         }
     }
 
-    public T loadData() {
+    public T loadData()
+    {
         StringBuilder builder = new StringBuilder("");
 
-        try {
+        try
+        {
             FileReader fileReader = new FileReader(File);
             BufferedReader br = new BufferedReader(fileReader);
 
             String line;
-            while((line = br.readLine()) != null){
+            while((line = br.readLine()) != null)
+            {
                 builder.append(line);
             }
             br.close();
 
-        } catch (IOException e) {
+        }
+        catch(IOException e)
+        {
             e.printStackTrace();
         }
 
 
-        if (builder == null){
+        if(builder == null)
+        {
             return null;
         }
         Gson gson = new Gson();

@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.toidiu.ffffind" >
+<manifest package="com.toidiu.ffffind"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
     <application
+        android:name=".FFApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light" >
+        android:label="@string/app_name">
 
-        <activity android:name=".activities.FFListActivity"
-            android:label="@string/app_name" >
+        <activity
+            android:name=".activities.ListActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name="com.toidiu.ffffind.activities.FFDetailActivity"
-            android:label="@string/app_name" >
+            android:name=".activities.DetailActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name">
         </activity>
+        <meta-data android:name="com.crashlytics.ApiKey"
+                   android:value="7236614ff6bf64f85117dfe87b1029b7115ceb90"/>
 
     </application>
 
