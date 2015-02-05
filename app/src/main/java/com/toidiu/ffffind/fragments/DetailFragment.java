@@ -1,9 +1,16 @@
 package com.toidiu.ffffind.fragments;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +19,36 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.toidiu.ffffind.R;
+import com.toidiu.ffffind.activities.ListActivity;
 import com.toidiu.ffffind.model.FFItem;
 import com.toidiu.ffffind.model.FavData;
-import com.toidiu.ffffind.tasks.DownloadImageTask;
-import com.toidiu.ffffind.tasks.LoadImageTask;
 import com.toidiu.ffffind.utils.Stuff;
 
-import de.greenrobot.event.EventBus;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
 
 public class DetailFragment extends Fragment
 {
 
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
-    public static final String FITEM_EXTRA = "com.toidiu.itemExtra";
+    public static final String LIST_TITLE       = "com.toidiu.artist_name";
+    public static final String FITEM_EXTRA      = "com.toidiu.itemExtra";
+    public static final int    DETAIL_USER_LIST = 2235;
+    public static final String USER_URL_BASE    = "http://ffffound.com/home/"; //+ user + SPAREUrlEnd
+    public static final String USER_URL_END     = "/found/feed";
 
-    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=View
-    private FFItem    item;
-    private ImageView detailImage;
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Views
+    private ImageView imgView;
+    private ImageView downView;
+    private ImageView starView;
+
+    //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Fields
+    private FFItem item;
 
     public static DetailFragment newInstance(FFItem item)
     {
@@ -46,28 +65,26 @@ public class DetailFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        EventBus.getDefault().register(this);
         item = getArguments().getParcelable(FITEM_EXTRA);
+
+
         FFItem getFav = FavData.getInstance().getFav(item.getMedUrl());
         item = getFav != null
                 ? getFav
                 : item;
-
         getActivity().setTitle(item.getArtist());
-        setHasOptionsMenu(true);
-    }
 
-    @Override
-    public void onDestroy()
-    {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.detail_item, container, false);
+        artistClick(v);
+
+        TextView title = (TextView) v.findViewById(R.id.pic_title);
+        title.setText(item.getTitle());
 
         TextView artist = (TextView) v.findViewById(R.id.artist_name);
         artist.setText(item.getArtist());
@@ -75,45 +92,75 @@ public class DetailFragment extends Fragment
         RelativeLayout rl = (RelativeLayout) v.findViewById(R.id.detail_back);
         rl.setBackgroundColor(Stuff.generateRandomColor(Color.WHITE));
 
-        ImageView heartView = (ImageView) v.findViewById(R.id.favorite);
-        setFavStarListener(heartView);
+        starView = (ImageView) v.findViewById(R.id.favorite);
+        setFavStarListener(starView);
         if(item.isFavorite())
         {
-            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.fav));
         }
         else
         {
-            heartView.setImageDrawable(getResources().getDrawable(R.drawable.heart));
+            starView.setImageDrawable(getResources().getDrawable(R.drawable.fav_add));
         }
 
-        detailImage = (ImageView) v.findViewById(R.id.detail_img);
-        ImageView download = (ImageView) v.findViewById(R.id.download);
-        downloadImgListener(detailImage, download);
-        new LoadImageTask(getActivity(), item.getMedUrl());
+        downView = (ImageView) v.findViewById(R.id.download);
+        imgView = (ImageView) v.findViewById(R.id.detail_img);
+        downloadImgListener(imgView, downView);
+        new AttachDetailImg().execute(item.getMedUrl());
+
         return v;
     }
 
-    private void downloadImgListener(ImageView detailImage, ImageView download)
+    private void returnResult(int code, Intent intent)
     {
-        download.setOnClickListener(new View.OnClickListener()
+        getActivity().setResult(code, intent);
+        getActivity().finish();
+    }
+
+    private void artistClick(View v)
+    {
+        TextView artist = (TextView) v.findViewById(R.id.artist_name);
+
+        artist.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = USER_URL_BASE + item.getArtist() + USER_URL_END;
+                Log.d("url from detail fragment", url);
+
+                Intent intent = new Intent(getActivity(), ListActivity.class);
+                intent.putExtra(ListFragment.LIST_OFFSET_EXTRA, url);
+                intent.putExtra(LIST_TITLE, item.getArtist());
+                returnResult(DETAIL_USER_LIST, intent);
+            }
+        });
+    }
+
+    private void downloadImgListener(View v1, View v2)
+    {
+        imgView = (ImageView) v1.findViewById(R.id.detail_img);
+        downView = (ImageView) v2.findViewById(R.id.download);
+
+        downView.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 item.setDownload(true);
                 FavData.getInstance().updateFav(item);
-                new DownloadImageTask(getActivity(), item.getMedUrl(), item.getArtist());
+                new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
             }
         });
 
-        detailImage.setOnLongClickListener(new View.OnLongClickListener()
+        imgView.setOnLongClickListener(new View.OnLongClickListener()
         {
             @Override
             public boolean onLongClick(View view)
             {
                 item.setDownload(true);
                 setFavStar(true);
-                new DownloadImageTask(getActivity(), item.getMedUrl(), item.getArtist());
+                new DownloadImg().execute(item.getBigUrl(), item.getMedUrl());
                 return false;
             }
         });
@@ -137,30 +184,105 @@ public class DetailFragment extends Fragment
         ImageView star = (ImageView) getActivity().findViewById(R.id.favorite);
         if(isFav)
         {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.heart_like));
+            star.setImageDrawable(getResources().getDrawable(R.drawable.fav));
             FavData.getInstance().addFav(item);
         }
         else
         {
-            star.setImageDrawable(getResources().getDrawable(R.drawable.heart));
+            star.setImageDrawable(getResources().getDrawable(R.drawable.fav_add));
             FavData.getInstance().removeFav(item);
         }
     }
 
-    //----------------EVENTBUS----------------
-    @SuppressWarnings("UnusedDeclaration")
-    public void onEventMainThread(LoadImageTask event)
+    //--------------------------------------PRIVATE CLASS---------------
+    private class AttachDetailImg extends AsyncTask<String, Void, Bitmap>
     {
-        if(event.bitmap == null)
+        protected Bitmap doInBackground(String... urls)
         {
-            Toast.makeText(getActivity(), "error loading image", Toast.LENGTH_SHORT).show();
-            return;
+            Bitmap bitmap = null;
+            try
+            {
+                bitmap = Picasso.with(getActivity()).load(urls[0]).get();
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+            return bitmap;
         }
 
-        if(event.url.equals(item.getMedUrl()))
+        protected void onPostExecute(Bitmap result)
         {
-            detailImage.setImageBitmap(event.bitmap);
+            Drawable d = getResources().getDrawable(R.drawable.ffffound);
+            if(result != null)
+            {
+                d = new BitmapDrawable(getResources(), result);
+            }
+            Picasso.with(getActivity()).load(item.getBigUrl()).placeholder(d).into(imgView);
         }
+    }
+
+    private class DownloadImg extends AsyncTask<String, Void, Bitmap>
+    {
+        protected Bitmap doInBackground(String... urls)
+        {
+            Bitmap bitmap = null;
+            try
+            {
+                bitmap = Picasso.with(getActivity()).load(urls[1]).get();
+
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+
+            return bitmap;
+        }
+
+        protected void onPostExecute(Bitmap image)
+        {
+            if(image != null)
+            {
+
+                Calendar c = Calendar.getInstance();
+                String m = String.valueOf(c.get(Calendar.MINUTE));
+                String s = String.valueOf(c.get(Calendar.SECOND));
+                String fileName = item.getArtist() + m + s + ".png";
+                File folder = null;
+                File output = null;
+
+
+                FileOutputStream fos = null;
+                try
+                {
+                    folder = new File(Environment.getExternalStorageDirectory(), "FFFFound");
+                    folder.mkdirs();
+                    String file_path = folder.getPath();
+
+                    output = new File(file_path, fileName);
+
+                    // create outstream and write data
+                    fos = new FileOutputStream(output);
+                    image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+
+                }
+                catch(FileNotFoundException e)
+                { // <10>
+                    e.printStackTrace();
+                }
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+
+                Toast.makeText(getActivity(), output.getAbsolutePath(), Toast.LENGTH_LONG).show();
+
+            }
+        }
+
     }
 
 }
