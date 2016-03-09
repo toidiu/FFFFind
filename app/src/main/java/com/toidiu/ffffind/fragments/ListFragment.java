@@ -21,9 +21,11 @@ import com.toidiu.ffffind.model.FavData;
 import com.toidiu.ffffind.tasks.LoadNextFItemListEvent;
 import com.toidiu.ffffind.utils.Stuff;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
 
 
 public class ListFragment extends Fragment implements AbsListView.OnScrollListener, AbsListView.OnItemClickListener
@@ -163,6 +165,7 @@ public class ListFragment extends Fragment implements AbsListView.OnScrollListen
 
     //----------------EVENTBUS----------------
     @SuppressWarnings("UnusedDeclaration")
+    @Subscribe
     public void onEventMainThread(LoadNextFItemListEvent event)
     {
         if(BuildConfig.DEBUG)

@@ -2,14 +2,13 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
     <FrameLayout
         android:id="@+id/frag_container"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-    </FrameLayout>
+        android:layout_height="fill_parent"></FrameLayout>
 
     <TextView
         android:id="@+id/network_state"
@@ -17,8 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="no WIFI"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/retry"
@@ -29,8 +27,7 @@
         android:layout_marginBottom="40dp"
         android:background="#efd"
         android:text="FFFFind"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 
     <RelativeLayout
@@ -39,14 +36,12 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <ProgressBar
-            style="@android:style/Widget.ProgressBar.Inverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 
 </FrameLayout>

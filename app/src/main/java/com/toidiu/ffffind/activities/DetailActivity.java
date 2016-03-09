@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.toidiu.ffffind.R;
 import com.toidiu.ffffind.adapter.DetailPagerAdapter;
@@ -15,7 +16,7 @@ import com.toidiu.ffffind.model.FavData;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends FragmentActivity
+public class DetailActivity extends AppCompatActivity
 {
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
     public static final String ITEM_POS_EXTRA = "item_position_extra";

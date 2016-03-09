@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.StrictMode;
 
 import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by toidiu on 10/26/14.
@@ -15,7 +16,10 @@ public class FFApplication extends Application
     {
         super.onCreate();
 
-        Crashlytics.start(this);
+        if(!BuildConfig.DEBUG)
+        {
+            Fabric.with(this, new Crashlytics());
+        }
 
         if(BuildConfig.DEBUG)
         {

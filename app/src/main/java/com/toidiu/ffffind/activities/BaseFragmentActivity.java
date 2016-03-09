@@ -3,26 +3,27 @@ package com.toidiu.ffffind.activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.toidiu.ffffind.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 /**
  * Created by toidiu on 10/26/14.
  */
-public abstract class BaseFragmentActivity extends FragmentActivity
+public abstract class BaseFragmentActivity extends AppCompatActivity
 {
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Constants
     public static final String LIST_FRAGMENT_TAG = "LIST_FRAGMENT_TAG";
 
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Views
-    @InjectView(R.id.progress_bar)
+    @Bind(R.id.progress_bar)
     public RelativeLayout progressBar;
 
     //~=~=~=~=~=~=~=~=~=~=~=~=~=~=Field
@@ -34,7 +35,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_fragment);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         switchFragment(createFragment());
 

@@ -7,12 +7,12 @@ import com.toidiu.ffffind.network.FoundApi;
 import com.toidiu.ffffind.network.FoundRestHelper;
 
 import org.apache.commons.io.IOUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 import retrofit.mime.TypedInput;
 
